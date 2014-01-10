@@ -66,7 +66,8 @@ if (Meteor.isClient) {
       }
       map.setCenter(initialLocation);
     }
-}}
+  } 
+}
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
