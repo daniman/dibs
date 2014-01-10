@@ -1,15 +1,30 @@
 if (Meteor.isClient) {
-  Template.hello.greeting = function () {
-    return "Welcome to dibs.";
-  };
 
-  Template.hello.events({
-    'click input' : function () {
-      // template data, if any, is available in 'this'
-      if (typeof console !== 'undefined')
-        console.log("You pressed the button");
-    }
+  $(document).ready(function(){
+
+    $("#logo").hide();
+
+    $("#signUp").click(function() {
+      console.log("click!");
+      $("#tint").hide();
+      $(this).hide();
+      $("#welcome").hide();
+      $(".hide").hide();
+      $("#logo").show();
+    });
+
   });
+
+  Template.maps.rendered = function() {
+    var mapOptions = {
+          center: new google.maps.LatLng(42.357, -71.09),
+          zoom: 15,
+          disableDefaultUI: true
+        };
+        var map = new google.maps.Map(document.getElementById("map-canvas"),
+            mapOptions);
+      }
+
 }
 
 if (Meteor.isServer) {
