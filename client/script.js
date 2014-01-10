@@ -3,6 +3,7 @@ if (Meteor.isClient) {
   $(document).ready(function(){
 
     $("#logo").hide();
+    $("#signUpForm").hide();
 
     $("#signUp").click(function() {
       console.log("click!");
@@ -12,14 +13,13 @@ if (Meteor.isClient) {
       $(".hide").fadeOut();
 
       setTimeout(function() {
-        $("#logo").fadeIn()}, 500);
-
+        $("#logo").fadeIn(), $("#signUpForm").fadeIn()}, 500);
       
     });
 
   });
 
-  Template.maps.rendered = function() {
+  Template.body.rendered = function() {
     var mapOptions = {
           center: new google.maps.LatLng(42.357, -71.09),
           zoom: 15,

@@ -8,20 +8,24 @@
 </head>
 
 <body>
-  <img id="logo" src="/images/logo.png">
-  {{> maps}}
+  {{> body}}
 </body>
 
-<template name="maps">
+<template name="body">
 
-  
+  <img id="logo" src="/images/logo.png">
 
   <div id="tint"></div>
+
   <div id="welcome">
     <span class="hide">welcome to </span>dibs!
     <div id="signUp" class="resize-font">
       sign up
     </div>
+  </div>
+
+  <div id="signUpForm">
+    {{ loginButtons }}
   </div>
 
   <div id="map-canvas"/>
