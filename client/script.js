@@ -5,12 +5,21 @@ if (Meteor.isClient) {
     $("#logo").hide();
     $("#signUpForm").hide();
 
+    $("#toWelcome").click(function() {
+      $("#logo").fadeOut();
+      $("#signUpForm").fadeOut();
+
+      setTimeout(function() {
+        $("#tint").fadeIn(),
+        $("#welcome").fadeIn(),
+        $("#signUp").fadeIn()
+      }, 500);
+    });
+
     $("#signUp").click(function() {
-      console.log("click!");
       $("#tint").fadeOut();
       $(this).fadeOut();
       $("#welcome").fadeOut();
-      $(".hide").fadeOut();
 
       setTimeout(function() {
         $("#logo").fadeIn(), $("#signUpForm").fadeIn()}, 500);
