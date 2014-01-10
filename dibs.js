@@ -6,11 +6,15 @@ if (Meteor.isClient) {
 
     $("#signUp").click(function() {
       console.log("click!");
-      $("#tint").hide();
-      $(this).hide();
-      $("#welcome").hide();
-      $(".hide").hide();
-      $("#logo").show();
+      $("#tint").fadeOut();
+      $(this).fadeOut();
+      $("#welcome").fadeOut();
+      $(".hide").fadeOut();
+
+      setTimeout(function() {
+        $("#logo").fadeIn()}, 500);
+
+      
     });
 
   });
