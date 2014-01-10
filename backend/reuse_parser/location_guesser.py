@@ -2,8 +2,7 @@ import difflib
 import unittest
 import re #http://flockhart.virtualave.net/RBIF0100/regexp.html
 
-#TODO: remove urls!
-    #
+#TODO: delete all text found after the reuse signature!
 
 def joinAllInTupleList(toupe):
     #joinAllInTuple( [("hello", "world"),("face","book")]) = ['hello world', 'face book']
@@ -44,7 +43,39 @@ def findWords(text,wordSequence):
 def urlStripper(text):
     #return text but without a url inside!
     return re.sub(r'^https?:\/\/.*[\r\n]*', '', text, flags=re.MULTILINE)    
+    
+def removeSignature(sender, body):
+    #attempts to remove the signature from body
+    #returns body without the signature
+    sender = sender.strip().lower()
+    body = body.strip().lower()
+    
+    #strip the email from the sender string
+    newSender = re.sub(r'(<)[^>]*(>)', '', sender, flags=re.MULTILINE)
+    
+    #find where newSender appears in body
+    
+    #delete everything after their name in body
+    exp = newSender.split(" ")
+    print exp
+    firstname = exp[0]
+    if (len(exp)>1):
+        #first and last name included!
+        lastname = re.escape(exp[-2])
+        newBody = re.sub(r""+lastname+"(.|\d|\r|\n)*", '', body, flags=re.MULTILINE)
+    else:
+        #only a firstname!
+        newBody = re.sub(r""+firstname+"(.|\d|\r|\n)*", '', body, flags=re.MULTILINE)
 
+    return newBody
+ 
+class dummyEmail(object):
+    #a fake email object that stores attributes
+    def __init__(self):
+        self.body = ""
+        self.subject = ""
+        self.fr= ""
+        
 class LocationGuesser(object):
 
     def __init__(self):
@@ -55,6 +86,7 @@ class LocationGuesser(object):
         self.noGuess = ""
     
     def makeGuess(self,text):
+        #DEPRECATED -> use makeGuessByEmail(email) to filter out the signatures
         #takes some text, attempts to make a guess as to where the post is located
         #guess -> (LocationType, Location)
             #(LocationType,Location) -> 
@@ -78,6 +110,22 @@ class LocationGuesser(object):
             
         if dormGuess is not self.noGuess:
             return dormGuess
+
+    def makeGuessByEmail(self,email):
+        #same as makeGuess, but with the email as argument
+        #takes some email, attempts to make a guess as to where the post is located
+        #guess -> (LocationType, Location)
+            #(LocationType,Location) -> 
+                # ("building", "*X:*Y")
+                # ("floorwise", "X*:Y")
+                # ("dorm", "*X")
+                    #X->General location (Simmons, 34, etc.)
+                    #Y->Specific location (3rd floor, 017, 343, etc.
+                    
+        #build the text to parse
+        newBody = removeSignature(email.fr, email.body)
+        text = email.subject +" "+newBody
+        return self.makeGuess(text)
         
     def getLocation_building(self,text):
         #buildings are usually in the X-Y format. returns "X : Y"
@@ -174,6 +222,30 @@ class LocationGuess_class_Tests(unittest.TestCase):
         result = self.L.makeGuess("Old Electronics Outside 5th floor of stud and at e48")
         self.assertEquals(result,"e:48")
 
+    def testLG_makeGuessByEmail_basic(self):
+        email = dummyEmail()
+        email.subject = "Ceramic cow cookie jar."
+        email.fr = "Jennifer Weisman <jweisman@mit.edu>"
+        email.body =  """
+            Ceramic cow cookie jar. It's a little scuffed and scratched up but in decent shape and very cute! 
+            Please email me off-list if you would like to see pictures. Pickup in 6-205.
+
+            Thanks,
+
+            Jennifer
+
+
+            ---
+            Jennifer L. Weisman
+            Academic Administrator
+            Department of Chemistry
+            Rm. 6-205
+            617-253-1845
+            jweisman@mit.edu<mailto:jweisman@mit.edu>"""
+            
+        result = self.L.makeGuessByEmail(email)
+        self.assertEquals(result,"6:205")
+        
 class LocationGuess_realTests(unittest.TestCase):      
     #real examples go here
     def setUp(self):
@@ -248,17 +320,17 @@ class LocationGuess_realTests(unittest.TestCase):
                 
         locationGuess = self.L.makeGuess(text)
         self.assertEquals(locationGuess,"24:108")
-    
+
+        
     
 if __name__=="__main__":
-    # a = difflib.SequenceMatcher(None,'no information available','n0 inf0rmation available').ratio()
-    # print a
-
+    #useful use guide
+    
     # testString = """Old Electronics Outside 5-017 and 6- and 67- 5 - 017. 
     # And also, Free things are on the 3rd floor of 36. 
     # Free bagels outside baker. """
     
-    # LG = LocationGuesser()
+    LG = LocationGuesser()
     
     # print 'floor match',LG.getLocation_floor(testString)
     # print 'building match',LG.getLocation_building(testString)
