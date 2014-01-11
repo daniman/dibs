@@ -1,6 +1,9 @@
 if (Meteor.isClient) {
 
   Template.page.rendered = function() {
+
+      $("#login-holder").hide();
+
       var mapOptions = {
             center: new google.maps.LatLng(42.357, -71.09),
             zoom: 15,
@@ -12,14 +15,18 @@ if (Meteor.isClient) {
   Session.set('map', true); // global flag saying we initialized already
 
   Template.login.events({
-
+    'click #createNewAccountButton' : function() {
+      $("#login-holder").hide();
+      $("#register-holder").show();
+    },
     'submit #login-form' : function(e, t){
       e.preventDefault();
       // retrieve the input field values
+
       var email = t.find('#login-email').value
         , password = t.find('#login-password').value;
 
-<<<<<<< HEAD
+
       setTimeout(function() {
         $("#tint").fadeIn(),
         $("#welcome").fadeIn(),
@@ -40,26 +47,24 @@ if (Meteor.isClient) {
         $("#logo").fadeIn(), $("#signUpForm").fadeIn()}, 500);
       
     });
-=======
-        // If validation passes, supply the appropriate fields to the
-        // Meteor.loginWithPassword() function.
-        Meteor.loginWithPassword(email, password, function(err){ 
 
+
+
+
+      var email = t.find('#login-email').value, password = t.find('#login-password').value;
+      Meteor.loginWithPassword(email, password, function(err){ 
         if (err) {
-            // The user might not have been found, or their passwword
-          // could be incorrect. Inform the user that their
-          // login attempt has failed. 
-          } else {
-            // The user has been logged in.
-          }
->>>>>>> 03530c20ebe96dd924a54a1cf8d797c4b2382de1
+          alert("can't log in..");
+        } else {
+          // The user has been logged in.
+        }
 
       });
-         return false; 
-      }
+      return false; 
+    }
   });
 
-<<<<<<< HEAD
+
   Template.body.rendered = function() {
     var mapOptions = {
           zoom: 15,
@@ -67,54 +72,47 @@ if (Meteor.isClient) {
     };
     var map = new google.maps.Map(document.getElementById("map-canvas"),
         mapOptions);
-=======
+
   Template.logout.events({
-
     'submit #logout-form' : function(e, t){
-
-      Meteor.logout(function(){ 
-
-      });
-         return false; 
-      }
+      Meteor.logout(function(){ });
+      return false; 
+    }
   });
 
   Template.register.events({
+    'click #logInButton' : function() {
+      $("#login-holder").show();
+      $("#register-holder").hide();
+    },
     'submit #register-form' : function(e, t) {
       e.preventDefault();
-      var email = t.find('#account-email').value
-        , password = t.find('#account-password').value;
+      var email = t.find('#account-email').value, password = t.find('#account-password').value;
 
-        // trim helper
-        var trimInput = function(val) {
-          return val.replace(/^\s*|\s*$/g, "");
-        }
+      // trim helper
+      var trimInput = function(val) {
+        return val.replace(/^\s*|\s*$/g, "");
+      }
+      var email = trimInput(email);
 
-        var email = trimInput(email);
+      var isValidPassword = function(val) {
+        return val.length == 6; 
+      }
 
-        var isValidPassword = function(val) {
-           return val.length == 6; 
-        }
-
-        if (isValidPassword(userPassword)) {
-
-          Accounts.createUser({email: email, password : password}, function(err){
+      if (isValidPassword(userPassword)) {
+        Accounts.createUser({email: email, password : password}, function(err){
           if (err) {
             // Inform the user that account creation failed
           } else {
             // Success. Account has been created and the user
             // has logged in successfully. 
           }
-
         });
-
-        }
+      }
 
       return false;
     }
   });
->>>>>>> 03530c20ebe96dd924a54a1cf8d797c4b2382de1
-
     //Attempt W3C Geolocation
     if (navigator.geolocation){
       browserSupportFlag = true;
@@ -143,8 +141,6 @@ if (Meteor.isClient) {
     }
   } 
 }
-
-console.log("fox");
 
 if (Meteor.isServer) {
   Meteor.startup(function () {

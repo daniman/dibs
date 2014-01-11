@@ -30,8 +30,10 @@
 
     <div id="tint"></div>
 
-    <div id="welcome">
-      <span class="hide">welcome to </span>dibs!
+    <div id="loggedOut">
+      <div id="welcome">
+        <span class="hide">Welcome to </span>Dibs!
+      </div>
       {{> login}}
       {{> register}}
     </div>
@@ -42,28 +44,34 @@
 
 <template name="logout">
   <form id="logout-form" action="action">
-    <input type="submit" id="logout-button" value="Log Out" />
+    <input type="submit" id="logout-button" class="button" value="Log Out" />
   </form>
 </template>
 
-<template name="login">
-  <form id="login-form" action="action">
-        <div>
-          <input type="email" id="login-email" placeholder="email" />
-          <input type="password" id="login-password" placeholder="password" />
-          <input type="submit" id="login-button" value="Sign in" />
-        </div>
-      </form> 
+<template name="register">
+  <div id="register-holder">
+    <form id="register-form" action="action">
+      <input type="email" id="account-email" placeholder="Email" />
+      <input type="password" id="account-password" placeholder="Password" />
+      <input type="submit" id="create-account"value="Create an Account" /> 
+    </form>
+    <button id="logInButton" class="subtext">
+      Log In
+    </button>
+  </div>
 </template>
 
-<template name="register">
-  <form id="register-form" action="action">
-        <div>
-         <input type="email" id="account-email" placeholder="email" />
-         <input type="password" id="account-password" placeholder="passoword" />
-         <input type="submit" id="create-account" value="Create an Account" />
-        </div>
-      </form>
+<template name="login">
+  <div id="login-holder">
+    <form id="login-form" action="action">
+      <input type="email" id="login-email" placeholder="Email" />
+      <input type="password" id="login-password" placeholder="Password" />
+      <input type="submit" id="login-button" value="Sign in" />
+    </form>
+    <button id="createNewAccountButton" class="subtext">
+      Create New Account
+    </button>
+  </div>
 </template>
 
 <template name="map">
