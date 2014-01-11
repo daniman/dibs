@@ -45,6 +45,7 @@ if (Meteor.isClient) {
     var marker = new google.maps.Marker({
     position: testLatLng,
     map: map,
+    icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
     title:"Hello World!"
 });
   }
