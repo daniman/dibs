@@ -1,0 +1,108 @@
+/**
+iPhone width: 310px;
+iPad width: 750px;
+**/
+
+html {
+	height: 100%
+}
+
+body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	font-family: 'Lato', sans-serif;
+}
+
+@media all and (min-width: 100px) {
+    .hide {
+    	display: none;
+    }
+    .resize-font {
+    	font-size: 30px;
+    }
+}
+@media all and (min-width: 310px) {
+    .hide {
+    	display: none;
+    }
+    .resize-font {
+    	font-size: 30px;
+    }
+}
+@media all and (min-width: 750px) {
+    .hide {
+    	display: inline;
+    }
+    .resize-font {
+    	font-size: 50px;
+    }
+}
+
+#map-canvas {
+	z-index: 1;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;	
+}
+
+#tint {
+	z-index: 2;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	opacity: .5;
+	background-color: black;
+}
+
+#welcome {
+	z-index: 3;
+	position: relative;
+	font-size: 50px;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: black;
+	opacity: .8;
+	color: white;
+	text-align: center;
+	padding: 20px;
+	top: 20%;
+}
+
+#signUp {
+	width: 40%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#logIn {
+	width: 20%;
+	font-size: 20px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#signUpForm {
+	z-index: 3;
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: black;
+	opacity: .8;
+	color: white;
+	width: 60%;
+	height: 300px;
+}
+
+#logo {
+	font-size: 100px;
+	z-index: 3;
+	position: relative;
+	top: 0;
+	width: 200px;
+	height: 70px;
+	margin: 20px;
+}

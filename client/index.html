@@ -1,0 +1,42 @@
+<head>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwl6CTVUcaPluz69RuPkccQu9YXieyP9k&sensor=true"></script>
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,900,300italic' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+    <link rel="stylesheet" href="../docs/font-awesome/css/font-awesome.min.css">
+
+    <script language ="Javascript" type="text/javascript" src="script.js"></script>
+    <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+  {{> body}}
+</body>
+
+<template name="body">
+
+  <img id="logo" src="/images/logo.png">
+
+  <div id="tint"></div>
+
+  <div id="welcome">
+    <span class="hide">welcome to </span>dibs!
+    <div id="signUp" class="resize-font">
+      sign up
+    </div>
+
+    <div id="logIn">
+      log in
+    </div>
+
+  </div>
+
+  <div id="signUpForm">
+    <i id="toWelcome" class="fa fa-arrow-left fa-4x"></i>
+    {{ loginButtons }}
+  </div>
+
+  <div id="map-canvas"/>
+</template>
