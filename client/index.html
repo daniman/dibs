@@ -1,6 +1,6 @@
 <head>
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwl6CTVUcaPluz69RuPkccQu9YXieyP9k&sensor=true"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwl6CTVUcaPluz69RuPkccQu9YXieyP9k&sensor=false"></script>
 
     <link href='http://fonts.googleapis.com/css?family=Lato:300,400,900,300italic' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -12,31 +12,60 @@
 </head>
 
 <body>
-  {{> body}}
+  {{> page}}
 </body>
 
-<template name="body">
+<template name="page">
 
-  <img id="logo" src="/images/logo.png">
+  {{> map}}
 
-  <div id="tint"></div>
+  {{#if currentUser}}
 
-  <div id="welcome">
-    <span class="hide">welcome to </span>dibs!
-    <div id="signUp" class="resize-font">
-      sign up
+    <div id="upperLayer">
+      <img id="logo" src="/images/logo.png">
+      {{> logout}}
     </div>
 
-    <div id="logIn">
-      log in
+  {{else}}
+
+    <div id="tint"></div>
+
+    <div id="welcome">
+      <span class="hide">welcome to </span>dibs!
+      {{> login}}
+      {{> register}}
     </div>
 
-  </div>
+  {{/if}}
 
-  <div id="signUpForm">
-    <i id="toWelcome" class="fa fa-arrow-left fa-4x"></i>
-    {{ loginButtons }}
-  </div>
+</template>
 
-  <div id="map-canvas"/>
+<template name="logout">
+  <form id="logout-form" action="action">
+    <input type="submit" id="logout-button" value="Log Out" />
+  </form>
+</template>
+
+<template name="login">
+  <form id="login-form" action="action">
+        <div>
+          <input type="email" id="login-email" placeholder="email" />
+          <input type="password" id="login-password" placeholder="password" />
+          <input type="submit" id="login-button" value="Sign in" />
+        </div>
+      </form> 
+</template>
+
+<template name="register">
+  <form id="register-form" action="action">
+        <div>
+         <input type="email" id="account-email" placeholder="email" />
+         <input type="password" id="account-password" placeholder="passoword" />
+         <input type="submit" id="create-account" value="Create an Account" />
+        </div>
+      </form>
+</template>
+
+<template name="map">
+  <div id="map-canvas"></div>
 </template>
