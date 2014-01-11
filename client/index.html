@@ -5,6 +5,9 @@
     <link href='http://fonts.googleapis.com/css?family=Lato:300,400,900,300italic' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 
+    <link rel="stylesheet" href="docs/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+    <script type="text/javascript" src="docs/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
     <link rel="stylesheet" href="../docs/font-awesome/css/font-awesome.min.css">
 
     <script language ="Javascript" type="text/javascript" src="script.js"></script>
@@ -19,6 +22,13 @@
 
   {{> map}}
 
+    <div id="socialLinkHolder">
+      <button id="chevron"><i class="fa fa-chevron-left fa-2x"></i></button>
+      <button id="twitter"><i class="fa fa-twitter fa-2x"></i></button>
+      <button id="facebook"><i class="fa fa-facebook fa-2x"></i></button>
+      <button id="github"><i class="fa fa-github fa-2x"></i></button>
+    </div>
+
   {{#if currentUser}}
 
     <div id="upperLayer">
@@ -29,6 +39,8 @@
   {{else}}
 
     <div id="tint"></div>
+
+    <a class="fancybox" href="/images/logo.png"><i id="info" class="fa fa-info-circle fa-2x"></i></a>
 
     <div id="loggedOut">
       <div id="welcome">
@@ -52,6 +64,7 @@
   <div id="register-holder">
     <form id="register-form" action="action">
       <input type="email" id="account-email" placeholder="Email" />
+      <input type="text" id="account-username" placeholder="Username" />
       <input type="password" id="account-password" placeholder="Password" />
       <input type="submit" id="create-account"value="Create an Account" /> 
     </form>
@@ -70,6 +83,9 @@
     </form>
     <button id="createNewAccountButton" class="subtext">
       Create New Account
+    </button>
+    <button id="forgotPasswordButton" class="subtext">
+      Forgot Password
     </button>
   </div>
 </template>

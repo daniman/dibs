@@ -112,6 +112,10 @@ if (Meteor.isClient) {
     }
   });
 
+  $(document).ready(function() {
+    $(".fancybox").fancybox();
+  });
+
 }
 
 if (Meteor.isServer) {
