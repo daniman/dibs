@@ -39,6 +39,14 @@ if (Meteor.isClient) {
       }
       map.setCenter(initialLocation);
     }
+
+    // To add the marker to the map, use the 'map' property
+    var testLatLng = new google.maps.LatLng(42.369289,-71.118305);
+    var marker = new google.maps.Marker({
+    position: testLatLng,
+    map: map,
+    title:"Hello World!"
+});
   }
   
   Session.set('map', true); // global flag saying we initialized already
