@@ -133,25 +133,6 @@ if (Meteor.isClient) {
 
   $(document).ready(function() {
     $(".fancybox").fancybox();
-    $("#socialLinkHolder").mouseenter(function() {
-      $(".fa-info-circle").addClass("info-big");
-      $(".fa-facebook").addClass("facebook-big");
-      $(".fa-twitter").addClass("twitter-big");
-      $(".fa-github").addClass("github-big");
-      $(".fa-info-circle").addClass("fa-3x");
-      $(".fa-facebook").addClass("fa-3x");
-      $(".fa-twitter").addClass("fa-3x");
-      $(".fa-github").addClass("fa-3x");
-    }).mouseleave(function() {
-      $(".fa-info-circle").removeClass("info-big");
-      $(".fa-facebook").removeClass("facebook-big");
-      $(".fa-twitter").removeClass("twitter-big");
-      $(".fa-github").removeClass("github-big");
-      $(".fa-info-circle").removeClass("fa-3x");
-      $(".fa-facebook").removeClass("fa-3x");
-      $(".fa-twitter").removeClass("fa-3x");
-      $(".fa-github").removeClass("fa-3x");
-    });
   });
 
 }
