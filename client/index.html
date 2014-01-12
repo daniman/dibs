@@ -1,0 +1,102 @@
+<head>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwl6CTVUcaPluz69RuPkccQu9YXieyP9k&sensor=false"></script>
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,900,300italic' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+    <link rel="stylesheet" href="docs/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+    <script type="text/javascript" src="docs/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+    <script type="text/javascript" src="docs/blur.js"></script>
+
+    <link rel="stylesheet" href="../docs/font-awesome/css/font-awesome.min.css">
+
+    <script language ="Javascript" type="text/javascript" src="jquery.js"></script>
+    <script language ="Javascript" type="text/javascript" src="script.js"></script>
+    <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+  {{> page}}
+</body>
+
+<template name="page">
+
+  {{> map}}
+
+  <img id="logo" src="/images/logo.png">
+
+    <div id="socialLinkHolder">
+      <a class="fancybox" href="/images/logo.png"><img id="info" src="/images/info.png"></a>
+      <a><img id="twitter" src="/images/twitter.png"></a>
+      <br>
+      <a><img id="facebook" src="/images/facebook.png"></a>
+      <a><img id="github" src="/images/github.png"></a>
+    </div>
+
+
+
+  {{#if currentUser}}
+
+    <div id="upperLayer">
+      
+      {{> logout}}
+    </div>
+
+  {{else}}
+
+    <div id="tint"></div>
+
+    <div id="loggedOut">
+      <div id="welcome">
+        <span class="hide">Welcome to </span>Dibs!
+      </div>
+      {{> login}}
+      {{> register}}
+    </div>
+
+  {{/if}}
+
+</template>
+
+<template name="logout">
+  <form id="logout-form" action="action">
+    <input type="submit" id="logout-button" class="button" value="Log Out" />
+  </form>
+</template>
+
+<template name="register">
+  <div id="register-holder">
+    <form id="register-form" action="action">
+      <div id="register-errorMessage"></div>
+      <input type="email" id="account-email" placeholder="Email" />
+      <input type="password" id="account-password" placeholder="Password" />
+      <input type="password" id="account-confirm-password" placeholder="Confirm Password" />
+      <input type="submit" id="create-account"value="Create an Account" /> 
+    </form>
+    <button id="logInButton" class="subtext">
+      Log In
+    </button>
+  </div>
+</template>
+
+<template name="login">
+  <div id="login-holder">
+    <form id="login-form" action="action">
+      <div id="login-errorMessage"></div>
+      <input type="email" id="login-email" placeholder="Email" />
+      <input type="password" id="login-password" placeholder="Password" />
+      <input type="submit" id="login-button" value="Sign in" />
+    </form>
+    <button id="createNewAccountButton" class="subtext">
+      Create New Account
+    </button>
+    <button id="forgotPasswordButton" class="subtext">
+      Forgot Password
+    </button>
+  </div>
+</template>
+
+<template name="map">
+  <div id="map-canvas"></div>
+</template>
