@@ -107,6 +107,9 @@ Site Design
 </ul></td>
 </tr></table>
 
+<h3>Design #3 Mock-Up</h3>
+<img src="images/main_screen.png" alt="Design #3 Full"></img>
+
 
 About the Team
 ----
