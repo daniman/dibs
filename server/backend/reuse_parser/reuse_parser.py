@@ -9,19 +9,21 @@ def runTest():
     #the location object
     loc = Locator()
    
-    # emails = g.inbox().mail()
-    # emails = g.label("reuse").mail(unread=True,prefetch=True)
+
     emails = g.label("reuse").mail(prefetch=True)
     # email0 = emails[0]
     # print email0.fr
     for email in emails:
         # emails[0].fetch()
-        print email.body
-        print 'SUBJECT====>',email.subject
-        print 'SENDER====>',email.fr
-        print 'LOCATION====>',loc.makeGuess(email.subject+" "+email.body)
-        print "="*40
-        print "\n"*5
+        location = loc.makeGuessByEmail(email)
+        if not location:
+            print email.body
+            print 'SUBJECT====>',email.subject
+            print 'SENDER====>',email.fr
+            
+            print 'LOCATION====>',location
+            print "="*40
+            print "\n"*5
 
     g.logout()
 
@@ -43,3 +45,6 @@ else:
 # 'to', 'uid', 'unread', 'unstar']
 
 #string "like" ratio http://stackoverflow.com/questions/10849141/can-i-do-a-string-contains-x-with-a-percentage-accuracy-in-python
+
+# emails = g.inbox().mail()
+# emails = g.label("reuse").mail(unread=True,prefetch=True)
