@@ -84,8 +84,8 @@ if (Meteor.isClient) {
     }
   });
 
-  Template.logout.events({
-    'submit #logout-form' : function(e, t){
+  Template.accordion.events({
+    'click #logout' : function(e, t){
       Meteor.logout(function(){ });
       return false; 
     }
@@ -112,10 +112,14 @@ if (Meteor.isClient) {
         return val.length >= 6; 
       }
 
-      if($("#account-password").val() !== $("#account-confirm-password").val()) {
+      if ($("#account-email").val() === "") {
+        $("#register-errorMessage").html("please enter an email");
+      } else if ($("#account-password").val() === "") {
+        $("#register-errorMessage").html("please enter a password");
+      } else if ($("#account-password").val() !== $("#account-confirm-password").val()) {
         $("#register-errorMessage").html("passwords don't match");
       } else {
-        if (isValidPassword(password) && $("#account-password").val() === $("#account-confirm-password").val()) {
+        if (isValidPassword(password)) {
           Accounts.createUser({email: email, password : password}, function(err){
             if (err) {
               // Inform the user that account creation failed
@@ -127,7 +131,7 @@ if (Meteor.isClient) {
             }
           });
         } else {
-          $("#register-errorMessage").html("password must have more than 6 letters");
+          $("#register-errorMessage").html("password must be at least 6 chars");
         }
       }
 

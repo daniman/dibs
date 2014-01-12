@@ -14,6 +14,8 @@
     <script language ="Javascript" type="text/javascript" src="jquery.js"></script>
     <script language ="Javascript" type="text/javascript" src="script.js"></script>
     <link href="style.css" rel="stylesheet">
+    <link href="socialLink.css" rel="stylesheet">
+    <link href="login.css" rel="stylesheet">
 </head>
 
 <body>
@@ -22,33 +24,25 @@
 
 <template name="page">
 
-  {{> map}}
-
+  <div id="map-canvas"></div>
   <img id="logo" src="/images/logo.png">
-
-    <div id="socialLinkHolder">
-      <a class="fancybox" href="/images/logo.png"><img id="info" src="/images/info.png"></a>
-      <a><img id="twitter" src="/images/twitter.png"></a>
-      <br>
-      <a><img id="facebook" src="/images/facebook.png"></a>
-      <a><img id="github" src="/images/github.png"></a>
-    </div>
-
-
+  <div id="socialLinkHolder">
+    <a class="fancybox" href="/images/logo.png"><img id="info" src="/images/info.png"></a>
+    <a><img id="twitter" src="/images/twitter.png"></a>
+    <br>
+    <a><img id="facebook" src="/images/facebook.png"></a>
+    <a><img id="github" src="/images/github.png"></a>
+  </div>
 
   {{#if currentUser}}
 
-    <div id="upperLayer">
-      
-      {{> logout}}
-    </div>
+    {{> accordion}}
 
   {{else}}
 
     <div id="tint"></div>
-
-    <div id="loggedOut">
-      <div id="welcome">
+    <div id="welcomeBanner">
+      <div id="welcomeText">
         <span class="hide">Welcome to </span>Dibs!
       </div>
       {{> login}}
@@ -57,12 +51,6 @@
 
   {{/if}}
 
-</template>
-
-<template name="logout">
-  <form id="logout-form" action="action">
-    <input type="submit" id="logout-button" class="button" value="Log Out" />
-  </form>
 </template>
 
 <template name="register">
@@ -75,7 +63,7 @@
       <input type="submit" id="create-account"value="Create an Account" /> 
     </form>
     <button id="logInButton" class="subtext">
-      Log In
+      Or Log In
     </button>
   </div>
 </template>
@@ -97,6 +85,36 @@
   </div>
 </template>
 
-<template name="map">
-  <div id="map-canvas"></div>
+<template name="accordion">
+  <section class="ac-container">
+    <div>
+        <input id="ac-1" name="accordion-1" type="checkbox" checked/>
+        <label for="ac-1">Username <i class="fa fa-cog"></i></label>
+        <article class="ac-small">
+            <p id="logout">Account Settings</p>
+            <p id="changePassword">Logout</p>
+        </article>
+    </div>
+    <div>
+        <input id="ac-2" name="accordion-1" type="checkbox" />
+        <label for="ac-2">Rewards</label>
+        <article class="ac-medium">
+            <p>Some content... </p>
+        </article>
+    </div>
+    <div>
+        <input id="ac-3" name="accordion-1" type="checkbox" />
+        <label for="ac-3">My Listing</label>
+        <article class="ac-medium">
+            <p>Some content... </p>
+        </article>
+    </div>
+    <div>
+        <input id="ac-4" name="accordion-1" type="checkbox" />
+        <label for="ac-4">Filter</label>
+        <article class="ac-medium">
+            <p>Some content... </p>
+        </article>
+    </div>
+  </section>
 </template>
