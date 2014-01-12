@@ -43,11 +43,21 @@ if (Meteor.isClient) {
     // To add the marker to the map, use the 'map' property
     var testLatLng = new google.maps.LatLng(42.369289,-71.118305);
     var marker = new google.maps.Marker({
-    position: testLatLng,
-    map: map,
-    icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
-    title:"Hello World!"
-});
+      position: testLatLng,
+      map: map,
+      icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+      title:"Hello World!"
+    });
+
+
+    var contentString = '<p>Congrats You have opened an infowindow.</p>';
+    var infowindow = new google.maps.InfoWindow({
+      content: contentString
+    });
+
+    google.maps.event.addListener(marker, 'click', function() {
+      infowindow.open(map,marker);
+    });
   }
   
   Session.set('map', true); // global flag saying we initialized already
