@@ -1,9 +1,12 @@
 <head>
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwl6CTVUcaPluz69RuPkccQu9YXieyP9k&sensor=true"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwl6CTVUcaPluz69RuPkccQu9YXieyP9k&sensor=false"></script>
 
     <link href='http://fonts.googleapis.com/css?family=Lato:300,400,900,300italic' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+    <link rel="stylesheet" href="docs/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+    <script type="text/javascript" src="docs/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
     <link rel="stylesheet" href="../docs/font-awesome/css/font-awesome.min.css">
 
@@ -12,31 +15,81 @@
 </head>
 
 <body>
-  {{> body}}
+  {{> page}}
 </body>
 
-<template name="body">
+<template name="page">
 
-  <img id="logo" src="/images/logo.png">
+  {{> map}}
 
-  <div id="tint"></div>
-
-  <div id="welcome">
-    <span class="hide">welcome to </span>dibs!
-    <div id="signUp" class="resize-font">
-      sign up
+    <div id="socialLinkHolder">
+      <button id="chevron"><i class="fa fa-chevron-left fa-2x"></i></button>
+      <button id="twitter"><i class="fa fa-twitter fa-2x"></i></button>
+      <button id="facebook"><i class="fa fa-facebook fa-2x"></i></button>
+      <button id="github"><i class="fa fa-github fa-2x"></i></button>
     </div>
 
-    <div id="logIn">
-      log in
+  {{#if currentUser}}
+
+    <div id="upperLayer">
+      <img id="logo" src="/images/logo.png">
+      {{> logout}}
     </div>
 
-  </div>
+  {{else}}
 
-  <div id="signUpForm">
-    <i id="toWelcome" class="fa fa-arrow-left fa-4x"></i>
-    {{ loginButtons }}
-  </div>
+    <div id="tint"></div>
 
-  <div id="map-canvas"/>
+    <a class="fancybox" href="/images/logo.png"><i id="info" class="fa fa-info-circle fa-2x"></i></a>
+
+    <div id="loggedOut">
+      <div id="welcome">
+        <span class="hide">Welcome to </span>Dibs!
+      </div>
+      {{> login}}
+      {{> register}}
+    </div>
+
+  {{/if}}
+
+</template>
+
+<template name="logout">
+  <form id="logout-form" action="action">
+    <input type="submit" id="logout-button" class="button" value="Log Out" />
+  </form>
+</template>
+
+<template name="register">
+  <div id="register-holder">
+    <form id="register-form" action="action">
+      <input type="email" id="account-email" placeholder="Email" />
+      <input type="text" id="account-username" placeholder="Username" />
+      <input type="password" id="account-password" placeholder="Password" />
+      <input type="submit" id="create-account"value="Create an Account" /> 
+    </form>
+    <button id="logInButton" class="subtext">
+      Log In
+    </button>
+  </div>
+</template>
+
+<template name="login">
+  <div id="login-holder">
+    <form id="login-form" action="action">
+      <input type="email" id="login-email" placeholder="Email" />
+      <input type="password" id="login-password" placeholder="Password" />
+      <input type="submit" id="login-button" value="Sign in" />
+    </form>
+    <button id="createNewAccountButton" class="subtext">
+      Create New Account
+    </button>
+    <button id="forgotPasswordButton" class="subtext">
+      Forgot Password
+    </button>
+  </div>
+</template>
+
+<template name="map">
+  <div id="map-canvas"></div>
 </template>

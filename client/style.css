@@ -12,9 +12,10 @@ body {
 	margin: 0;
 	padding: 0;
 	font-family: 'Lato', sans-serif;
+	overflow: hidden;
 }
 
-@media all and (min-width: 100px) {
+@media all and (min-width: 1px) {
     .hide {
     	display: none;
     }
@@ -22,20 +23,20 @@ body {
     	font-size: 30px;
     }
 }
-@media all and (min-width: 310px) {
-    .hide {
-    	display: none;
-    }
-    .resize-font {
-    	font-size: 30px;
-    }
-}
-@media all and (min-width: 750px) {
+@media all and (min-width: 500px) {
     .hide {
     	display: inline;
     }
-    .resize-font {
-    	font-size: 50px;
+}
+
+@media all and (min-height: 1px) {
+    #socialLinkHolder {
+    	display: none;
+    }
+}
+@media all and (min-height: 430px) {
+    #socialLinkHolder {
+    	display: block;
     }
 }
 
@@ -54,47 +55,105 @@ body {
 	position: absolute;
 	height: 100%;
 	width: 100%;
-	opacity: .5;
+	opacity: .2;
 	background-color: black;
 }
 
 #welcome {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	font-size: 50px;
+}
+
+#info {
 	z-index: 3;
 	position: relative;
-	font-size: 50px;
+	color: black;
+	padding: 20px;
+}
+
+#socialLinkHolder {
+	z-index: 3;
+	position: absolute;
+	padding: 10px;
+	transition: 1s;
+	width: 220px;
+	background-color: black;
+	opacity: .9;
+	right: -200px;
+	bottom: 0;
+}
+
+#socialLinkHolder:hover, #socialLinkHolder:focus {
+	right: 0px;
+}
+
+#chevron {
+	cursor: default;
+	outline: none;
+	border: none;
+	padding: 3px;
+	margin: 0px;
+	padding-top: 8px;
+	color: white;
+	background-color: transparent;
+}
+#twitter {
+	outline: none;
+	border: none;
+	padding: 3px;
+	margin: 0px 10px 0px 30px;
+	color: white;
+	background-color: transparent;
+}
+#twitter:hover, #twitter:focus {
+	color: #4099FF;
+}
+#facebook {
+	outline: none;
+	border: none;
+	padding: 3px;
+	margin: 0px 10px 0px 10px;
+	color: white;
+	background-color: transparent;
+}
+#facebook:hover, #facebook:focus {
+	color: #3B5998;
+}
+#github {
+	outline: none;
+	border: none;
+	padding: 3px;
+	margin: 0px 30px 0px 10px;
+	color: white;
+	background-color: transparent;
+}
+#github:hover, #github:focus {
+	color: #FFB400;
+}
+
+#loggedOut {
+	z-index: 3;
+	position: relative;
 	margin-left: auto;
 	margin-right: auto;
 	background-color: black;
-	opacity: .8;
+	opacity: .9;
 	color: white;
 	text-align: center;
 	padding: 20px;
-	top: 20%;
+	top: 5%;
+}
+
+#upperLayer {
+	z-index: 3;
+	position: relative;
 }
 
 #signUp {
 	width: 40%;
 	margin-left: auto;
 	margin-right: auto;
-}
-
-#logIn {
-	width: 20%;
-	font-size: 20px;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-#signUpForm {
-	z-index: 3;
-	position: relative;
-	margin-left: auto;
-	margin-right: auto;
-	background-color: black;
-	opacity: .8;
-	color: white;
-	width: 60%;
-	height: 300px;
 }
 
 #logo {
@@ -105,4 +164,141 @@ body {
 	width: 200px;
 	height: 70px;
 	margin: 20px;
+}
+
+form {
+	margin-top: 30px;
+	margin-bottom: 0px;
+}
+
+#login-holder {
+	width: 260px;
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#login-email {
+	width: 244px;
+	display: block;
+	margin: 0px;
+	border-radius: 10px 10px 0px 0px;
+	border-left: 2px solid #0893cf;
+	border-top: 2px solid #0893cf;
+	border-right: 2px solid #0893cf;
+}
+
+#login-password {
+	width: 244px;
+	display: block;
+	margin: 0px;
+	border-radius: 0px 0px 10px 10px;
+	border-left: 2px solid #0893cf;
+	border-bottom: 2px solid #0893cf;
+	border-right: 2px solid #0893cf;
+	margin-bottom: 10px;
+}
+
+#login-button {
+	display: block;
+	width: 100%;
+	background-color: #0893cf;
+	font-size: 20px;
+	color: white;
+	border: none;
+	border-radius: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	height: 30px;
+	margin-bottom: 0px;
+}
+
+#login-button:focus, #login-button:hover {
+	opacity: .9;
+	outline: none;
+}
+
+button:hover, button:focus {
+	outline: none;
+	text-decoration: underline;
+}
+
+.subtext {
+	display: block;
+	padding: 10px;
+	background-color: transparent;
+	color: white;
+	margin-left: auto;
+	margin-right: auto;
+	border: none;
+}
+
+#logInButton {
+	width: 30%;
+}
+
+#createNewAccountButton {
+	width: 70%;
+	padding: 0px;
+	padding-top: 10px;
+}
+
+#forgotPasswordButton {
+	width: 70%;
+	padding-top: 0px;
+}
+
+#register-holder {
+	width: 260px;
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#account-email {
+	width: 244px;
+	display: block;
+	margin: 0px;
+	border-radius: 10px 10px 0px 0px;
+	border-left: 2px solid #44d242;
+	border-top: 2px solid #44d242;
+	border-right: 2px solid #44d242;
+}
+
+#account-username {
+	width: 244px;
+	display: block;
+	margin: 0px;
+	border-radius: 0px;
+	border-left: 2px solid #44d242;
+	border-right: 2px solid #44d242;
+}
+
+#account-password {
+	width: 244px;
+	display: block;
+	margin: 0px;
+	border-radius: 0px 0px 10px 10px;
+	border-left: 2px solid #44d242;
+	border-bottom: 2px solid #44d242;
+	border-right: 2px solid #44d242;
+	margin-bottom: 10px;
+}
+
+#create-account {
+	display: block;
+	width: 100%;
+	background-color: #44d242;
+	font-size: 20px;
+	color: white;
+	border: none;
+	border-radius: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	height: 30px;
+}
+
+#create-account:focus, #create-account:hover {
+	opacity: .9;
+	outline: none;
 }
