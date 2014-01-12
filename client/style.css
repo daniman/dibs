@@ -34,7 +34,7 @@ body {
     	display: none;
     }
 }
-@media all and (min-height: 430px) {
+@media all and (min-height: 450px) {
     #socialLinkHolder {
     	display: block;
     }
@@ -65,22 +65,15 @@ body {
 	font-size: 50px;
 }
 
-#info {
-	z-index: 3;
-	position: relative;
-	color: black;
-	padding: 20px;
-}
-
 #socialLinkHolder {
 	z-index: 3;
 	position: absolute;
 	padding: 10px;
 	transition: 1s;
-	width: 220px;
+	width: 280px;
 	background-color: black;
 	opacity: .9;
-	right: -200px;
+	right: -260px;
 	bottom: 0;
 }
 
@@ -98,11 +91,22 @@ body {
 	color: white;
 	background-color: transparent;
 }
-#twitter {
+#info {
 	outline: none;
 	border: none;
 	padding: 3px;
 	margin: 0px 10px 0px 30px;
+	color: white;
+	background-color: transparent;
+}
+#info:hover, #info:focus {
+	color: #FFB400;
+}
+#twitter {
+	outline: none;
+	border: none;
+	padding: 3px;
+	margin: 0px 10px 0px 10px;
 	color: white;
 	background-color: transparent;
 }
@@ -142,7 +146,7 @@ body {
 	color: white;
 	text-align: center;
 	padding: 20px;
-	top: 5%;
+	top: 10%;
 }
 
 #upperLayer {

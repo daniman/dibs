@@ -95,8 +95,12 @@ if (Meteor.isClient) {
       $("#register-holder").hide();
     },
     'submit #register-form' : function(e, t) {
+      console.log("new registration started");
       e.preventDefault();
       var email = t.find('#account-email').value, password = t.find('#account-password').value;
+
+      console.log("email " + email);
+      console.log("password " + password);
 
       // trim helper
       var trimInput = function(val) {
@@ -105,16 +109,20 @@ if (Meteor.isClient) {
       var email = trimInput(email);
 
       var isValidPassword = function(val) {
-        return val.length == 6; 
+        return val.length >= 6; 
       }
 
-      if (isValidPassword(userPassword)) {
+      console.log(isValidPassword(password));
+
+      if (isValidPassword(password)) {
         Accounts.createUser({email: email, password : password}, function(err){
           if (err) {
             // Inform the user that account creation failed
+            alert("unable to make account");
           } else {
             // Success. Account has been created and the user
-            // has logged in successfully. 
+            // has logged in successfully.
+            console.log("new account successfully made");
           }
         });
       }
