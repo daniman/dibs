@@ -43,11 +43,21 @@ if (Meteor.isClient) {
     // To add the marker to the map, use the 'map' property
     var testLatLng = new google.maps.LatLng(42.369289,-71.118305);
     var marker = new google.maps.Marker({
-    position: testLatLng,
-    map: map,
-    icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
-    title:"Hello World!"
-});
+      position: testLatLng,
+      map: map,
+      icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+      title:"Hello World!"
+    });
+
+
+    var contentString = '<p>Congrats You have opened an infowindow.</p>';
+    var infowindow = new google.maps.InfoWindow({
+      content: contentString
+    });
+
+    google.maps.event.addListener(marker, 'click', function() {
+      infowindow.open(map,marker);
+    });
   }
   
   Session.set('map', true); // global flag saying we initialized already
@@ -85,8 +95,12 @@ if (Meteor.isClient) {
       $("#register-holder").hide();
     },
     'submit #register-form' : function(e, t) {
+      console.log("new registration started");
       e.preventDefault();
       var email = t.find('#account-email').value, password = t.find('#account-password').value;
+
+      console.log("email " + email);
+      console.log("password " + password);
 
       // trim helper
       var trimInput = function(val) {
@@ -95,16 +109,20 @@ if (Meteor.isClient) {
       var email = trimInput(email);
 
       var isValidPassword = function(val) {
-        return val.length == 6; 
+        return val.length >= 6; 
       }
 
-      if (isValidPassword(userPassword)) {
+      console.log(isValidPassword(password));
+
+      if (isValidPassword(password)) {
         Accounts.createUser({email: email, password : password}, function(err){
           if (err) {
             // Inform the user that account creation failed
+            alert("unable to make account");
           } else {
             // Success. Account has been created and the user
-            // has logged in successfully. 
+            // has logged in successfully.
+            console.log("new account successfully made");
           }
         });
       }
