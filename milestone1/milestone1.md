@@ -89,6 +89,7 @@ Site Design
 </tr></table>
 
 <h3>Design #3</h3>
+![Design #3](/images/design3.png)
 <img src="images/design3.png" alt="Design #3"></img>
 
 <table>
@@ -131,4 +132,4 @@ Our reuse email parser is assigned a difficult task. It's job is to emulate a hu
 
 Division
 ---
-Even with nearly minimal web development experience prior to 6.470 we are planning on competing in the main division
+Even with nearly minimal web development experience prior to 6.470 we are planning on competing in the main division.
