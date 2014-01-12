@@ -7,6 +7,7 @@
 
     <link rel="stylesheet" href="docs/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
     <script type="text/javascript" src="docs/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+    <script type="text/javascript" src="docs/blur.js"></script>
 
     <link rel="stylesheet" href="../docs/font-awesome/css/font-awesome.min.css">
 
@@ -22,18 +23,22 @@
 
   {{> map}}
 
+  <img id="logo" src="/images/logo.png">
+
     <div id="socialLinkHolder">
-      <button id="chevron"><i class="fa fa-chevron-left fa-2x"></i></button>
-      <a class="fancybox" href="/images/logo.png"><button id="info"><i class="fa fa-info-circle fa-2x"></i></button></a>
-      <button id="twitter"><i class="fa fa-twitter fa-2x"></i></button>
-      <button id="facebook"><i class="fa fa-facebook fa-2x"></i></button>
-      <button id="github"><i class="fa fa-github fa-2x"></i></button>
+      <a class="fancybox" href="/images/logo.png"><img id="info" src="/images/info.png"></a>
+      <a><img id="twitter" src="/images/twitter.png"></a>
+      <br>
+      <a><img id="facebook" src="/images/facebook.png"></a>
+      <a><img id="github" src="/images/github.png"></a>
     </div>
+
+
 
   {{#if currentUser}}
 
     <div id="upperLayer">
-      <img id="logo" src="/images/logo.png">
+      
       {{> logout}}
     </div>
 

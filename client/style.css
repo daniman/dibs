@@ -28,9 +28,12 @@ body {
     	display: inline;
     }
 }
-
+/**
 @media all and (min-height: 1px) {
     #socialLinkHolder {
+    	display: none;
+    }
+    #logo {
     	display: none;
     }
 }
@@ -38,8 +41,11 @@ body {
     #socialLinkHolder {
     	display: block;
     }
+    #logo {
+    	display: block;
+    }
 }
-
+**/
 #map-canvas {
 	z-index: 1;
 	height: 100%;
@@ -47,7 +53,8 @@ body {
 	top: 0;
 	bottom: 0;
 	left: 0;
-	right: 0;	
+	right: 0;
+	opacity: 0.8;
 }
 
 #tint {
@@ -57,6 +64,7 @@ body {
 	width: 100%;
 	opacity: .2;
 	background-color: black;
+	-webkit-filter:blur(2px);
 }
 
 #welcome {
@@ -65,75 +73,53 @@ body {
 	font-size: 50px;
 }
 
+#socialLinkHolder img {
+	width: 20px;
+	height: 20px;
+	transition: 1s;
+	border: 2px solid transparent;
+}
+
+#socialLinkHolder:hover img {
+	width: 30px;
+	height: 30px;
+	border: 4px solid transparent;
+	margin: 3px;
+}
+
 #socialLinkHolder {
+	padding: 2px;
 	z-index: 3;
 	position: absolute;
-	padding: 10px;
-	transition: 1s;
-	width: 280px;
 	background-color: black;
-	opacity: .9;
-	right: -260px;
+	opacity: .8;
 	bottom: 0;
+	transition: 1s;
 }
 
 #socialLinkHolder:hover, #socialLinkHolder:focus {
-	right: 0px;
+	padding: 12px;
 }
 
-#chevron {
-	cursor: default;
-	outline: none;
-	border: none;
-	padding: 3px;
-	margin: 0px;
-	padding-top: 8px;
-	color: white;
-	background-color: transparent;
-}
-#info {
-	outline: none;
-	border: none;
-	padding: 3px;
-	margin: 0px 10px 0px 30px;
-	color: white;
-	background-color: transparent;
-}
 #info:hover, #info:focus {
-	color: #FFB400;
-}
-#twitter {
-	outline: none;
-	border: none;
-	padding: 3px;
-	margin: 0px 10px 0px 10px;
-	color: white;
-	background-color: transparent;
+	transition: 0s;
+	background-color: #FFB400;
+	border-radius: 25px;
 }
 #twitter:hover, #twitter:focus {
-	color: #4099FF;
-}
-#facebook {
-	outline: none;
-	border: none;
-	padding: 3px;
-	margin: 0px 10px 0px 10px;
-	color: white;
-	background-color: transparent;
+	transition: 0s;
+	background-color: #4099FF;
+	border-radius: 25px;
 }
 #facebook:hover, #facebook:focus {
-	color: #3B5998;
-}
-#github {
-	outline: none;
-	border: none;
-	padding: 3px;
-	margin: 0px 30px 0px 10px;
-	color: white;
-	background-color: transparent;
+	transition: 0s;
+	background-color: #3B5998;
+	border-radius: 25px;
 }
 #github:hover, #github:focus {
-	color: #FFB400;
+	transition: 0s;
+	background-color: #FFB400;
+	border-radius: 25px;
 }
 
 #loggedOut {
@@ -141,12 +127,12 @@ body {
 	position: relative;
 	margin-left: auto;
 	margin-right: auto;
-	background-color: black;
-	opacity: .9;
 	color: white;
 	text-align: center;
 	padding: 20px;
-	top: 10%;
+	top: 20%;
+	background-color: black;
+	opacity: 0.8;
 }
 
 #upperLayer {
@@ -163,7 +149,7 @@ body {
 #logo {
 	font-size: 100px;
 	z-index: 3;
-	position: relative;
+	position: absolute;
 	top: 0;
 	width: 200px;
 	height: 70px;

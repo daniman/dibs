@@ -100,7 +100,7 @@ class LocationGuesser(object):
         "simmons","baker", "mccormick", "eastgate", 
         "ashdown","masseeh","burton-conner","new house","random","bexley","memorial"]
         
-        self.noGuess = ""
+        self.noGuess = "0:0"
     
     def makeGuess(self,text):
         #DEPRECATED -> use makeGuessByEmail(email) to filter out the signatures
@@ -127,6 +127,8 @@ class LocationGuesser(object):
             
         if dormGuess is not self.noGuess:
             return dormGuess
+            
+        return self.noGuess
 
     def makeGuessByEmail(self,email):
         #same as makeGuess, but with the email as argument
@@ -172,6 +174,11 @@ class LocationGuesser(object):
         if k_obj:
             return k_obj.group(2)+":"+ k_obj.group(4)
             
+        #sometimes in the form "building 36"
+        b_obj = re.search(r"(\b)(building)( ){0,2}(#)?(\d{1,2})",text.lower())
+        if b_obj:
+            return b_obj.groups()[-1] + ":0"    
+            
         return self.noGuess
 
     def getLocation_floor(self,text):
@@ -191,7 +198,7 @@ class LocationGuesser(object):
                 locationListMatches.append((dorm,suspectDorm))
         
         if (len(locationListMatches)==0):
-            return None
+            return self.noGuess
             
         # if DEBUG: print locationListMatches
         #sort by their # of matches
@@ -219,6 +226,9 @@ class LocationGuess_methods_Tests(unittest.TestCase):
         
     def testLG_buildingMatch_case3(self):
         result = self.L.getLocation_building("large dildo in building 36")
+        self.assertEquals(result,"36:0")        
+        
+        result = self.L.getLocation_building("large dildo in building #36")
         self.assertEquals(result,"36:0")
         
     def testLG_floorMatch(self):
@@ -301,6 +311,10 @@ class LocationGuess_if_it_aint_broke(unittest.TestCase):
     def testLG_hammertime(self):
         result = self.L.makeGuess("Old Electronics Outside simmons from 9-5pm")
         self.assertEquals(result,"simmons")
+        
+    def testLG_returnsNoGuess(self):
+        result = self.L.makeGuess("Old Electronics Outside")
+        self.assertEquals(result,self.L.noGuess)
         
 class LocationGuess_realTests(unittest.TestCase):      
     #real examples go here
@@ -410,7 +424,7 @@ if __name__=="__main__":
     # And also, Free things are on the 3rd floor of 36. 
     # Free bagels outside baker. """
     
-    LG = LocationGuesser()
+    # LG = LocationGuesser()
     
     # if DEBUG: print 'floor match',LG.getLocation_floor(testString)
     # if DEBUG: print 'building match',LG.getLocation_building(testString)
