@@ -2,8 +2,19 @@ import difflib
 import unittest
 import re #http://flockhart.virtualave.net/RBIF0100/regexp.html
 
-#TODO: delete all text found after the reuse signature!
+DEBUG = False
 
+def getEncasingString(text, pos, radius):
+    #get the 16 chars fore and aft of the match
+    # pos = text.find(substring)
+    # if pos==-1: 
+        # return ""
+    
+    fore = max(0,pos-radius)
+    aft = min( len(text), pos + radius)
+    
+    return text[pos:aft]
+    
 def joinAllInTupleList(toupe):
     #joinAllInTuple( [("hello", "world"),("face","book")]) = ['hello world', 'face book']
     result=[]
@@ -29,26 +40,31 @@ def findWords(text,wordSequence):
     for i in range(numberOfWordsInSequence):
         result.append(words[i:])
     
-    # print 'result',result
+    # if DEBUG: print 'result',result
     c=zip(*result)
     
-    # print 'c',c
+    # if DEBUG: print 'c',c
     #join each tuple to a string
     joined = joinAllInTupleList(c)
     
     #.72 is a good cutoff
     
-    return difflib.get_close_matches(wordSequence, joined, cutoff=0.72389)
+    return difflib.get_close_matches(wordSequence, joined, cutoff=0.85)
 
 def urlStripper(text):
     #return text but without a url inside!
-    return re.sub(r'^https?:\/\/.*[\r\n]*', '', text, flags=re.MULTILINE)    
+    
+    #delete apparent urls with slashes in them
+    text = re.sub(r"\b(\w|\.)*(\\|/)(\w|\.)*\b",'',text)
+    
+    #delete http like urls
+    return re.sub(r'http?(s)?:\/\/.*[\r\n]*', '', text, flags=re.MULTILINE)
     
 def removeSignature(sender, body):
     #attempts to remove the signature from body
     #returns body without the signature
-    sender = sender.strip().lower()
-    body = body.strip().lower()
+    # sender = sender.strip().lower()
+    # body = body.strip().lower()
     
     #strip the email from the sender string
     newSender = re.sub(r'(<)[^>]*(>)', '', sender, flags=re.MULTILINE)
@@ -57,11 +73,12 @@ def removeSignature(sender, body):
     
     #delete everything after their name in body
     exp = newSender.split(" ")
-    print exp
+    if DEBUG: print 'EXP====>',exp
     firstname = exp[0]
     if (len(exp)>1):
         #first and last name included!
         lastname = re.escape(exp[-2])
+        if DEBUG: print 'LASTNAME====>',lastname
         newBody = re.sub(r""+lastname+"(.|\d|\r|\n)*", '', body, flags=re.MULTILINE)
     else:
         #only a firstname!
@@ -81,7 +98,7 @@ class LocationGuesser(object):
     def __init__(self):
         self.locationList = ["edgerton", "sidney pacific", "warehouse",
         "simmons","baker", "mccormick", "eastgate", 
-        "ashdown","masseeh","burton-conner","new house","random","bexley"]
+        "ashdown","masseeh","burton-conner","new house","random","bexley","memorial"]
         
         self.noGuess = ""
     
@@ -122,6 +139,13 @@ class LocationGuesser(object):
                     #X->General location (Simmons, 34, etc.)
                     #Y->Specific location (3rd floor, 017, 343, etc.
                     
+
+        
+        #put all email attr's to lowercase and trim them!
+        email.fr = email.fr.lower().strip()
+        email.body = email.body.lower().strip()
+        email.subject = email.subject.lower().strip()
+        
         #build the text to parse
         newBody = removeSignature(email.fr, email.body)
         text = email.subject +" "+newBody
@@ -129,12 +153,22 @@ class LocationGuesser(object):
         
     def getLocation_building(self,text):
         #buildings are usually in the X-Y format. returns "X : Y"
-        m_obj = re.search(r"(\d+)-(\d+)",text)
+        #{1,2} since 34 is a building but not 23232
+        m_obj = re.search(r"(\d{1,2})-(\d{1,3})",text)
         if m_obj:
-            return m_obj.group(1)+":"+ m_obj.group(2)
+            #determine if this is a time!
+            pos = m_obj.start()
+            encasingString = getEncasingString(text, pos, 8)
+            time_obj = re.search(r"(am)|(pm)",encasingString)
+            if not time_obj:
+                #not a time!
+                return m_obj.group(1)+":"+ m_obj.group(2)
+            # else:
+                # print time_obj.group(0)
+                # print encasingString
             
         #sometimes its like "E38" or "E 38"
-        k_obj = re.search(r"(\b)(nw|n|ne|e|w)( )*(\d+)",text.lower())
+        k_obj = re.search(r"(\b)(nw|n|ne|e|w)( ){0,2}(\d+)",text.lower())
         if k_obj:
             return k_obj.group(2)+":"+ k_obj.group(4)
             
@@ -159,10 +193,10 @@ class LocationGuesser(object):
         if (len(locationListMatches)==0):
             return None
             
-        # print locationListMatches
+        # if DEBUG: print locationListMatches
         #sort by their # of matches
         locationListMatches.sort(key=lambda (x,y): len(y), reverse=True)
-        # print locationListMatches
+        # if DEBUG: print locationListMatches
         
         #arbitrarily take the first as the most likely
         dormMatch = locationListMatches[0][0]
@@ -182,7 +216,11 @@ class LocationGuess_methods_Tests(unittest.TestCase):
         #E48
         result = self.L.getLocation_building("Vibrating *** toys in E48 lobby")
         self.assertEquals(result,"e:48")
-
+        
+    def testLG_buildingMatch_case3(self):
+        result = self.L.getLocation_building("large dildo in building 36")
+        self.assertEquals(result,"36:0")
+        
     def testLG_floorMatch(self):
         result = self.L.getLocation_floor("Free things are on the 3rd floor of 36")
         self.assertEquals(result,"36:3rd")
@@ -193,6 +231,13 @@ class LocationGuess_methods_Tests(unittest.TestCase):
         
         result = self.L.getLocation_dorm("Free sist at simmons")
         self.assertEquals(result,"simmons")
+        
+    def testUrlStripper(self):
+        text = "outside 32-044 http://www.amazon.com/gp/product/B004WY4U8S/ref=oh_details_o00_s00_i00?ie=UTF8&psc=1 Had I read the"
+        self.assertEquals(urlStripper(text), "outside 32-044 ")
+        
+        text = "outside 32-044 https://www.amazon.com/gp/product/B004WY4U8S/ref=oh_details_o00_s00_i00?ie=UTF8&psc=1 Had I read the"
+        self.assertEquals(urlStripper(text), "outside 32-044 ")       
         
 class LocationGuess_class_Tests(unittest.TestCase):
     
@@ -245,6 +290,17 @@ class LocationGuess_class_Tests(unittest.TestCase):
             
         result = self.L.makeGuessByEmail(email)
         self.assertEquals(result,"6:205")
+
+class LocationGuess_if_it_aint_broke(unittest.TestCase):
+    #a bunch of tests designed to break it!
+    
+    def setUp(self):
+        self.L = LocationGuesser()
+        print "\nIn method", self._testMethodName   
+        
+    def testLG_hammertime(self):
+        result = self.L.makeGuess("Old Electronics Outside simmons from 9-5pm")
+        self.assertEquals(result,"simmons")
         
 class LocationGuess_realTests(unittest.TestCase):      
     #real examples go here
@@ -319,9 +375,33 @@ class LocationGuess_realTests(unittest.TestCase):
             To sub/unsubscribe or to see the list rules:  http://mailman.mit.edu/mailman/listinfo/reuse"""
                 
         locationGuess = self.L.makeGuess(text)
-        self.assertEquals(locationGuess,"24:108")
+        self.assertEquals(locationGuess,"24:108")    
+    
+    def testLG_fischerprice(self):
+        email = dummyEmail()
+        email.subject = "[reuse] fw: another xerox 8500/8550 solid ink give away -claimed"
+        email.fr = "kathryn a fischer <katfisch@mit.edu>"
+        email.body =  """
 
-        
+                i have some xerox 8500/8550 solid ink to give away, too:
+
+
+                please email to arrange pick-up (i'm behind a locked door in 38-177), or, i can send to you via interdepartmental mail.
+
+
+
+                thanks
+
+                kathryn
+
+
+
+                _______________________________________________
+
+                to sub/unsubscribe or to see the list rules:  http://mailman.mit.edu/mailman/listinfo/reuse"""
+            
+        result = self.L.makeGuessByEmail(email)
+        self.assertEquals(result,"38:177")
     
 if __name__=="__main__":
     #useful use guide
@@ -332,9 +412,9 @@ if __name__=="__main__":
     
     LG = LocationGuesser()
     
-    # print 'floor match',LG.getLocation_floor(testString)
-    # print 'building match',LG.getLocation_building(testString)
-    # print 'dorm match',LG.getLocation_dorm(testString)
+    # if DEBUG: print 'floor match',LG.getLocation_floor(testString)
+    # if DEBUG: print 'building match',LG.getLocation_building(testString)
+    # if DEBUG: print 'dorm match',LG.getLocation_dorm(testString)
     
     #run tests
     unittest.main()
