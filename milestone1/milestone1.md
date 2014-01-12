@@ -89,7 +89,6 @@ Site Design
 </tr></table>
 
 <h3>Design #3</h3>
-![Design #3](/images/design3.png)
 <img src="images/design3.png" alt="Design #3"></img>
 
 <table>
