@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" href="../docs/font-awesome/css/font-awesome.min.css">
 
+    <script language ="Javascript" type="text/javascript" src="jquery.js"></script>
     <script language ="Javascript" type="text/javascript" src="script.js"></script>
     <link href="style.css" rel="stylesheet">
 </head>
@@ -67,9 +68,10 @@
 <template name="register">
   <div id="register-holder">
     <form id="register-form" action="action">
+      <div id="register-errorMessage"></div>
       <input type="email" id="account-email" placeholder="Email" />
-<!--      <input type="text" id="account-username" placeholder="Username" />    -->
       <input type="password" id="account-password" placeholder="Password" />
+      <input type="password" id="account-confirm-password" placeholder="Confirm Password" />
       <input type="submit" id="create-account"value="Create an Account" /> 
     </form>
     <button id="logInButton" class="subtext">
@@ -81,6 +83,7 @@
 <template name="login">
   <div id="login-holder">
     <form id="login-form" action="action">
+      <div id="login-errorMessage"></div>
       <input type="email" id="login-email" placeholder="Email" />
       <input type="password" id="login-password" placeholder="Password" />
       <input type="submit" id="login-button" value="Sign in" />

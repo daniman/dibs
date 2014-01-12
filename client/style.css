@@ -28,7 +28,7 @@ body {
     	display: inline;
     }
 }
-/**
+
 @media all and (min-height: 1px) {
     #socialLinkHolder {
     	display: none;
@@ -37,7 +37,7 @@ body {
     	display: none;
     }
 }
-@media all and (min-height: 450px) {
+@media all and (min-height: 480px) {
     #socialLinkHolder {
     	display: block;
     }
@@ -45,7 +45,7 @@ body {
     	display: block;
     }
 }
-**/
+
 #map-canvas {
 	z-index: 1;
 	height: 100%;
@@ -103,7 +103,7 @@ body {
 
 #info:hover, #info:focus {
 	transition: 0s;
-	background-color: #FFB400;
+	background-color: #ffa900;
 	border-radius: 25px;
 }
 #twitter:hover, #twitter:focus {
@@ -118,8 +118,18 @@ body {
 }
 #github:hover, #github:focus {
 	transition: 0s;
-	background-color: #FFB400;
+	background-color: #f9e57b;
 	border-radius: 25px;
+}
+
+#login-errorMessage {
+	margin: 10px;
+	color: #d84343;
+}
+
+#register-errorMessage {
+	margin: 10px;
+	color: #d84343;
 }
 
 #loggedOut {
@@ -157,7 +167,7 @@ body {
 }
 
 form {
-	margin-top: 30px;
+	margin-top: 10px;
 	margin-bottom: 0px;
 }
 
@@ -255,7 +265,7 @@ button:hover, button:focus {
 	border-right: 2px solid #44d242;
 }
 
-#account-username {
+#account-password {
 	width: 244px;
 	display: block;
 	margin: 0px;
@@ -264,7 +274,7 @@ button:hover, button:focus {
 	border-right: 2px solid #44d242;
 }
 
-#account-password {
+#account-confirm-password {
 	width: 244px;
 	display: block;
 	margin: 0px;

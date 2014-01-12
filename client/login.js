@@ -1,5 +1,9 @@
 var loginButtonsSession = Accounts._loginButtonsSession;
 
+passwordEntered = function () {
+  alert("change!");
+}
+
 displayName = function () {
   var user = Meteor.user();
   if (!user)

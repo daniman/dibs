@@ -2,7 +2,7 @@ if (Meteor.isClient) {
 
   Template.page.rendered = function() {
 
-      $("#login-holder").hide();
+    $("#login-holder").hide();
     var initialLocation;
     var mitCampus = new google.maps.LatLng (42.357,-71.09);
     var browserSupportFlag = new Boolean();
@@ -66,6 +66,8 @@ if (Meteor.isClient) {
     'click #createNewAccountButton' : function() {
       $("#login-holder").hide();
       $("#register-holder").show();
+      $("#account-email").val($("#login-email").val());
+      $("#account-password").val($("#login-password").val());
     },
     'submit #login-form' : function(e, t){
       e.preventDefault();
@@ -73,7 +75,7 @@ if (Meteor.isClient) {
       var email = t.find('#login-email').value, password = t.find('#login-password').value;
       Meteor.loginWithPassword(email, password, function(err){ 
         if (err) {
-          alert("can't log in..");
+          $("#login-errorMessage").html("email/password incorrect");
         } else {
           // The user has been logged in.
         }
@@ -93,14 +95,12 @@ if (Meteor.isClient) {
     'click #logInButton' : function() {
       $("#login-holder").show();
       $("#register-holder").hide();
+      $("#login-email").val($("#account-email").val());
+      $("#login-password").val($("#account-password").val());
     },
     'submit #register-form' : function(e, t) {
-      console.log("new registration started");
       e.preventDefault();
       var email = t.find('#account-email').value, password = t.find('#account-password').value;
-
-      console.log("email " + email);
-      console.log("password " + password);
 
       // trim helper
       var trimInput = function(val) {
@@ -112,27 +112,27 @@ if (Meteor.isClient) {
         return val.length >= 6; 
       }
 
-      console.log(isValidPassword(password));
-
-      if (isValidPassword(password)) {
-        Accounts.createUser({email: email, password : password}, function(err){
-          if (err) {
-            // Inform the user that account creation failed
-            alert("unable to make account");
-          } else {
-            // Success. Account has been created and the user
-            // has logged in successfully.
-            console.log("new account successfully made");
-          }
-        });
+      if($("#account-password").val() !== $("#account-confirm-password").val()) {
+        $("#register-errorMessage").html("passwords don't match");
+      } else {
+        if (isValidPassword(password) && $("#account-password").val() === $("#account-confirm-password").val()) {
+          Accounts.createUser({email: email, password : password}, function(err){
+            if (err) {
+              // Inform the user that account creation failed
+              $("#register-errorMessage").html("account already exists");
+            } else {
+              // Success. Account has been created and the user
+              // has logged in successfully.
+              console.log("new account successfully made");
+            }
+          });
+        } else {
+          $("#register-errorMessage").html("password must have more than 6 letters");
+        }
       }
 
       return false;
     }
-  });
-
-  $(document).ready(function() {
-    $(".fancybox").fancybox();
   });
 
 }
