@@ -172,6 +172,11 @@ class LocationGuesser(object):
         if k_obj:
             return k_obj.group(2)+":"+ k_obj.group(4)
             
+        #sometimes in the form "building 36"
+        b_obj = re.search(r"(\b)(building)( ){0,2}(\d{1,2})",text.lower())
+        if b_obj:
+            return b_obj.groups()[-1] + ":0"    
+            
         return self.noGuess
 
     def getLocation_floor(self,text):
