@@ -90,40 +90,55 @@
 <template name="accordion">
   <section class="ac-container">
     <div>
-        <input id="ac-1" name="accordion-1" type="checkbox" checked/>
+        <input id="ac-1" name="accordion-1" type="radio" checked/>
         <label for="ac-1">{{> userEmail}}</label>
-        <article class="ac-small">
+        <article class="ac-settings">
             <a class="fancybox" href="/images/logo.png"><p id="accountSettings">Account Settings</p></a>
             <p id="logout">Logout</p>
         </article>
     </div>
     <div>
-        <input id="ac-2" name="accordion-1" type="checkbox" />
+        <input id="ac-2" name="accordion-1" type="radio"/>
         <label for="ac-2">Rewards</label>
-        <article class="ac-medium">
-            <p>You are a DIB$ ninja!</p>
+        <article class="ac-rewards">
+            <div class="pointsHolder">
+              <div id="pointsNumber">125</div>
+              <div id="pointsLabel">Dibs Points</div>
+            </div>
+            <div class="pointsHolder">
+              <img class="award" src="/images/award.png">
+              <img class="award" src="/images/award.png">
+              <img class="award" src="/images/award.png">
+              <img class="award" src="/images/award.png">
+              <a class="fancybox" href="/images/logo.png"><p id="more">more</p></a>
+            </div>
         </article>
     </div>
     <div>
-        <input id="ac-3" name="accordion-1" type="checkbox" />
+        <input id="ac-3" name="accordion-1" type="radio" />
         <label for="ac-3">My Listing</label>
-        <article class="ac-medium">
-            <div id="newPost"><i class="fa fa-lg fa-plus-circle" style="padding-right: 5px"></i> New Post</div>
-            <ul>
+        <article class="ac-myListings">
+            <a class="fancybox" href="/images/logo.png"><div id="newPost"><i class="fa fa-lg fa-plus-circle" style="padding-right: 5px"></i> New Post</div></a>
+            <ul id="myListings">
               <li>some item</li>
               <li>another item</li>
               <li>a third item</li>
               <li>fourth item</li>
               <li>so many items</li>
               <li>i have too much junk</li>
+              <li><a id="more" class="fancybox" href="/images/logo.png">more</a></li>
             </ul>
         </article>
     </div>
     <div>
-        <input id="ac-4" name="accordion-1" type="checkbox" />
+        <input id="ac-4" name="accordion-1" type="radio" />
         <label for="ac-4">Filter</label>
-        <article class="ac-medium">
-          <p>Some content... </p>
+        <article class="ac-filter">
+          <form id="filter">
+            I have a bike<input type="checkbox" name="vehicle" value="Bike"><br>
+            <input type="checkbox" name="vehicle" value="Car">I have a car<br>
+            Username: <input type="text" name="user">
+          </form>
         </article>
     </div>
   </section>

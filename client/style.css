@@ -22,10 +22,16 @@ body {
     .resize-font {
     	font-size: 30px;
     }
+    #logo {
+    	display: none;
+    }
 }
 @media all and (min-width: 500px) {
     .hide {
     	display: inline;
+    }
+    #logo {
+    	display: block;
     }
 }
 
@@ -33,17 +39,15 @@ body {
     #socialLinkHolder {
     	display: none;
     }
-    #logo {
-    	display: none;
-    }
 }
 @media all and (min-height: 480px) {
     #socialLinkHolder {
     	display: block;
     }
-    #logo {
-    	display: block;
-    }
+}
+
+A {
+	text-decoration: none;
 }
 
 #map-canvas {
@@ -118,20 +122,22 @@ body {
 	background-color: black;
 	color: white;
 	opacity: 0.7;
+	text-decoration: underline;
 }
 
-#accountSettings {
+.fancybox #accountSettings {
 	color: black;
 	cursor: pointer;
 	margin-bottom: 0px;
 }
 
-#accountSettings:hover {
-	text-decoration: none !important;
+.fancybox:hover #accountSettings {
 	border: none;
+	outline: none;
 	color: white;
 	background-color: black;
 	opacity: 0.7;
+	text-decoration: underline;
 }
 
 .ac-container{
@@ -157,10 +163,6 @@ body {
     font-weight: 500;
     line-height: 30px;
     font-size: 15px;
-    box-shadow: 
-        0px 0px 0px 1px rgba(155,155,155,0.3), 
-        1px 0px 0px 0px rgba(0,0,0,0.9) inset, 
-        0px 2px 2px rgba(0,0,0,0.1);
 }
 
 .ac-container label:hover{
@@ -171,9 +173,6 @@ body {
 .ac-container input:checked + label:hover{
     background-color: #00BD4F;
     color: white;
-    box-shadow: 
-        0px 0px 0px 1px rgba(0,102,42,0.3), 
-        0px 2px 2px rgba(0,46,19,0.1);
 }
 
 .ac-container label:hover:after,
@@ -211,7 +210,6 @@ body {
     transition: 
         height 0.5s ease-in-out, 
         box-shadow 0.1s linear;
-    box-shadow: 0px 0px 0px 1px rgba(155,155,155,0.3);
 }
 
 .ac-container article p{
@@ -221,16 +219,24 @@ body {
     margin: 3px;
     padding: 2px;
     text-align: center;
+    text-decoration: none;
 }
 
-.ac-container input:checked ~ article.ac-small{
+.ac-container article p:hover{
+    text-decoration: none;
+}
+
+.ac-container input:checked ~ article.ac-settings{
     height: 46px;
 }
-.ac-container input:checked ~ article.ac-medium{
+.ac-container input:checked ~ article.ac-rewards{
     height: 180px;
 }
-.ac-container input:checked ~ article.ac-large{
-    height: 230px;
+.ac-container input:checked ~ article.ac-myListings{
+    height: 172px;
+}
+.ac-container input:checked ~ article.ac-filter{
+    height: 170px;
 }
 
 #newPost {
@@ -247,9 +253,68 @@ body {
 #newPost:hover {
 	background-color: #0893cf;
 	opacity: 0.6;
+	text-decoration: underline;
 }
 
 .ac-medium ul li {
 	font-size: 13px;
 	color: black;
+}
+
+
+
+
+
+
+#more {
+	color: #0893cf;
+}
+#more:hover {
+	text-decoration: underline;
+}
+
+.award {
+	width: 30px;
+	height: 30px;
+	padding: 5px;
+}
+
+#myListings {
+	list-style-type: none;
+	text-align: center;
+	padding: 0;
+	margin: 0;
+	font-size: 13px;
+}
+
+.pointsHolder {
+	padding: 10px;
+	text-align: center;
+}
+
+#pointsNumber {
+	background-color: rgba(0,0,0,0.7);
+	color: white;
+	font-size: 50px;
+	line-height: 50px;
+	padding-top: 5px;
+}
+
+#pointsLabel {
+	background-color: rgba(0,0,0,0.7);
+	color: white;
+	font-size: 15px;
+	line-height: 15px;
+	padding-bottom: 10px;
+}
+
+
+
+
+
+
+#filter {
+	background-color: orange;
+	margin: 20px;
+
 }
