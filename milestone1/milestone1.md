@@ -8,23 +8,23 @@ Dibs is a reuse enhancement suite designed for the MIT community.
 The Problem
 ----
 
-reuse@mit.edu is an email list that nearly all MIT students subscribe to or at least hear about when they first arrive on campus. The MIT Reuse lists contribute to MIT’s green initiative and it has the additional benefit of helping students explore campus and meet new people.
+reuse@mit.edu is an email list that nearly all MIT students subscribe to or at least hear about when they first arrive on campus. The MIT Reuse lists contribute to MIT’s green initiative and have the additional benefit of helping students explore campus and meet new people.
 
 Unfortunately, many students choose to unsubscribe from reuse or hesitate to sign up due to the large volume of emails sent to the reuse list every day.
 
-The current solution to this problem is to use email filters to place reuse listings in a separate folder. However, doing this still decreases the amount of active re –users leaving some items unclaimed.
+The current solution to this problem is to use email filters to place reuse listings in a separate folder. However, doing this still decreases the amount of active reusers which leaves some items unclaimed.
 
-With Dibs, we are looking to create one tool to help the reuse community manage all aspects of reuse, not just sorting through emails. Dibs is at its core a reuse enhancement suite.
+With Dibs, we are looking to create one tool to help the reuse community manage all aspects of reuse, not just sorting through users emails. Dibs is at its core a reuse enhancement suite.
 
-Dibs lies on top of the preexisting reuse framework that allows users to visualize reuse listings on a map interface. The map interface can help users determine proximity to a reuse listing.
+Dibs lies on top of the preexisting reuse framework that allows users to visualize reuse listings on a map interface. The map interface can help users determine their proximity to reuse listings.
 
 Killer Features
 ----
-In its fully featured state, Dibs will include a rigorous backend email parsing application that will allow continued use of the current reuse email system with the added benefit of having a map interface. Dibs will also feature keyword alerts (allow users to receive parsed, condensed email or text alerts only about listings of interest to the user) and a rewards system (encouraging users to participate in reuse through Dibs).
+In its fully featured state, Dibs will include rigorous backend email parsing to allow continued use of the current reuse email system with the added benefit of having a map interface. Dibs will also feature keyword alerts (allow users to receive parsed, condensed email or text alerts only about listings of interest to the user) and a rewards system (encouraging users to participate in reuse through Dibs).
 
 Target Demographic
 ----
-At first, we expect Dibs to attract a lot of current reuse@mit.edu users. The initial release will specifically target all members of the MIT community, but Dibs has been designed in such a way as to be easily scalable. Dibs is not dependent upon MIT certificates for account creation and therefore can be just as easily implemented as its own fully featured reuse program on other college campuses or municipalities.
+At first, we expect Dibs to attract a lot of current reuse@mit.edu users. The initial release will specifically target all members of the MIT community, but Dibs has been designed in such a way as to be easily scalable to become its own reuse program at other college campuses or municipalities.
 
 User Actions
 ---
@@ -109,7 +109,6 @@ Site Design
 
 
 <h3>Design #3 Mock-Up</h3>
-<img src="/images/main_screen.png" alt="alt text" title="Title" />
 <img src="images/main_screen.png" alt="Design #3 Full"></img>
 
 
