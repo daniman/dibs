@@ -1,8 +1,6 @@
 <head>
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 
-    <link type="text/css" rel="stylesheet" href="style.css">
-
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwl6CTVUcaPluz69RuPkccQu9YXieyP9k&sensor=false"></script>
 
     <link href='http://fonts.googleapis.com/css?family=Lato:300,400,900,300italic' rel='stylesheet' type='text/css'>
@@ -11,12 +9,8 @@
     <link rel="stylesheet" href="docs/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
     <script type="text/javascript" src="docs/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
-    <script language ="Javascript" type="text/javascript" src="jquery.js"></script>
-    <script language ="Javascript" type="text/javascript" src="script.js"></script>
-    
-    <link href="socialLink.css" rel="stylesheet">
-    <link href="login.css" rel="stylesheet">
     <link rel="stylesheet" href="../docs/font-awesome/css/font-awesome.min.css">
+
 </head>
 
 <body>
@@ -90,15 +84,15 @@
 <template name="accordion">
   <section class="ac-container">
     <div>
-        <input id="ac-1" name="accordion-1" type="radio" checked/>
-        <label for="ac-1">{{> userEmail}}</label>
+        <input id="ac-1" name="accordion-1" type="checkbox" checked/>
+        <label for="ac-1"><i class="fa fa-cog" style="padding-right: 5px"></i>{{displayName}}</label>
         <article class="ac-settings">
             <a class="fancybox" href="/images/logo.png"><p id="accountSettings">Account Settings</p></a>
             <p id="logout">Logout</p>
         </article>
     </div>
     <div>
-        <input id="ac-2" name="accordion-1" type="radio"/>
+        <input id="ac-2" name="accordion-1" type="checkbox"/>
         <label for="ac-2">Rewards</label>
         <article class="ac-rewards">
             <div class="pointsHolder">
@@ -115,7 +109,7 @@
         </article>
     </div>
     <div>
-        <input id="ac-3" name="accordion-1" type="radio" />
+        <input id="ac-3" name="accordion-1" type="checkbox" />
         <label for="ac-3">My Listing</label>
         <article class="ac-myListings">
             <a class="fancybox" href="/images/logo.png"><div id="newPost"><i class="fa fa-lg fa-plus-circle" style="padding-right: 5px"></i> New Post</div></a>
@@ -131,21 +125,17 @@
         </article>
     </div>
     <div>
-        <input id="ac-4" name="accordion-1" type="radio" />
+        <input id="ac-4" name="accordion-1" type="checkbox" />
         <label for="ac-4">Filter</label>
         <article class="ac-filter">
-          <form id="filter">
-            I have a bike<input type="checkbox" name="vehicle" value="Bike"><br>
-            <input type="checkbox" name="vehicle" value="Car">I have a car<br>
-            Username: <input type="text" name="user">
-          </form>
+          {{> filter}}
         </article>
     </div>
   </section>
 </template>
 
-<template name="userEmail">
-  {{#each currentUser.emails}}
-    <i class="fa fa-cog" style="padding-right: 5px"></i> {{address}}
-  {{/each}}
+<template name="filter">
+I have a bike<input type="checkbox" name="vehicle" value="Bike" /><br>
+  <input type="checkbox" name="vehicle" value="Car">I have a car<br>
+  Username: <input type="text" name="user">
 </template>

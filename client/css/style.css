@@ -15,8 +15,8 @@ body {
 	overflow: hidden;
 }
 
-@media all and (min-width: 1px) {
-    .hide {
+@media all and (min-height: 1px) and (min-width: 1px) {
+	.hide {
     	display: none;
     }
     .resize-font {
@@ -25,25 +25,46 @@ body {
     #logo {
     	display: none;
     }
+    #socialLinkHolder {
+    	display: none;
+    }
+    #welcomeBanner {
+		z-index: 3;
+		position: relative;
+		margin-left: auto;
+		margin-right: auto;
+		color: white;
+		text-align: center;
+		padding: 20px;
+		top: 0;
+		background-color: black;
+		opacity: 0.8;
+		transition: 0.5s;
+	}
 }
-@media all and (min-width: 500px) {
-    .hide {
+@media all and (min-height: 450px) and (min-width: 500px){
+	.hide {
     	display: inline;
     }
     #logo {
     	display: block;
     }
-}
-
-@media all and (min-height: 1px) {
-    #socialLinkHolder {
-    	display: none;
-    }
-}
-@media all and (min-height: 480px) {
     #socialLinkHolder {
     	display: block;
     }
+    #welcomeBanner {
+		z-index: 3;
+		position: relative;
+		margin-left: auto;
+		margin-right: auto;
+		color: white;
+		text-align: center;
+		padding: 20px;
+		top: 20%;
+		background-color: black;
+		opacity: 0.8;
+		transition: 0.5s;
+	}
 }
 
 A {
@@ -81,19 +102,6 @@ A {
 	font-size: 18px;
 	padding-top: 20px;
 	font-weight: 300;
-}
-
-#welcomeBanner {
-	z-index: 3;
-	position: relative;
-	margin-left: auto;
-	margin-right: auto;
-	color: white;
-	text-align: center;
-	padding: 20px;
-	top: 20%;
-	background-color: black;
-	opacity: 0.8;
 }
 
 #logo {

@@ -5,9 +5,9 @@
 
 standard-app-packages
 autopublish
-insecure
 preserve-inputs
 jquery
 accounts-password
 accounts-base
 bootstrap
+insecure
