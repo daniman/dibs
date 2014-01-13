@@ -1,5 +1,4 @@
 Team Dibs: Milestone 1 
-=========
 
 <strong>Members: Julian Contreras, Danielle Man, Andrew Mikofalvy</strong>
 
@@ -8,27 +7,27 @@ Dibs is a reuse enhancement suite designed for the MIT community.
 The Problem
 ----
 
-reuse@mit.edu is an email list that nearly all MIT students subscribe to or at least hear about when they first arrive on campus. The MIT Reuse lists contribute to MIT’s green initiative and it has the additional benefit of helping students explore campus and meet new people.
+reuse@mit.edu is an email list that nearly all MIT students subscribe to or at least hear about when they first arrive on campus. The MIT Reuse lists contribute to MIT’s green initiative and have the additional benefit of helping students explore campus and meet new people.
 
 Unfortunately, many students choose to unsubscribe from reuse or hesitate to sign up due to the large volume of emails sent to the reuse list every day.
 
-The current solution to this problem is to use email filters to place reuse listings in a separate folder. However, doing this still decreases the amount of active re –users leaving some items unclaimed.
+The current solution to this problem is to use email filters to place reuse listings in a separate folder. However, doing this still decreases the amount of active reusers which leaves some items unclaimed.
 
-With Dibs, we are looking to create one tool to help the reuse community manage all aspects of reuse, not just sorting through emails. Dibs is at its core a reuse enhancement suite.
+With Dibs, we are looking to create one tool to help the reuse community manage all aspects of reuse, not just sorting through users emails. Dibs is at its core a reuse enhancement suite.
 
-Dibs lies on top of the preexisting reuse framework that allows users to visualize reuse listings on a map interface. The map interface can help users determine proximity to a reuse listing.
+Dibs lies on top of the preexisting reuse framework that allows users to visualize reuse listings on a map interface. The map interface can help users determine their proximity to reuse listings.
 
 Killer Features
 ----
-In its fully featured state, Dibs will include a rigorous backend email parsing application that will allow continued use of the current reuse email system with the added benefit of having a map interface. Dibs will also feature keyword alerts (allow users to receive parsed, condensed email or text alerts only about listings of interest to the user) and a rewards system (encouraging users to participate in reuse through Dibs).
+In its fully featured state, Dibs will include rigorous backend email parsing to allow continued use of the current reuse email system with the added benefit of having a map interface. Dibs will also feature keyword alerts (allow users to receive parsed, condensed email or text alerts only about listings of interest to the user) and a rewards system (encouraging users to participate in reuse through Dibs).
 
 Target Demographic
 ----
-At first, we expect Dibs to attract a lot of current reuse@mit.edu users. The initial release will specifically target all members of the MIT community, but Dibs has been designed in such a way as to be easily scalable. Dibs is not dependent upon MIT certificates for account creation and therefore can be just as easily implemented as its own fully featured reuse program on other college campuses or municipalities.
+At first, we expect Dibs to attract a lot of current reuse@mit.edu users. The initial release will specifically target all members of the MIT community, but Dibs has been designed in such a way as to be easily scalable to become its own reuse program at other college campuses or municipalities.
 
 User Actions
 ---
-There are three types of Dibs users: The Poster, The Swiper, and The Secret Poster. These types are not mutually exclusive (one user could exhibit any one, two, or three user types). Each type of user has a specific goal on Dibs and therefore a different set and sequence of actions. The user is not aware of which type(s) they are classified as, these user type declarations are solely for internal use. Here we will only go in depth in the typical actions of the Poster type user.
+There are three types of Dibs users: The Poster, The Swiper, and The Secret Poster. These types are not mutually exclusive (one user could exhibit any one, two, or three user types). Each type of user has a specific goal on Dibs and therefore a different set and sequence of actions. The user is not aware of which type(s) they are classified as. These user type declarations are solely for internal use.
 
 <h3>The Poster</h3>
 
@@ -111,6 +110,28 @@ Site Design
 <h3>Design #3 Mock-Up</h3>
 <img src="images/main_screen.png" alt="Design #3 Full"></img>
 
+<h2>Minimal Viable Product</h2>
+<h3>MVP Features</h3>
+- The ability for a user to add/remove/manage a post from the Dibs website
+- The ability for a parseable email sent to reuse@mit.edu to be posted on Dibs automatically by our server
+- The ability for a user to graphically browse posts near them
+- The ability for a user to click on a map marker and open an info dialog and call Dibs on a reuse item
+- Live on dibs.meteor.com
+
+These are the critical  components of Dibs. They ensure that Dibs has succesfully become a graphical way to explore reuse listings.
+
+<h3>Additional Features</h3>
+- The reward point system for claiming/posting on Dibs
+- Keyword alerts
+- Live on dibs.mit.edu
+- Implement meteor features to optimize map rendering
+
+<h3>Falsified Data Sets</h3>
+
+Fortunately, since we are parsing reuse emails we wil have real data at the MVP. We have no concerns as of yet.
+
+
+>>>>>>> 56414375bfdae68a986627f298827c130768c4bf
 About the Team
 ----
 
@@ -130,11 +151,16 @@ Server Side Tech
 
 Possible Obstacles/Risks
 ---
-Our reuse email parser is assigned a difficult task. It's job is to emulate a human being reading all reuse emails and pick out specific information so that reusers don't ahve to. There are many different human factors  
+Our reuse email parser is assigned a difficult task. It's job is to emulate a human being reading all reuse emails and pick out specific information so that reusers don't have to. 
 
-Division
+Competition Division
 ---
 
+<<<<<<< HEAD
 Even with nearly minimal web development experience prior to 6.470 we are planning on competing in the main division
 
 Even with nearly minimal web development experience prior to 6.470 we are planning on competing in the main division.
+=======
+Even with a combined total minimal web development experience we are planning on competing in the main division.
+
+>>>>>>> 56414375bfdae68a986627f298827c130768c4bf
