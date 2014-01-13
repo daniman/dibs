@@ -28,7 +28,7 @@ At first, we expect Dibs to attract a lot of current reuse@mit.edu users. The in
 
 User Actions
 ---
-There are three types of Dibs users: The Poster, The Swiper, and The Secret Poster. These types are not mutually exclusive (one user could exhibit any one, two, or three user types). Each type of user has a specific goal on Dibs and therefore a different set and sequence of actions. The user is not aware of which type(s) they are classified as, these user type declarations are solely for internal use. Here we will only go in depth in the typical actions of the Poster type user.
+There are three types of Dibs users: The Poster, The Swiper, and The Secret Poster. These types are not mutually exclusive (one user could exhibit any one, two, or three user types). Each type of user has a specific goal on Dibs and therefore a different set and sequence of actions. The user is not aware of which type(s) they are classified as. These user type declarations are solely for internal use.
 
 <h3>The Poster</h3>
 
@@ -126,7 +126,11 @@ These are the critical  components of Dibs. They ensure that Dibs has succesfull
 - The reward point system for claiming/posting on Dibs
 - Keyword alerts
 - Live on dibs.mit.edu
-- Various Optimizations
+- Implement meteor features to optimize map rendering
+
+<h3>Falsified Data Sets</h3>
+
+Fortunately, since we are parsing reuse emails we wil have real data at the MVP. We have no concerns as of yet.
 
 
 About the Team
