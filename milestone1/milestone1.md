@@ -113,6 +113,23 @@ Site Design
 <img src="images/main_screen.png" alt="Design #3 Full"></img>
 
 
+<h2>Minimal Viable Product</h2>
+<h3>MVP Features</h3>
+- The ability for a user to add/remove/manage a post from the Dibs website
+- The ability for a parseable email sent to reuse@mit.edu to be posted on Dibs automatically by our server
+- The ability for a user to graphically browse posts near them
+- The ability for a user to click on a map marker and open an info dialog and call Dibs on a reuse item
+- Live on dibs.meteor.com
+
+These are the critical  components of Dibs. They ensure that Dibs has succesfully become a graphical way to explore reuse listings.
+
+<h3>Additional Features</h3>
+- The reward point system for claiming/posting on Dibs
+- Keyword alerts
+- Live on dibs.mit.edu
+- Various Optimizations
+
+
 About the Team
 ----
 
