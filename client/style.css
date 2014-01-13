@@ -105,18 +105,26 @@ body {
 
 #logout {
 	cursor: pointer;
+	margin-top: 0px;
 }
 
 #logout:hover {
 	color: green;
+	background-color: black;
+	color: white;
+	opacity: 0.7;
 }
 
 #accountSettings {
 	cursor: pointer;
+	margin-bottom: 0px;
 }
 
 #accountSettings:hover {
 	color: green;
+	background-color: black;
+	color: white;
+	opacity: 0.7;
 }
 
 .ac-container{
@@ -128,6 +136,9 @@ body {
 }
 
 .ac-container label{
+	overflow: hidden;
+	white-space: nowrap;
+	background-color: rgba(0,0,0,0.8);
 	text-align: center;
     padding: 5px 20px;
     position: relative;
@@ -138,7 +149,6 @@ body {
     color: white;
     font-weight: 500;
     line-height: 30px;
-    background-color: rgba(0,0,0,0.8);
     font-size: 15px;
     background: linear-gradient(top, #ffffff 1%,#eaeaea 100%);
     box-shadow: 
@@ -199,16 +209,16 @@ body {
 }
 
 .ac-container article p{
-	margin: 0px;
     color: black;
     line-height: 16px;
-    font-size: 13px;
+    font-size: 12px;
+    margin: 3px;
     padding: 2px;
     text-align: center;
 }
 
 .ac-container input:checked ~ article.ac-small{
-    height: 45px;
+    height: 46px;
 }
 .ac-container input:checked ~ article.ac-medium{
     height: 180px;

@@ -71,6 +71,7 @@ if (Meteor.isClient) {
     },
     'submit #login-form' : function(e, t){
       e.preventDefault();
+      console.log(Meteor.user());
       // retrieve the input field values
       var email = t.find('#login-email').value, password = t.find('#login-password').value;
       Meteor.loginWithPassword(email, password, function(err){ 
@@ -139,10 +140,18 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.useremail.userData = function() {
+    var user = Meteor.users.findOne(Meteor.userId());
+    return user && user.emails[0].address;
+  };
+
 }
+
+
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
   });
+
 }

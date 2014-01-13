@@ -107,12 +107,9 @@ Site Design
 </ul></td>
 </tr></table>
 
-<<<<<<< HEAD
-=======
+
 <h3>Design #3 Mock-Up</h3>
 <img src="images/main_screen.png" alt="Design #3 Full"></img>
-
->>>>>>> 9f5247ab83e21480328ee9ccc7091c7b00425175
 
 About the Team
 ----
@@ -137,8 +134,7 @@ Our reuse email parser is assigned a difficult task. It's job is to emulate a hu
 
 Division
 ---
-<<<<<<< HEAD
+
 Even with nearly minimal web development experience prior to 6.470 we are planning on competing in the main division
-=======
+
 Even with nearly minimal web development experience prior to 6.470 we are planning on competing in the main division.
->>>>>>> 9f5247ab83e21480328ee9ccc7091c7b00425175
