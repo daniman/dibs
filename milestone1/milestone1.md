@@ -152,10 +152,10 @@ Server Side Tech
 
 Possible Obstacles/Risks
 ---
-Our reuse email parser is assigned a difficult task. It's job is to emulate a human being reading all reuse emails and pick out specific information so that reusers don't ahve to. There are many different human factors  
+Our reuse email parser is assigned a difficult task. It's job is to emulate a human being reading all reuse emails and pick out specific information so that reusers don't have to. 
 
-Division
+Competition Division
 ---
 
-Even with nearly minimal web development experience prior to 6.470 we are planning on competing in the main division
+Even with a combined total minimal web development experience we are planning on competing in the main division.
 
