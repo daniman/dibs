@@ -1,5 +1,8 @@
 <head>
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+
+    <link type="text/css" rel="stylesheet" href="style.css">
+
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwl6CTVUcaPluz69RuPkccQu9YXieyP9k&sensor=false"></script>
 
     <link href='http://fonts.googleapis.com/css?family=Lato:300,400,900,300italic' rel='stylesheet' type='text/css'>
@@ -7,15 +10,13 @@
 
     <link rel="stylesheet" href="docs/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
     <script type="text/javascript" src="docs/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-    <script type="text/javascript" src="docs/blur.js"></script>
-
-    <link rel="stylesheet" href="../docs/font-awesome/css/font-awesome.min.css">
 
     <script language ="Javascript" type="text/javascript" src="jquery.js"></script>
     <script language ="Javascript" type="text/javascript" src="script.js"></script>
-    <link href="style.css" rel="stylesheet">
+    
     <link href="socialLink.css" rel="stylesheet">
     <link href="login.css" rel="stylesheet">
+    <link rel="stylesheet" href="../docs/font-awesome/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -28,10 +29,10 @@
   <img id="logo" src="/images/logo.png">
   <div id="socialLinkHolder">
     <a class="fancybox" href="/images/logo.png"><img id="info" src="/images/info.png"></a>
-    <a><img id="twitter" src="/images/twitter.png"></a>
+    <a href="http://www.twitter.com"><img id="twitter" src="/images/twitter.png"></a>
     <br>
-    <a><img id="facebook" src="/images/facebook.png"></a>
-    <a><img id="github" src="/images/github.png"></a>
+    <a href="http://www.facebook.com"><img id="facebook" src="/images/facebook.png"></a>
+    <a href="http://www.github.com"><img id="github" src="/images/github.png"></a>
   </div>
 
   {{#with currentUser}}
@@ -44,6 +45,7 @@
     <div id="welcomeBanner">
       <div id="welcomeText">
         <span class="hide">Welcome to </span>Dibs!
+        <p id="welcomeSubtext">The Reuse Enhancement Suite</p>
       </div>
       {{> login}}
       {{> register}}
@@ -91,7 +93,7 @@
         <input id="ac-1" name="accordion-1" type="checkbox" checked/>
         <label for="ac-1">{{> userEmail}}</label>
         <article class="ac-small">
-            <p id="accountSettings">Account Settings</p>
+            <a class="fancybox" href="/images/logo.png"><p id="accountSettings">Account Settings</p></a>
             <p id="logout">Logout</p>
         </article>
     </div>
@@ -99,21 +101,29 @@
         <input id="ac-2" name="accordion-1" type="checkbox" />
         <label for="ac-2">Rewards</label>
         <article class="ac-medium">
-            <p>Some content... </p>
+            <p>You are a DIB$ ninja!</p>
         </article>
     </div>
     <div>
         <input id="ac-3" name="accordion-1" type="checkbox" />
         <label for="ac-3">My Listing</label>
         <article class="ac-medium">
-            <p>Some content... </p>
+            <div id="newPost"><i class="fa fa-lg fa-plus-circle" style="padding-right: 5px"></i> New Post</div>
+            <ul>
+              <li>some item</li>
+              <li>another item</li>
+              <li>a third item</li>
+              <li>fourth item</li>
+              <li>so many items</li>
+              <li>i have too much junk</li>
+            </ul>
         </article>
     </div>
     <div>
         <input id="ac-4" name="accordion-1" type="checkbox" />
         <label for="ac-4">Filter</label>
         <article class="ac-medium">
-            <p>Some content... </p>
+          <p>Some content... </p>
         </article>
     </div>
   </section>
@@ -121,6 +131,6 @@
 
 <template name="userEmail">
   {{#each currentUser.emails}}
-    {{address}} <i class="fa fa-cog" style="padding-left: 5px"></i>
+    <i class="fa fa-cog" style="padding-right: 5px"></i> {{address}}
   {{/each}}
 </template>

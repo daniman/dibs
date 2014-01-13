@@ -41,7 +41,7 @@ if (Meteor.isClient) {
     }
 
     // To add the marker to the map, use the 'map' property
-    var testLatLng = new google.maps.LatLng(42.369289,-71.118305);
+    var testLatLng = new google.maps.LatLng(42.358998,-71.093377);
     var marker = new google.maps.Marker({
       position: testLatLng,
       map: map,
@@ -139,11 +139,6 @@ if (Meteor.isClient) {
       return false;
     }
   });
-
-  Template.useremail.userData = function() {
-    var user = Meteor.users.findOne(Meteor.userId());
-    return user && user.emails[0].address;
-  };
 
 }
 

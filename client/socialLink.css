@@ -18,7 +18,8 @@
 	position: absolute;
 	background-color: black;
 	opacity: .8;
-	bottom: 0;
+	bottom: 10px;
+	left: 10px;
 	transition: 1s;
 }
 
