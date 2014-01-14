@@ -21,6 +21,7 @@
 <template name="page">
 
   <div id="map-canvas"></div>
+
   <img id="logo" src="/images/logo.png">
   <div id="socialLinkHolder">
     <a class="fancybox" href="/images/logo.png"><img id="info" src="/images/info-black.png"></a>
@@ -37,7 +38,7 @@
 
     <input id="alert" name="alertPopup" type="checkbox" />
     <div id="newItemAlert" class="draggable">
-      <strong>double click</strong> the map to post a new item!
+      <strong>double click</strong> the <strong>map</strong> to <strong>post</strong> a new <strong>item</strong>!
       <label for="alert" id="closeAlert"><i class="fa fa-times fa-lg" style="padding-left: 10px"></i></label>
     </div>
 
@@ -93,12 +94,13 @@
   <section class="ac-container">
     <div>
         <input id="ac-1" name="accordion-1" type="checkbox" />
-        <label for="ac-1"><i class="fa fa-cog fa-lg" style="padding-right: 5px"></i>{{displayName}}</label>
+        <label for="ac-1"><i class="fa fa-cog fa-lg" style="padding-right: 10px"></i>{{displayName}}</label>
         <article class="ac-settings">
             <a class="fancybox" href="/images/logo.png"><p id="accountSettings">Account Settings</p></a>
             <p id="logout">Logout</p>
         </article>
     </div>
+    
     <div>
         <input id="ac-2" name="accordion-1" type="checkbox"/>
         <label for="ac-2">Awards</label>
@@ -118,7 +120,22 @@
     </div>
     <div>
         <input id="ac-3" name="accordion-1" type="checkbox" />
-        <label for="ac-3">My Listings</label>
+        <label id="myListingsLabel" for="ac-3">My Listings</label>
+        <article class="ac-myListings">
+            <ul id="myListings">
+              <li>some item</li>
+              <li>another item</li>
+              <li>a third item</li>
+              <li>fourth item</li>
+              <li>so many items</li>
+              <li>i have too much junk</li>
+              <li><a id="more" class="fancybox" href="/images/logo.png">more</a></li>
+            </ul>
+        </article>
+    </div>
+    <div>
+        <input id="ac-4" name="accordion-1" type="checkbox" />
+        <label for="ac-4">Filter</label>
         <article class="ac-myListings">
             <ul id="myListings">
               <li>some item</li>
@@ -138,6 +155,9 @@
 
   <input id="toggle" name="toggleArrow" type="checkbox" />
   <label for="toggle" id="hideArrow"></label>
+
+  <div id="zoomout"></div>
+  <div id="zoomin"></div>
 
 <!--
   <div id="socialLinkHolder">
@@ -159,7 +179,7 @@
 
     <div class="post">
       <div class="title">Super Awesome Descriptive Title Woohoo</div>
-      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
+      <div class="description">content content content content a a a a a a a a a a a content content content content content content content content content content content content content content content content</div>
     </div>
     
     <div class="post">
@@ -192,6 +212,35 @@
       <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
     </div>
 
+    <div class="post">
+      <div class="title">Super Awesome Descriptive Title</div>
+      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
+    </div>
+
+    <div class="post">
+      <div class="title">Super Awesome Descriptive Title</div>
+      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
+    </div>
+
+    <div class="post">
+      <div class="title">Super Awesome Descriptive Title</div>
+      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
+    </div>
+
+    <div class="post">
+      <div class="title">Super Awesome Descriptive Title</div>
+      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
+    </div>
+
+    <div class="post">
+      <div class="title">Super Awesome Descriptive Title</div>
+      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
+    </div>
+
   </div>
 
 </template>
+
+
+
+

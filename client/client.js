@@ -7,7 +7,10 @@ Template.page.rendered = function() {
 
   var mapOptions = {
         zoom: 15,
-        disableDefaultUI: true
+        disableDefaultUI: true,
+        disableDoubleClickZoom: true,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        streetViewControl: false
       };
   var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 
@@ -38,6 +41,14 @@ Template.page.rendered = function() {
     map.setCenter(initialLocation);
   }
 
+  function placeMarker(location) {
+      var marker = new google.maps.Marker({
+          position: location, 
+          map: map,
+          icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+      });
+  }
+
   // To add the marker to the map, use the 'map' property
   var testLatLng = new google.maps.LatLng(42.358998,-71.093377);
   var marker = new google.maps.Marker({
@@ -47,16 +58,51 @@ Template.page.rendered = function() {
     title:"Hello World!"
   });
 
+  var contentString = '<p>Hello World!</p>';
+  console.log(contentString);
 
-  var contentString = '<p>Congrats You have opened an infowindow.</p>';
   var infowindow = new google.maps.InfoWindow({
     content: contentString
   });
 
+  google.maps.event.addListener(map, 'dblclick', function(event) {
+     placeMarker(event.latLng);
+  });
+
   google.maps.event.addListener(marker, 'click', function() {
-    infowindow.open(map,marker);
+    infoWindow.open(map,marker);
+  });
+
+  google.maps.event.addDomListener(zoomout, 'click', function() {
+   var currentZoomLevel = map.getZoom();
+   if(currentZoomLevel != 0){
+     map.setZoom(currentZoomLevel - 1);}     
+  });
+
+  google.maps.event.addDomListener(zoomin, 'click', function() {
+   var currentZoomLevel = map.getZoom();
+   if(currentZoomLevel != 21){
+     map.setZoom(currentZoomLevel + 1);}
   });
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Session.set('map', true); // global flag saying we initialized already
 

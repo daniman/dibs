@@ -9,25 +9,10 @@
 	padding: 2px;
 	z-index: 3;
 	position: absolute;
-	background-color: transparent;
-	opacity: .8;
 	top: 85px;
 	left: 65px;
 	transition: 2s;
 }
-
-/**
-#socialLinkHolder:hover, #socialLinkHolder:focus {
-	padding: 12px;
-}
-
-#socialLinkHolder:hover img {
-	width: 30px;
-	height: 30px;
-	border: 4px solid transparent;
-	margin: 3px;
-}
-**/
 
 #info:hover, #info:focus {
 	transition: 0s;
