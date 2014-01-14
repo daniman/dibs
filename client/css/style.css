@@ -35,6 +35,9 @@ body {
     .ac-container {
     	top: 0px;
     }
+    #newItemAlert{
+	    display: none;
+	}
 }
 @media all and (min-width: 700px){
     #logo {
@@ -58,6 +61,9 @@ body {
     .ac-container {
     	top: 110px;
     }
+    #newItemAlert{
+	    display: block;
+	}
 }
 
 A {
@@ -309,12 +315,6 @@ A {
 	margin: 20px;
 }
 
-.alert {
-	left: 30%;
-	position: absolute;
-	z-index: 25;
-}
-
 #postListContainer {
 	z-index: 3;
 	position: absolute;
@@ -344,13 +344,16 @@ A {
 .post {
 	font-size: 15px;
 	color: white;
-	border-bottom: 1px solid grey;
+	border-bottom: 1px solid #18DE4B;
 	padding: 5px;
 }
 
 .title {
 	font-size: 18px;
 	font-weight: 600;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .description {
@@ -359,6 +362,9 @@ A {
 	white-space: normal;
 	font-weight: 300;
 	font-style: italic;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 60px;
 }
 
 #logoSpaceHolder {
@@ -416,3 +422,69 @@ A {
 	height: 30px;
 	margin: 5px;
 }
+
+
+
+
+
+/*.alert {
+	left: 30%;
+	position: absolute;
+	z-index: 25;
+}
+*/
+
+
+#toggle {
+	display: none;
+}
+
+#alert {
+	display: none;
+}
+
+#newItemAlert {
+	background-color: rgba(0,0,0,0.8);
+	color: white;
+	width: 300px;
+	padding: 10px;
+	opacity: 1;
+	margin-left: auto;
+	margin-right: auto;
+	z-index: 20;
+	position: relative;
+	text-align: center;
+	border-radius: 5px;
+	top: 10px;
+	border: 1px solid #18DE4B;
+}
+
+#alert:checked ~ #newItemAlert{
+    display: none;
+}
+
+#closeAlert {
+	display: inline;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

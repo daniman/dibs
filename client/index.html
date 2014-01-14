@@ -35,9 +35,10 @@
 
     {{> postList}}
 
-    <div class="alert alert-info alert-dismissable draggable">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      Double click the map to post a new item!
+    <input id="alert" name="alertPopup" type="checkbox" />
+    <div id="newItemAlert" class="draggable">
+      <strong>double click</strong> the map to post a new item!
+      <label for="alert" id="closeAlert"><i class="fa fa-times fa-lg" style="padding-left: 10px"></i></label>
     </div>
 
   {{else}}
@@ -151,13 +152,13 @@
   <div id="postListContainer">
 
     <div class="post">
-      <div class="description" style="text-align: center">
-        ...from the last 24 hours...
+      <div class="description" style="text-align: center; height: 20px">
+        Recent Listings (the last 24 hours or so)
       </div>
     </div>
 
     <div class="post">
-      <div class="title">Super Awesome Descriptive Title</div>
+      <div class="title">Super Awesome Descriptive Title Woohoo</div>
       <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
     </div>
     
