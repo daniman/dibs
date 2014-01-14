@@ -1,0 +1,387 @@
+/**
+iPhone width: 310px;
+iPad width: 750px;
+**/
+
+html {
+	height: 100%
+}
+
+body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	font-family: 'Lato', sans-serif;
+	overflow: hidden;
+}
+
+@media all and (min-height: 1px) and (min-width: 1px) {
+	.hide {
+    	display: none;
+    }
+    .resize-font {
+    	font-size: 30px;
+    }
+    #logo {
+    	display: none;
+    }
+    #socialLinkHolder {
+    	display: none;
+    }
+    #welcomeBanner {
+		z-index: 3;
+		position: relative;
+		margin-left: auto;
+		margin-right: auto;
+		color: white;
+		text-align: center;
+		padding: 20px;
+		top: 0;
+		background-color: black;
+		opacity: 0.8;
+		transition: 0.5s;
+	}
+}
+@media all and (min-height: 450px) and (min-width: 500px){
+	.hide {
+    	display: inline;
+    }
+    #logo {
+    	display: block;
+    }
+    #socialLinkHolder {
+    	display: block;
+    }
+    #welcomeBanner {
+		z-index: 3;
+		position: relative;
+		margin-left: auto;
+		margin-right: auto;
+		color: white;
+		text-align: center;
+		padding: 20px;
+		top: 20%;
+		background-color: black;
+		opacity: 0.8;
+		transition: 0.5s;
+	}
+}
+
+A {
+	text-decoration: none;
+}
+
+#map-canvas {
+	z-index: 1;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	opacity: 0.8;
+}
+
+#tint {
+	z-index: 2;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	opacity: .2;
+	background-color: black;
+	-webkit-filter:blur(2px);
+}
+
+#welcomeText {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	font-size: 50px;
+}
+
+#welcomeSubtext {
+	font-size: 18px;
+	padding-top: 20px;
+	font-weight: 300;
+}
+
+#logo {
+	font-size: 100px;
+	z-index: 3;
+	position: absolute;
+	top: 0;
+	width: 200px;
+	height: 70px;
+	margin: 20px;
+}
+
+#upperLayer {
+	z-index: 3;
+	position: relative;
+}
+
+/** ---------------------------------------------------- **/
+
+#logout {
+	cursor: pointer;
+	margin-top: 0px;
+}
+
+#logout:hover {
+	background-color: black;
+	color: white;
+	opacity: 0.7;
+	text-decoration: underline;
+}
+
+.fancybox #accountSettings {
+	color: black;
+	cursor: pointer;
+	margin-bottom: 0px;
+}
+
+.fancybox:hover #accountSettings {
+	border: none;
+	outline: none;
+	color: white;
+	background-color: black;
+	opacity: 0.7;
+	text-decoration: underline;
+}
+
+.ac-container{
+    width: 200px;
+    margin: 10px auto 30px auto;
+    z-index: 3;
+    right: 10px;
+    position: absolute;
+}
+
+.ac-container label{
+	background-color: rgba(0,0,0,0.8);
+	border-radius: 5px;
+	text-align: center;
+    padding: 5px 20px;
+    position: relative;
+    z-index: 20;
+    display: block;
+    height: 22px;
+    cursor: pointer;
+    color: white;
+    font-weight: 500;
+    line-height: 22px;
+    font-size: 15px;
+}
+
+.ac-container label:hover{
+    background-color: rgba(0,0,0,0.9);
+}
+
+.ac-container input:checked + label,
+.ac-container input:checked + label:hover{
+    background-color: #00BD4F;
+    color: white;
+}
+
+.ac-container label:hover:after,
+.ac-container input:checked + label:hover:after{
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    right: 13px;
+    background: transparent url(/images/arrow-down.png) no-repeat center center;  
+    background-size: 20px 20px;
+}
+
+.ac-container input:checked + label:hover:after{
+    background-image: url(/images/arrow-up.png);
+    background-size: 20px 20px;
+}
+
+.ac-container input{
+    display: none;
+}
+
+.ac-container article form input{
+    display: inline;
+}
+
+.ac-container article{
+    background: rgba(255, 255, 255, 0.8);
+    margin-top: -4px;
+    overflow: hidden;
+    height: 0px;
+    position: relative;
+    z-index: 10;
+    transition: 
+        height 0.3s ease-in-out, 
+        box-shadow 0.6s linear;
+}
+.ac-container input:checked ~ article{
+    transition: 
+        height 0.5s ease-in-out, 
+        box-shadow 0.1s linear;
+}
+
+.ac-container article p{
+    color: black;
+    line-height: 16px;
+    font-size: 13px;
+    margin: 5px;
+    padding: 2px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.ac-container article p:hover{
+    text-decoration: none;
+}
+
+.ac-container input:checked ~ article.ac-settings{
+    height: 50px;
+}
+.ac-container input:checked ~ article.ac-rewards{
+    height: 180px;
+}
+.ac-container input:checked ~ article.ac-myListings{
+    height: 145px;
+}
+.ac-container input:checked ~ article.ac-filter{
+    height: 170px;
+}
+
+.ac-medium ul li {
+	font-size: 13px;
+	color: black;
+}
+
+
+
+
+
+
+#more {
+	color: #0893cf;
+}
+#more:hover {
+	text-decoration: underline;
+}
+
+.award {
+	width: 30px;
+	height: 30px;
+	padding: 5px;
+}
+
+#myListings {
+	list-style-type: none;
+	text-align: center;
+	padding: 0;
+	margin: 0;
+	font-size: 13px;
+}
+
+.pointsHolder {
+	padding: 10px;
+	text-align: center;
+}
+
+#pointsNumber {
+	background-color: rgba(0,0,0,0.7);
+	color: white;
+	font-size: 50px;
+	line-height: 50px;
+	padding-top: 5px;
+}
+
+#pointsLabel {
+	background-color: rgba(0,0,0,0.7);
+	color: white;
+	font-size: 15px;
+	line-height: 15px;
+	padding-bottom: 10px;
+}
+
+#filter {
+	background-color: orange;
+	margin: 20px;
+}
+
+#newPost {
+	height: 18px;
+	line-height: 18px;
+	font-size: 14px;
+	background-color: black;
+	opacity: 0.7;
+	color: white;
+	margin: 5px;
+	padding: 2px;
+	text-align: center;
+}
+
+#newPost:hover {
+	background-color: #0893cf;
+	opacity: 0.6;
+}
+
+.alert {
+	top: 10px;
+	left: 30%;
+	position: absolute;
+	z-index: 5;
+}
+
+/** ------------------------------------------------------
+
+.ac-container #newPost:hover:after,
+.ac-container input:checked + #newPost:hover:after{
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    right: 13px;
+    background: url(/images/arrow-down.png) no-repeat;  
+}
+
+.ac-container input:checked + #newPost:hover:after{
+    background-image: url(/images/arrow-up.png);
+}
+
+.ac-container input:checked + #newPost,
+.ac-container input:checked + #newPost:hover{
+    background-color: #0893cf;
+    opacity: 1;
+    color: white;
+}
+
+#newPostForm {
+	background-color: rgba(0,0,0,0.6);
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+#newPostForm p {
+	color: white;
+}
+
+.ac-container input:checked ~ article.ac-newPost{
+    height: 139px;
+}
+
+.ac-container article form .inputSmall {
+	display: inline;
+	height: 15px;
+	width: 90%;
+	font-size: 10px;
+	margin: 0px;
+}
+
+ ----------------------------------------------------------------- **/
+
+#newPostAlternative {
+	background-color: orange;
+	z-index: 20;
+	position: absolute;
+	display: block;
+	width: 300px;
+}
