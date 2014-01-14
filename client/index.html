@@ -3,7 +3,7 @@
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwl6CTVUcaPluz69RuPkccQu9YXieyP9k&sensor=false"></script>
 
-    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,900,300italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,500,600,700,800,900,300italic' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 
@@ -21,18 +21,13 @@
 <template name="page">
 
   <div id="map-canvas"></div>
-  <img id="logo" class="draggable" src="/images/logo.png">
-  <div id="socialLinkHolder">
-    <a class="fancybox" href="/images/logo.png"><img id="info" src="/images/info.png"></a>
-    <a href="http://www.twitter.com"><img id="twitter" src="/images/twitter.png"></a>
-    <br>
-    <a href="http://www.facebook.com"><img id="facebook" src="/images/facebook.png"></a>
-    <a href="http://www.github.com"><img id="github" src="/images/github.png"></a>
-  </div>
+  <img id="logo" src="/images/logo.png">
 
   {{#with currentUser}}
 
     {{> accordion}}
+
+    {{> postList}}
 
     <div class="alert alert-info alert-dismissable draggable">
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -88,7 +83,7 @@
 </template>
 
 <template name="accordion">
-  <section class="ac-container draggable">
+  <section class="ac-container">
     <div>
         <input id="ac-1" name="accordion-1" type="checkbox" checked/>
         <label for="ac-1"><i class="fa fa-cog fa-lg" style="padding-right: 5px"></i>{{displayName}}</label>
@@ -99,13 +94,14 @@
     </div>
     <div>
         <input id="ac-2" name="accordion-1" type="checkbox"/>
-        <label for="ac-2">Rewards</label>
+        <label for="ac-2">Awards</label>
         <article class="ac-rewards">
             <div class="pointsHolder">
               <div id="pointsNumber">125</div>
               <div id="pointsLabel">Dibs Points</div>
             </div>
             <div class="pointsHolder">
+              <img class="award" src="/images/award.png">
               <img class="award" src="/images/award.png">
               <img class="award" src="/images/award.png">
               <img class="award" src="/images/award.png">
@@ -129,24 +125,65 @@
             </ul>
         </article>
     </div>
-    <div>
-        <input id="ac-5" name="accordion-1" type="checkbox" />
-        <label for="ac-5">Filter</label>
-        <article class="ac-filter">
-          {{> filter}}
-        </article>
-    </div>
   </section>
 </template>
 
-<template name="filter">
-  <form>
-    <input type="checkbox">My Listings<br>
-    <input type="checkbox">Food<br>
-    <input type="checkbox">Chairs<br>
-    <input type="checkbox">Computers<br>
-    <input type="checkbox">Monitors<br>
-    <input type="checkbox">Office Supplies<br>
-    Custom: <input class="inputSmall" type="text" name="user">
-  </form>
+<template name="postList">
+
+  <input id="toggle" name="toggleArrow" type="checkbox" />
+  <label for="toggle" id="hideArrow"></label>
+
+  <div id="socialLinkHolder">
+    <a class="fancybox" href="/images/logo.png"><img id="info" src="/images/info.png"></a>
+    <a href="http://www.twitter.com"><img id="twitter" src="/images/twitter.png"></a>
+    <br>
+    <a href="http://www.facebook.com"><img id="facebook" src="/images/facebook.png"></a>
+    <a href="http://www.github.com"><img id="github" src="/images/github.png"></a>
+  </div>
+
+  <div id="postListContainer">
+
+    <div class="post">
+      <div class="description" style="text-align: center">
+        ...from the last 24 hours...
+      </div>
+    </div>
+
+    <div class="post">
+      <div class="title">Super Awesome Descriptive Title</div>
+      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
+    </div>
+    
+    <div class="post">
+      <div class="title">Super Awesome Descriptive Title</div>
+      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
+    </div>
+
+    <div class="post">
+      <div class="title">Super Awesome Descriptive Title</div>
+      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
+    </div>
+
+    <div class="post">
+      <div class="title">Super Awesome Descriptive Title</div>
+      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
+    </div>
+
+    <div class="post">
+      <div class="title">Super Awesome Descriptive Title</div>
+      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
+    </div>
+
+    <div class="post">
+      <div class="title">Super Awesome Descriptive Title</div>
+      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
+    </div>
+
+    <div class="post">
+      <div class="title">Super Awesome Descriptive Title</div>
+      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
+    </div>
+
+  </div>
+
 </template>

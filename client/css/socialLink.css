@@ -18,10 +18,9 @@
 	position: absolute;
 	background-color: black;
 	opacity: .8;
-	bottom: 10px;
-	left: 10px;
+	bottom: 0px;
+	right: 300px;
 	transition: 1s;
-	border-radius: 5px;
 }
 
 #socialLinkHolder:hover, #socialLinkHolder:focus {
