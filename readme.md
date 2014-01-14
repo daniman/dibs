@@ -1,4 +1,4 @@
 Dibs
 ====
 
-The Reuse Enhancement Suite
+The Reuse Enhancement Suite.

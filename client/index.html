@@ -5,6 +5,7 @@
 
     <link href='http://fonts.googleapis.com/css?family=Lato:300,400,900,300italic' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 
     <link rel="stylesheet" href="docs/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
     <script type="text/javascript" src="docs/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
@@ -20,7 +21,7 @@
 <template name="page">
 
   <div id="map-canvas"></div>
-  <img id="logo" src="/images/logo.png">
+  <img id="logo" class="draggable" src="/images/logo.png">
   <div id="socialLinkHolder">
     <a class="fancybox" href="/images/logo.png"><img id="info" src="/images/info.png"></a>
     <a href="http://www.twitter.com"><img id="twitter" src="/images/twitter.png"></a>
@@ -32,6 +33,11 @@
   {{#with currentUser}}
 
     {{> accordion}}
+
+    <div class="alert alert-info alert-dismissable draggable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      Double click the map to post a new item!
+    </div>
 
   {{else}}
 
@@ -82,10 +88,10 @@
 </template>
 
 <template name="accordion">
-  <section class="ac-container">
+  <section class="ac-container draggable">
     <div>
         <input id="ac-1" name="accordion-1" type="checkbox" checked/>
-        <label for="ac-1"><i class="fa fa-cog" style="padding-right: 5px"></i>{{displayName}}</label>
+        <label for="ac-1"><i class="fa fa-cog fa-lg" style="padding-right: 5px"></i>{{displayName}}</label>
         <article class="ac-settings">
             <a class="fancybox" href="/images/logo.png"><p id="accountSettings">Account Settings</p></a>
             <p id="logout">Logout</p>
@@ -110,9 +116,8 @@
     </div>
     <div>
         <input id="ac-3" name="accordion-1" type="checkbox" />
-        <label for="ac-3">My Listing</label>
+        <label for="ac-3">My Listings</label>
         <article class="ac-myListings">
-            <a class="fancybox" href="/images/logo.png"><div id="newPost"><i class="fa fa-lg fa-plus-circle" style="padding-right: 5px"></i> New Post</div></a>
             <ul id="myListings">
               <li>some item</li>
               <li>another item</li>
@@ -125,8 +130,8 @@
         </article>
     </div>
     <div>
-        <input id="ac-4" name="accordion-1" type="checkbox" />
-        <label for="ac-4">Filter</label>
+        <input id="ac-5" name="accordion-1" type="checkbox" />
+        <label for="ac-5">Filter</label>
         <article class="ac-filter">
           {{> filter}}
         </article>
@@ -135,7 +140,13 @@
 </template>
 
 <template name="filter">
-I have a bike<input type="checkbox" name="vehicle" value="Bike" /><br>
-  <input type="checkbox" name="vehicle" value="Car">I have a car<br>
-  Username: <input type="text" name="user">
+  <form>
+    <input type="checkbox">My Listings<br>
+    <input type="checkbox">Food<br>
+    <input type="checkbox">Chairs<br>
+    <input type="checkbox">Computers<br>
+    <input type="checkbox">Monitors<br>
+    <input type="checkbox">Office Supplies<br>
+    Custom: <input class="inputSmall" type="text" name="user">
+  </form>
 </template>

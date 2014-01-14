@@ -21,6 +21,7 @@
 	bottom: 10px;
 	left: 10px;
 	transition: 1s;
+	border-radius: 5px;
 }
 
 #socialLinkHolder:hover, #socialLinkHolder:focus {
