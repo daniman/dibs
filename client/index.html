@@ -22,6 +22,12 @@
 
   <div id="map-canvas"></div>
   <img id="logo" src="/images/logo.png">
+  <div id="socialLinkHolder">
+    <a class="fancybox" href="/images/logo.png"><img id="info" src="/images/info-black.png"></a>
+    <a href="http://www.twitter.com"><img id="twitter" src="/images/twitter-black.png"></a>
+    <a href="http://www.facebook.com"><img id="facebook" src="/images/facebook-black.png"></a>
+    <a href="http://www.github.com"><img id="github" src="/images/github-black.png"></a>
+  </div>
 
   {{#with currentUser}}
 
@@ -85,7 +91,7 @@
 <template name="accordion">
   <section class="ac-container">
     <div>
-        <input id="ac-1" name="accordion-1" type="checkbox" checked/>
+        <input id="ac-1" name="accordion-1" type="checkbox" />
         <label for="ac-1"><i class="fa fa-cog fa-lg" style="padding-right: 5px"></i>{{displayName}}</label>
         <article class="ac-settings">
             <a class="fancybox" href="/images/logo.png"><p id="accountSettings">Account Settings</p></a>
@@ -101,7 +107,6 @@
               <div id="pointsLabel">Dibs Points</div>
             </div>
             <div class="pointsHolder">
-              <img class="award" src="/images/award.png">
               <img class="award" src="/images/award.png">
               <img class="award" src="/images/award.png">
               <img class="award" src="/images/award.png">
@@ -133,6 +138,7 @@
   <input id="toggle" name="toggleArrow" type="checkbox" />
   <label for="toggle" id="hideArrow"></label>
 
+<!--
   <div id="socialLinkHolder">
     <a class="fancybox" href="/images/logo.png"><img id="info" src="/images/info.png"></a>
     <a href="http://www.twitter.com"><img id="twitter" src="/images/twitter.png"></a>
@@ -140,6 +146,7 @@
     <a href="http://www.facebook.com"><img id="facebook" src="/images/facebook.png"></a>
     <a href="http://www.github.com"><img id="github" src="/images/github.png"></a>
   </div>
+-->
 
   <div id="postListContainer">
 
