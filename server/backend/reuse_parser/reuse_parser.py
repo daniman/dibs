@@ -11,6 +11,8 @@ from parse_rest.connection import register
 from location_guesser import LocationGuesser as Locator
 
 #TODO: amazon python sdk http://aws.amazon.com/sdkforpython/
+#TODO: only 1 entry per thread id. only add if a location was found and the previous entry wasn't present!
+#TODO: include geopoint object per each reuse item!
 
 def registerAppWithParse():
     parseAppId = "KxXRF1qcFjHqA2AKnyPvg5Ys2VzMWR2ViAKNtX8V"
@@ -33,10 +35,10 @@ def runTest():
     # print email0.thread_id
     # print email0.sent_at,type(email0.sent_at)
     for email in emails:
-        if email.thread_id=="1456766328446676971":
+        if email.thread_id=="1456766328446676971": #testing id
             print email.uid
             print email.message_id
-            print email.body[0:32]
+            print email.body[0:32] #just a snippet
             print " "
         # emails[0].fetch()
         # location = loc.makeGuessByEmail(email)
@@ -52,7 +54,7 @@ def runTest():
 
     g.logout()
 
-class TestReuseItem(Object):
+class TestReuseItem_rev2(Object):
     pass
     
 class ReuseParser(object):
@@ -68,9 +70,9 @@ class ReuseParser(object):
         # guess_location="",guess_found=False) #the location of the guess and did the parser actually find anything 
 
         sent_timestamp = time.mktime(email.sent_at.timetuple())
-        
+        pass #implement me dammit!
         #parcel the object
-        return TestReuseItem(email_id=email.thread_id,
+        return TestReuseItem_rev2(email_id=email.thread_id,
         email_body=email.body, 
         email_sender=email.fr,
         email_subject=email.subject, 
