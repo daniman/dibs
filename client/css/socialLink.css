@@ -2,50 +2,40 @@
 	width: 20px;
 	height: 20px;
 	transition: 1s;
-	border: 2px solid transparent;
-}
-
-#socialLinkHolder:hover img {
-	width: 30px;
-	height: 30px;
-	border: 4px solid transparent;
-	margin: 3px;
+	border: 3px solid transparent;
 }
 
 #socialLinkHolder {
 	padding: 2px;
 	z-index: 3;
 	position: absolute;
-	background-color: black;
-	opacity: .8;
-	bottom: 10px;
-	left: 10px;
-	transition: 1s;
-	border-radius: 5px;
-}
-
-#socialLinkHolder:hover, #socialLinkHolder:focus {
-	padding: 12px;
+	top: 85px;
+	left: 65px;
+	transition: 2s;
 }
 
 #info:hover, #info:focus {
 	transition: 0s;
 	background-color: #d84343;
+	border: 3px solid #d84343;
 	border-radius: 25px;
 }
 #twitter:hover, #twitter:focus {
 	transition: 0s;
 	background-color: #4099FF;
+	border: 3px solid #4099FF;
 	border-radius: 25px;
 }
 #facebook:hover, #facebook:focus {
 	transition: 0s;
 	background-color: #3B5998;
+	border: 3px solid #3B5998;
 	border-radius: 25px;
 }
 #github:hover, #github:focus {
 	transition: 0s;
 	background-color: #ffa900;
+	border: 3px solid #ffa900;
 	border-radius: 25px;
 }
 

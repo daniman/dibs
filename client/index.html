@@ -3,7 +3,7 @@
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwl6CTVUcaPluz69RuPkccQu9YXieyP9k&sensor=false"></script>
 
-    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,900,300italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,500,600,700,800,900,300italic' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 
@@ -21,22 +21,25 @@
 <template name="page">
 
   <div id="map-canvas"></div>
-  <img id="logo" class="draggable" src="/images/logo.png">
+
+  <img id="logo" src="/images/logo.png">
   <div id="socialLinkHolder">
-    <a class="fancybox" href="/images/logo.png"><img id="info" src="/images/info.png"></a>
-    <a href="http://www.twitter.com"><img id="twitter" src="/images/twitter.png"></a>
-    <br>
-    <a href="http://www.facebook.com"><img id="facebook" src="/images/facebook.png"></a>
-    <a href="http://www.github.com"><img id="github" src="/images/github.png"></a>
+    <a class="fancybox" href="/images/logo.png"><img id="info" src="/images/info-black.png"></a>
+    <a href="http://www.twitter.com"><img id="twitter" src="/images/twitter-black.png"></a>
+    <a href="http://www.facebook.com"><img id="facebook" src="/images/facebook-black.png"></a>
+    <a href="http://www.github.com"><img id="github" src="/images/github-black.png"></a>
   </div>
 
   {{#with currentUser}}
 
     {{> accordion}}
 
-    <div class="alert alert-info alert-dismissable draggable">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      Double click the map to post a new item!
+    {{> postList}}
+
+    <input id="alert" name="alertPopup" type="checkbox" />
+    <div id="newItemAlert" class="draggable">
+      <strong>double click</strong> the <strong>map</strong> to <strong>post</strong> a new <strong>item</strong>!
+      <label for="alert" id="closeAlert"><i class="fa fa-times fa-lg" style="padding-left: 10px"></i></label>
     </div>
 
   {{else}}
@@ -88,18 +91,19 @@
 </template>
 
 <template name="accordion">
-  <section class="ac-container draggable">
+  <section class="ac-container">
     <div>
-        <input id="ac-1" name="accordion-1" type="checkbox" checked/>
-        <label for="ac-1"><i class="fa fa-cog fa-lg" style="padding-right: 5px"></i>{{displayName}}</label>
+        <input id="ac-1" name="accordion-1" type="checkbox" />
+        <label for="ac-1"><i class="fa fa-cog fa-lg" style="padding-right: 10px"></i>{{displayName}}</label>
         <article class="ac-settings">
             <a class="fancybox" href="/images/logo.png"><p id="accountSettings">Account Settings</p></a>
             <p id="logout">Logout</p>
         </article>
     </div>
+    
     <div>
         <input id="ac-2" name="accordion-1" type="checkbox"/>
-        <label for="ac-2">Rewards</label>
+        <label for="ac-2">Awards</label>
         <article class="ac-rewards">
             <div class="pointsHolder">
               <div id="pointsNumber">125</div>
@@ -116,7 +120,7 @@
     </div>
     <div>
         <input id="ac-3" name="accordion-1" type="checkbox" />
-        <label for="ac-3">My Listings</label>
+        <label id="myListingsLabel" for="ac-3">My Listings</label>
         <article class="ac-myListings">
             <ul id="myListings">
               <li>some item</li>
@@ -130,23 +134,113 @@
         </article>
     </div>
     <div>
-        <input id="ac-5" name="accordion-1" type="checkbox" />
-        <label for="ac-5">Filter</label>
-        <article class="ac-filter">
-          {{> filter}}
+        <input id="ac-4" name="accordion-1" type="checkbox" />
+        <label for="ac-4">Filter</label>
+        <article class="ac-myListings">
+            <ul id="myListings">
+              <li>some item</li>
+              <li>another item</li>
+              <li>a third item</li>
+              <li>fourth item</li>
+              <li>so many items</li>
+              <li>i have too much junk</li>
+              <li><a id="more" class="fancybox" href="/images/logo.png">more</a></li>
+            </ul>
         </article>
     </div>
   </section>
 </template>
 
-<template name="filter">
-  <form>
-    <input type="checkbox">My Listings<br>
-    <input type="checkbox">Food<br>
-    <input type="checkbox">Chairs<br>
-    <input type="checkbox">Computers<br>
-    <input type="checkbox">Monitors<br>
-    <input type="checkbox">Office Supplies<br>
-    Custom: <input class="inputSmall" type="text" name="user">
-  </form>
+<template name="postList">
+
+  <input id="toggle" name="toggleArrow" type="checkbox" />
+  <label for="toggle" id="hideArrow"></label>
+
+  <div id="zoomout"></div>
+  <div id="zoomin"></div>
+
+<!--
+  <div id="socialLinkHolder">
+    <a class="fancybox" href="/images/logo.png"><img id="info" src="/images/info.png"></a>
+    <a href="http://www.twitter.com"><img id="twitter" src="/images/twitter.png"></a>
+    <br>
+    <a href="http://www.facebook.com"><img id="facebook" src="/images/facebook.png"></a>
+    <a href="http://www.github.com"><img id="github" src="/images/github.png"></a>
+  </div>
+-->
+
+  <div id="postListContainer">
+
+    <div class="post">
+      <div class="description" style="text-align: center; height: 20px">
+        Recent Listings (the last 24 hours or so)
+      </div>
+    </div>
+
+    <div class="post">
+      <div class="title">Super Awesome Descriptive Title Woohoo</div>
+      <div class="description">content content content content a a a a a a a a a a a content content content content content content content content content content content content content content content content</div>
+    </div>
+    
+    <div class="post">
+      <div class="title">Super Awesome Descriptive Title</div>
+      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
+    </div>
+
+    <div class="post">
+      <div class="title">Super Awesome Descriptive Title</div>
+      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
+    </div>
+
+    <div class="post">
+      <div class="title">Super Awesome Descriptive Title</div>
+      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
+    </div>
+
+    <div class="post">
+      <div class="title">Super Awesome Descriptive Title</div>
+      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
+    </div>
+
+    <div class="post">
+      <div class="title">Super Awesome Descriptive Title</div>
+      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
+    </div>
+
+    <div class="post">
+      <div class="title">Super Awesome Descriptive Title</div>
+      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
+    </div>
+
+    <div class="post">
+      <div class="title">Super Awesome Descriptive Title</div>
+      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
+    </div>
+
+    <div class="post">
+      <div class="title">Super Awesome Descriptive Title</div>
+      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
+    </div>
+
+    <div class="post">
+      <div class="title">Super Awesome Descriptive Title</div>
+      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
+    </div>
+
+    <div class="post">
+      <div class="title">Super Awesome Descriptive Title</div>
+      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
+    </div>
+
+    <div class="post">
+      <div class="title">Super Awesome Descriptive Title</div>
+      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
+    </div>
+
+  </div>
+
 </template>
+
+
+
+
