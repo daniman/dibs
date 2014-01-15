@@ -154,9 +154,5 @@ Our reuse email parser is assigned a difficult task. It's job is to emulate a hu
 
 Competition Division
 ---
-Even with nearly minimal web development experience prior to 6.470 we are planning on competing in the main division
-
-Even with nearly minimal web development experience prior to 6.470 we are planning on competing in the main division.
-=======
 Even with a combined total minimal web development experience we are planning on competing in the main division.
 
