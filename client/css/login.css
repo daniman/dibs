@@ -1,6 +1,5 @@
 form {
-	margin-top: 10px;
-	margin-bottom: 0px;
+	margin: 0px;
 }
 
 #signUp {
@@ -21,7 +20,7 @@ form {
 	width: 244px;
 	display: block;
 	margin: 0px;
-	border-radius: 10px 10px 0px 0px;
+	border-radius: 4px 4px 0px 0px;
 	border-left: 2px solid #0893cf;
 	border-top: 2px solid #0893cf;
 	border-right: 2px solid #0893cf;
@@ -31,7 +30,7 @@ form {
 	width: 244px;
 	display: block;
 	margin: 0px;
-	border-radius: 0px 0px 10px 10px;
+	border-radius: 0px 0px 4px 4px;
 	border-left: 2px solid #0893cf;
 	border-bottom: 2px solid #0893cf;
 	border-right: 2px solid #0893cf;
@@ -43,9 +42,9 @@ form {
 	width: 100%;
 	background-color: #0893cf;
 	font-size: 20px;
-	color: white;
+	color: black;
 	border: none;
-	border-radius: 10px;
+	border-radius: 4px;
 	padding-top: 5px;
 	padding-bottom: 5px;
 	height: 30px;
@@ -99,7 +98,7 @@ button:hover, button:focus {
 	width: 244px;
 	display: block;
 	margin: 0px;
-	border-radius: 10px 10px 0px 0px;
+	border-radius: 4px 4px 0px 0px;
 	border-left: 2px solid #44d242;
 	border-top: 2px solid #44d242;
 	border-right: 2px solid #44d242;
@@ -118,7 +117,7 @@ button:hover, button:focus {
 	width: 244px;
 	display: block;
 	margin: 0px;
-	border-radius: 0px 0px 10px 10px;
+	border-radius: 0px 0px 4px 4px;
 	border-left: 2px solid #44d242;
 	border-bottom: 2px solid #44d242;
 	border-right: 2px solid #44d242;
@@ -130,9 +129,9 @@ button:hover, button:focus {
 	width: 100%;
 	background-color: #44d242;
 	font-size: 20px;
-	color: white;
+	color: black;
 	border: none;
-	border-radius: 10px;
+	border-radius: 4px;
 	padding-top: 5px;
 	padding-bottom: 5px;
 	height: 30px;
@@ -141,4 +140,49 @@ button:hover, button:focus {
 #create-account:focus, #create-account:hover {
 	opacity: .9;
 	outline: none;
+}
+
+.loginErrorMessage {
+	height: 15px;
+	font-size: 15px;
+	line-height: 15px;
+	margin: 5px;
+	color: #d84343;
+	text-align: center;
+}
+
+#resetPassword:checked ~ #login-holder {
+	display: none;
+}
+
+#resetPassword:checked ~ #register-holder {
+	display: none;
+}
+
+#register:checked ~ #login-holder {
+	display: none;
+}
+
+#register:checked ~ #password-recover {
+	display: none;
+}
+
+#login:checked ~ #register-holder {
+	display: none;
+}
+
+#login:checked ~ #password-recover {
+	display: none;
+}
+
+#login {
+	display: none;
+}
+
+#register {
+	display: none;
+}
+
+#resetPassword {
+	display: none;
 }

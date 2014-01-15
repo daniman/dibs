@@ -34,13 +34,3 @@
 	transition: 0s;
 	background-color: #ffa900;
 }
-
-#login-errorMessage {
-	margin: 10px;
-	color: #d84343;
-}
-
-#register-errorMessage {
-	margin: 10px;
-	color: #d84343;
-}
