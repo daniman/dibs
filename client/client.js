@@ -1,20 +1,27 @@
+// This function is run when the page renders on client's browser
 Template.page.rendered = function() {
 
   $("#login-holder").hide();
-  var initialLocation;
-  var mitCampus = new google.maps.LatLng (42.357,-71.09);
-  var browserSupportFlag = new Boolean();
 
+  // Geolocation Vars for setting up map and default position.
+  var initialLocation;
+  var defaultLocation = new google.maps.LatLng (42.357,-71.09); // the lat/long of a default location. Set to central campus at MIT
+  var browserSupportFlag = new Boolean(); // A flag to keep track if the clients browser supports geolocation
+
+  // Map options for the Google Map
   var mapOptions = {
         zoom: 15,
         disableDefaultUI: true,
-        disableDoubleClickZoom: true,
+        disableDoubleClickZoom: false,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         streetViewControl: false
       };
+
+  //Create a new google map with the above options
   var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 
-  //Attempt W3C Geolocation
+
+  //Attempt W3C Geolocation on browser
   if (navigator.geolocation){
     browserSupportFlag = true;
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -24,24 +31,32 @@ Template.page.rendered = function() {
       handleNoGeolocation(browserSupportFlag);
     }); 
   }
+
   //browser does not support geolocation
   else{
     browserSupportFlag = false;
     handleNoGeolocation(browserSupportFlag);
   }
 
+
+  //If the browser does not support geolocation or the user denies its use
   function handleNoGeolocation(errorFlag){
+    //If the user denies geolocation display message
     if (errorFlag == true) {
-      alert("Geolocation service failed.");
-      initialLocation = mitCampus;
+      alert("Geolocation service failed. Centering map on default location.");
+      initialLocation = defaultLocation;
     }else{
+      // no browser support
       alert("Browser does not support Geolocation.");
-      initialLocation = mitCampus;
+      initialLocation = defaultLocation;
     }
+
+    //sets map center to initial location
     map.setCenter(initialLocation);
   }
 
   function placeMarker(location) {
+      //set marker properties
       var marker = new google.maps.Marker({
           position: location, 
           map: map,
@@ -73,6 +88,8 @@ Template.page.rendered = function() {
     infoWindow.open(map,marker);
   });
 
+
+  //Zoom in/out click listeners
   google.maps.event.addDomListener(zoomout, 'click', function() {
    var currentZoomLevel = map.getZoom();
    if(currentZoomLevel != 0){
@@ -85,22 +102,6 @@ Template.page.rendered = function() {
      map.setZoom(currentZoomLevel + 1);}
   });
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
