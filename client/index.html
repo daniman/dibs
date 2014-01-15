@@ -24,12 +24,6 @@
   <div id="map-canvas"></div>
 
   <img id="logo" src="/images/logo.png">
-  <div id="socialLinkHolder">
-    <a class="fancybox" href="/images/logo.png"><img id="info" src="/images/info-black.png"></a>
-    <a href="http://www.twitter.com"><img id="twitter" src="/images/twitter-black.png"></a>
-    <a href="http://www.facebook.com"><img id="facebook" src="/images/facebook-black.png"></a>
-    <a href="http://www.github.com"><img id="github" src="/images/github-black.png"></a>
-  </div>
 
   {{#with currentUser}}
 
@@ -39,7 +33,7 @@
 
     <input id="alert" name="alertPopup" type="checkbox" />
     <div id="newItemAlert" class="draggable">
-      <strong>double click</strong> the <strong>map</strong> to <strong>post</strong> a new <strong>item</strong>!
+      <strong>click</strong> the <strong>map</strong> to <strong>post</strong> an <strong>item</strong>!
       <label for="alert" id="closeAlert"><i class="fa fa-times fa-lg" style="padding-left: 10px"></i></label>
     </div>
 
@@ -157,89 +151,111 @@
   <input id="toggle" name="toggleArrow" type="checkbox" />
   <label for="toggle" id="hideArrow"></label>
 
-  <div id="zoomout"></div>
-  <div id="zoomin"></div>
+<!--   <div id="zoomout"></div>
+  <div id="zoomin"></div> -->
 
-<!--
   <div id="socialLinkHolder">
-    <a class="fancybox" href="/images/logo.png"><img id="info" src="/images/info.png"></a>
-    <a href="http://www.twitter.com"><img id="twitter" src="/images/twitter.png"></a>
-    <br>
-    <a href="http://www.facebook.com"><img id="facebook" src="/images/facebook.png"></a>
-    <a href="http://www.github.com"><img id="github" src="/images/github.png"></a>
+    <a class="fancybox" href="/images/logo.png"><img id="info" src="/images/social/info.png"></a><br>
+    <a href="http://www.twitter.com"><img id="twitter" src="/images/social/twitter.png"></a><br>
+    <a href="http://www.facebook.com"><img id="facebook" src="/images/social/facebook.png"></a><br>
+    <a href="http://www.github.com"><img id="github" src="/images/social/github.png"></a>
   </div>
--->
 
   <div id="postListContainer">
 
-    <div class="post">
-      <div class="description" style="text-align: center; height: 20px">
+    <div id="postListContainerHeader" class="post">
+      <div class="description" style="text-align: center; height: 20px; font-weight: 500;">
         Recent Listings (the last 24 hours or so)
       </div>
     </div>
+
+    <hr>
 
     <div class="post">
       <div class="title">Super Awesome Descriptive Title Woohoo</div>
       <div class="description">content content content content a a a a a a a a a a a content content content content content content content content content content content content content content content content</div>
     </div>
+
+    <hr>
     
     <div class="post">
       <div class="title">Super Awesome Descriptive Title</div>
       <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
     </div>
 
-    <div class="post">
-      <div class="title">Super Awesome Descriptive Title</div>
-      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
-    </div>
+    <hr>
 
     <div class="post">
       <div class="title">Super Awesome Descriptive Title</div>
       <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
     </div>
 
-    <div class="post">
-      <div class="title">Super Awesome Descriptive Title</div>
-      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
-    </div>
+    <hr>
 
     <div class="post">
       <div class="title">Super Awesome Descriptive Title</div>
       <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
     </div>
 
-    <div class="post">
-      <div class="title">Super Awesome Descriptive Title</div>
-      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
-    </div>
+    <hr>
 
     <div class="post">
       <div class="title">Super Awesome Descriptive Title</div>
       <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
     </div>
 
-    <div class="post">
-      <div class="title">Super Awesome Descriptive Title</div>
-      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
-    </div>
+    <hr>
 
     <div class="post">
       <div class="title">Super Awesome Descriptive Title</div>
       <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
     </div>
 
-    <div class="post">
-      <div class="title">Super Awesome Descriptive Title</div>
-      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
-    </div>
+    <hr>
 
     <div class="post">
       <div class="title">Super Awesome Descriptive Title</div>
       <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
     </div>
+
+    <hr>
+
+    <div class="post">
+      <div class="title">Super Awesome Descriptive Title</div>
+      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
+    </div>
+
+    <hr>
+
+    <div class="post">
+      <div class="title">Super Awesome Descriptive Title</div>
+      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
+    </div>
+
+    <hr>
+
+    <div class="post">
+      <div class="title">Super Awesome Descriptive Title</div>
+      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
+    </div>
+
+    <hr>
+
+    <div class="post">
+      <div class="title">Super Awesome Descriptive Title</div>
+      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
+    </div>
+
+    <hr>
+
+    <div class="post">
+      <div class="title">Super Awesome Descriptive Title</div>
+      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
+    </div>
+
+    <hr>
 
   </div>
-
 </template>
 
 
