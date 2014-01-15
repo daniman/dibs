@@ -1,42 +1,38 @@
 #socialLinkHolder img {
-	width: 20px;
-	height: 20px;
+	width: 30px;
+	height: 30px;
 	transition: 1s;
-	border: 3px solid transparent;
+	margin: 2px;
+	border-radius: 25px;
 }
 
 #socialLinkHolder {
-	padding: 2px;
 	z-index: 3;
 	position: absolute;
-	top: 85px;
-	left: 65px;
-	transition: 2s;
+	bottom: 8px;
+	right: 308px;
+	transition: 1s;
+}
+
+#toggle:checked ~ #socialLinkHolder{
+    right: 0px;
 }
 
 #info:hover, #info:focus {
 	transition: 0s;
-	background-color: #d84343;
-	border: 3px solid #d84343;
-	border-radius: 25px;
+	background-color: #18DE4B;
 }
 #twitter:hover, #twitter:focus {
 	transition: 0s;
 	background-color: #4099FF;
-	border: 3px solid #4099FF;
-	border-radius: 25px;
 }
 #facebook:hover, #facebook:focus {
 	transition: 0s;
 	background-color: #3B5998;
-	border: 3px solid #3B5998;
-	border-radius: 25px;
 }
 #github:hover, #github:focus {
 	transition: 0s;
 	background-color: #ffa900;
-	border: 3px solid #ffa900;
-	border-radius: 25px;
 }
 
 #login-errorMessage {

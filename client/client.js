@@ -3,6 +3,8 @@ Template.page.rendered = function() {
 
   $("#login-holder").hide();
 
+// START GOOGLE MAPS RELATED CODE /////////////////////////////////////////////////////////////////////////////////////
+
   // Geolocation Vars for setting up map and default position.
   var initialLocation;
   var defaultLocation = new google.maps.LatLng (42.357,-71.09); // the lat/long of a default location. Set to central campus at MIT
@@ -74,13 +76,12 @@ Template.page.rendered = function() {
   });
 
   var contentString = '<p>Hello World!</p>';
-  console.log(contentString);
 
   var infowindow = new google.maps.InfoWindow({
     content: contentString
   });
 
-  google.maps.event.addListener(map, 'dblclick', function(event) {
+  google.maps.event.addListener(map, 'click', function(event) {
      placeMarker(event.latLng);
   });
 
@@ -103,24 +104,28 @@ Template.page.rendered = function() {
   });
 }
 
-
-
 Session.set('map', true); // global flag saying we initialized already
 
-Template.login.events({
-  'click #createNewAccountButton' : function() {
-    $("#login-holder").hide();
+// END GOOGLE MAPS RELATED CODE ///////////////////////////////////////////////////////////////////////////////////////
+
+// START LOGIN RELATED CODE////////////////////////////////////////////////////////////////////////////////////////////
+
+Template.login.events({ // code to be run when an event occurs in the 'login' template
+
+  'click #createNewAccountButton' : function() { // jquery hiding/showing events that happen when user switches
+    $("#login-holder").hide();                        // between logining in or creating a new account
     $("#register-holder").show();
     $("#account-email").val($("#login-email").val());
     $("#account-password").val($("#login-password").val());
   },
-  'submit #login-form' : function(e, t){
+
+  'submit #login-form' : function(e, t){ // when the user submits the login form
     e.preventDefault();
-    console.log(Meteor.user());
-    // retrieve the input field values
-    var email = t.find('#login-email').value, password = t.find('#login-password').value;
-    Meteor.loginWithPassword(email, password, function(err){ 
-      if (err) {
+
+    var email = t.find('#login-email').value, password = t.find('#login-password').value; // retrieve the input field values
+    
+    Meteor.loginWithPassword(email, password, function(err){ // tell meteor to login with the given email/password combo
+      if (err) { // if meteor cannot login, alert the user that their email/password combo must be incorrect
         $("#login-errorMessage").html("email/password incorrect");
       } else {
         // The user has been logged in.
@@ -130,23 +135,26 @@ Template.login.events({
   }
 });
 
-Template.accordion.events({
-  'click #logout' : function(e, t){
-    Meteor.logout(function(){ });
+Template.accordion.events({ // code to be run when events occur in the 'logout' template
+  'click #logout' : function(e, t){ // when the user requests a logout
+    Meteor.logout(function(){ }); // tell meteor to logout the user
     return false; 
   }
 });
 
-Template.accordion.displayName = displayName;
+// allows easy access of username from within html handlebars
+Template.accordion.displayName = displayName; // referring to helper funtion displayName() in login.js 
 
-Template.register.events({
-  'click #logInButton' : function() {
-    $("#login-holder").show();
+Template.register.events({ // code to be run when events occur in the 'register' template
+
+  'click #logInButton' : function() { // jquery hiding/showing events that happen when user switches
+    $("#login-holder").show();            // between logining in or creating a new account
     $("#register-holder").hide();
     $("#login-email").val($("#account-email").val());
     $("#login-password").val($("#account-password").val());
   },
-  'submit #register-form' : function(e, t) {
+
+  'submit #register-form' : function(e, t) { // when the user submits request to create a new account
     e.preventDefault();
     var email = t.find('#account-email').value, password = t.find('#account-password').value;
 
@@ -154,36 +162,35 @@ Template.register.events({
     var trimInput = function(val) {
       return val.replace(/^\s*|\s*$/g, "");
     }
-    var email = trimInput(email);
+    var email = trimInput(email); // trim email
 
-    var isValidPassword = function(val) {
+    var isValidPassword = function(val) { // specifies that a user's password must be more than six characters
       return val.length >= 6; 
     }
 
-    if ($("#account-email").val() === "") {
+    if ($("#account-email").val() === "") { // if the user tries to submit w/o entering an email
       $("#register-errorMessage").html("please enter an email");
-    } else if ($("#account-password").val() === "") {
+    } else if ($("#account-password").val() === "") { // if the user tries to submit w/o entering a password
       $("#register-errorMessage").html("please enter a password");
-    } else if ($("#account-password").val() !== $("#account-confirm-password").val()) {
+    } else if ($("#account-password").val() !== $("#account-confirm-password").val()) { // if the user's two passwords don't match
       $("#register-errorMessage").html("passwords don't match");
-    } else {
+    } else { // user has filled out all the inputs
       if (isValidPassword(password)) {
         Accounts.createUser({email: email, password : password}, function(err){
           if (err) {
-            // Inform the user that account creation failed
-            $("#register-errorMessage").html("account already exists");
+            $("#register-errorMessage").html("account already exists"); // inform the user that account creation failed
           } else {
-            // Success. Account has been created and the user
-            // has logged in successfully.
-            console.log("new account successfully made");
+            // success - account has been created and the user has logged in successfully
           }
         });
-      } else {
+      } else { // the user has not submitted a strong enough password (less than 6 chars)
         $("#register-errorMessage").html("password must be at least 6 chars");
       }
     }
 
     return false;
   }
+
+// END LOGIN RELATED CODE /////////////////////////////////////////////////////////////////////////////////////////////
 
 });
