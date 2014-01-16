@@ -46,218 +46,46 @@
         <p id="welcomeSubtext">The Reuse Enhancement Suite</p>
       </div>
       {{> login}}
-      {{> register}}
     </div>
 
   {{/with}}
 
 </template>
 
-<template name="register">
-  <div id="register-holder">
-    <form id="register-form" action="action">
-      <div id="register-errorMessage"></div>
-      <input type="email" id="account-email" placeholder="Email" />
-      <input type="password" id="account-password" placeholder="Password" />
-      <input type="password" id="account-confirm-password" placeholder="Confirm Password" />
-      <input type="submit" id="create-account"value="Create an Account" /> 
-    </form>
-    <button id="logInButton" class="subtext">
-      Or Log In
-    </button>
-  </div>
-</template>
-
 <template name="login">
+
+  <input id="login" name="welcomePanel" type="radio" />
+  <input id="register" name="welcomePanel" type="radio" checked/>
+  <input id="resetPassword" name="welcomePanel" type="radio"/>
+
   <div id="login-holder">
     <form id="login-form" action="action">
-      <div id="login-errorMessage"></div>
+      <div id="login-errorMessage" class="loginErrorMessage"></div>
       <input type="email" id="login-email" placeholder="Email" />
       <input type="password" id="login-password" placeholder="Password" />
       <input type="submit" id="login-button" value="Sign in" />
     </form>
-    <button id="createNewAccountButton" class="subtext">
-      Create New Account
-    </button>
-    <button id="forgotPasswordButton" class="subtext">
-      Forgot Password
-    </button>
-  </div>
-</template>
-
-<template name="accordion">
-  <section class="ac-container">
-    <div>
-        <input id="ac-1" name="accordion-1" type="checkbox" />
-        <label for="ac-1"><i class="fa fa-cog fa-lg" style="padding-right: 10px"></i>{{displayName}}</label>
-        <article class="ac-settings">
-            <a class="fancybox" href="/images/logo.png"><p id="accountSettings">Account Settings</p></a>
-            <p id="logout">Logout</p>
-        </article>
-    </div>
-    
-    <div>
-        <input id="ac-2" name="accordion-1" type="checkbox"/>
-        <label for="ac-2">Awards</label>
-        <article class="ac-rewards">
-            <div class="pointsHolder">
-              <div id="pointsNumber">125</div>
-              <div id="pointsLabel">Dibs Points</div>
-            </div>
-            <div class="pointsHolder">
-              <img class="award" src="/images/award.png">
-              <img class="award" src="/images/award.png">
-              <img class="award" src="/images/award.png">
-              <img class="award" src="/images/award.png">
-              <a class="fancybox" href="/images/logo.png"><p id="more">more</p></a>
-            </div>
-        </article>
-    </div>
-    <div>
-        <input id="ac-3" name="accordion-1" type="checkbox" />
-        <label id="myListingsLabel" for="ac-3">My Listings</label>
-        <article class="ac-myListings">
-            <ul id="myListings">
-              <li>some item</li>
-              <li>another item</li>
-              <li>a third item</li>
-              <li>fourth item</li>
-              <li>so many items</li>
-              <li>i have too much junk</li>
-              <li><a id="more" class="fancybox" href="/images/logo.png">more</a></li>
-            </ul>
-        </article>
-    </div>
-    <div>
-        <input id="ac-4" name="accordion-1" type="checkbox" />
-        <label for="ac-4">Filter</label>
-        <article class="ac-myListings">
-            <ul id="myListings">
-              <li>some item</li>
-              <li>another item</li>
-              <li>a third item</li>
-              <li>fourth item</li>
-              <li>so many items</li>
-              <li>i have too much junk</li>
-              <li><a id="more" class="fancybox" href="/images/logo.png">more</a></li>
-            </ul>
-        </article>
-    </div>
-  </section>
-</template>
-
-<template name="postList">
-
-  <input id="toggle" name="toggleArrow" type="checkbox" />
-  <label for="toggle" id="hideArrow"></label>
-
-<!--   <div id="zoomout"></div>
-  <div id="zoomin"></div> -->
-
-  <div id="socialLinkHolder">
-    <a class="fancybox" href="/images/logo.png"><img id="info" src="/images/social/info.png"></a><br>
-    <a href="http://www.twitter.com"><img id="twitter" src="/images/social/twitter.png"></a><br>
-    <a href="http://www.facebook.com"><img id="facebook" src="/images/social/facebook.png"></a><br>
-    <a href="http://www.github.com"><img id="github" src="/images/social/github.png"></a>
+    <label for="register" id="createNewAccount" class="loginToggle">Create New Account</label>
+    <label for="resetPassword" id="forgotPassword" class="loginToggle">Forgot Password</label>
   </div>
 
-  <div id="postListContainer">
+  <div id="register-holder">
+    <form id="register-form" action="action">
+      <div id="register-errorMessage" class="loginErrorMessage"></div>
+      <input type="email" id="account-email" placeholder="Email" />
+      <input type="password" id="account-password" placeholder="Password" />
+      <input type="password" id="account-confirm-password" placeholder="Confirm Password" />
+      <input type="submit" id="create-account" value="Create an Account" />
+    </form>
+    <label for="login" id="logIn" class="loginToggle">Or Log In</label>
+  </div>
 
-    <div id="postListContainerHeader" class="post">
-      <div class="description" style="text-align: center; height: 20px; font-weight: 500;">
-        Recent Listings (the last 24 hours or so)
-      </div>
-    </div>
-
-    <hr>
-
-    <div class="post">
-      <div class="title">Super Awesome Descriptive Title Woohoo</div>
-      <div class="description">content content content content a a a a a a a a a a a content content content content content content content content content content content content content content content content</div>
-    </div>
-
-    <hr>
-    
-    <div class="post">
-      <div class="title">Super Awesome Descriptive Title</div>
-      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
-    </div>
-
-    <hr>
-
-    <div class="post">
-      <div class="title">Super Awesome Descriptive Title</div>
-      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
-    </div>
-
-    <hr>
-
-    <div class="post">
-      <div class="title">Super Awesome Descriptive Title</div>
-      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
-    </div>
-
-    <hr>
-
-    <div class="post">
-      <div class="title">Super Awesome Descriptive Title</div>
-      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
-    </div>
-
-    <hr>
-
-    <div class="post">
-      <div class="title">Super Awesome Descriptive Title</div>
-      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
-    </div>
-
-    <hr>
-
-    <div class="post">
-      <div class="title">Super Awesome Descriptive Title</div>
-      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
-    </div>
-
-    <hr>
-
-    <div class="post">
-      <div class="title">Super Awesome Descriptive Title</div>
-      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
-    </div>
-
-    <hr>
-
-    <div class="post">
-      <div class="title">Super Awesome Descriptive Title</div>
-      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
-    </div>
-
-    <hr>
-
-    <div class="post">
-      <div class="title">Super Awesome Descriptive Title</div>
-      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
-    </div>
-
-    <hr>
-
-    <div class="post">
-      <div class="title">Super Awesome Descriptive Title</div>
-      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
-    </div>
-
-    <hr>
-
-    <div class="post">
-      <div class="title">Super Awesome Descriptive Title</div>
-      <div class="description">content content content content content content content content content content content content content content content content content content content content</div>
-    </div>
-
-    <hr>
-
+  <div id="password-recover-holder">
+    <form id="password-recover-form" action="action">
+      <div id="password-errorMessage" class="loginErrorMessage"></div>
+      <input type="email" id="password-recover-email" placeholder="Email" />
+      <input type="submit" id="send-password-recover-email"value="Send Recovery Email" />
+    </form>
+    <label for="login" id="logIn" class="loginToggle">Or Log In</label>
   </div>
 </template>
-
-
-
-

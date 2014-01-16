@@ -1,8 +1,6 @@
 // This function is run when the page renders on client's browser
 Template.page.rendered = function() {
 
-  $("#login-holder").hide();
-
 // START GOOGLE MAPS RELATED CODE /////////////////////////////////////////////////////////////////////////////////////
 
   // Geolocation Vars for setting up map and default position.
@@ -112,13 +110,6 @@ Session.set('map', true); // global flag saying we initialized already
 
 Template.login.events({ // code to be run when an event occurs in the 'login' template
 
-  'click #createNewAccountButton' : function() { // jquery hiding/showing events that happen when user switches
-    $("#login-holder").hide();                        // between logining in or creating a new account
-    $("#register-holder").show();
-    $("#account-email").val($("#login-email").val());
-    $("#account-password").val($("#login-password").val());
-  },
-
   'submit #login-form' : function(e, t){ // when the user submits the login form
     e.preventDefault();
 
@@ -127,31 +118,12 @@ Template.login.events({ // code to be run when an event occurs in the 'login' te
     Meteor.loginWithPassword(email, password, function(err){ // tell meteor to login with the given email/password combo
       if (err) { // if meteor cannot login, alert the user that their email/password combo must be incorrect
         $("#login-errorMessage").html("email/password incorrect");
+        $("#login-password").val("");
       } else {
         // The user has been logged in.
       }
     });
     return false; 
-  }
-});
-
-Template.accordion.events({ // code to be run when events occur in the 'logout' template
-  'click #logout' : function(e, t){ // when the user requests a logout
-    Meteor.logout(function(){ }); // tell meteor to logout the user
-    return false; 
-  }
-});
-
-// allows easy access of username from within html handlebars
-Template.accordion.displayName = displayName; // referring to helper funtion displayName() in login.js 
-
-Template.register.events({ // code to be run when events occur in the 'register' template
-
-  'click #logInButton' : function() { // jquery hiding/showing events that happen when user switches
-    $("#login-holder").show();            // between logining in or creating a new account
-    $("#register-holder").hide();
-    $("#login-email").val($("#account-email").val());
-    $("#login-password").val($("#account-password").val());
   },
 
   'submit #register-form' : function(e, t) { // when the user submits request to create a new account
@@ -169,6 +141,7 @@ Template.register.events({ // code to be run when events occur in the 'register'
     }
 
     if ($("#account-email").val() === "") { // if the user tries to submit w/o entering an email
+      console.log("no email");
       $("#register-errorMessage").html("please enter an email");
     } else if ($("#account-password").val() === "") { // if the user tries to submit w/o entering a password
       $("#register-errorMessage").html("please enter a password");
@@ -190,7 +163,19 @@ Template.register.events({ // code to be run when events occur in the 'register'
 
     return false;
   }
-
-// END LOGIN RELATED CODE /////////////////////////////////////////////////////////////////////////////////////////////
-
 });
+
+Template.accordion.events({ // code to be run when events occur in the 'logout' template
+  'click #logout' : function(e, t){ // when the user requests a logout
+    Meteor.logout(function(){ }); // tell meteor to logout the user
+    return false; 
+  }
+});
+
+// allows easy access of username from within html handlebars
+Template.accordion.displayName = displayName; // referring to helper funtion displayName() in login.js 
+
+
+  
+
+// END LOGIN RELATED CODE ///////////////////////////////////////////////////////////////////////////////////////////
