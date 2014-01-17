@@ -4,7 +4,7 @@ import datetime
 
 #ported modules
 from gmail import Gmail #https://github.com/charlierguo/gmail
-from parse_rest.datatypes import Object #api found at https://github.com/dgrtwo/ParsePy
+from parse_rest.datatypes import Object,GeoPoint #api found at https://github.com/dgrtwo/ParsePy
 from parse_rest.connection import register
 
 #self written
@@ -12,7 +12,8 @@ from location_guesser import LocationGuesser as Locator
 
 #TODO: amazon python sdk http://aws.amazon.com/sdkforpython/
 #TODO: only 1 entry per thread id. only add if a location was found and the previous entry wasn't present!
-#TODO: include geopoint object per each reuse item!
+
+#DONE: include geopoint object per each reuse item!
 
 def registerAppWithParse():
     parseAppId = "KxXRF1qcFjHqA2AKnyPvg5Ys2VzMWR2ViAKNtX8V"
@@ -20,8 +21,9 @@ def registerAppWithParse():
     
     # register(<application_id>, <rest_api_key>[, master_key=None])
     register(parseAppId, parseRestApiKey)
-
+    
 def runTest():
+    pass #needs to be re implemented!
     #the gmail object
     g = Gmail()
     g.login("radixdeveloper", "whereisstrauss")
@@ -53,32 +55,66 @@ def runTest():
             # print "\n"*5
 
     g.logout()
-
+    
 class TestReuseItem_rev2(Object):
     pass
-    
+ 
+class WheresThatBuildingTEST_rev2(Object):
+    pass
+
 class ReuseParser(object):
     #something profound should go here as a comment
     
     def __init__(self):
-       pass 
+       self.buildingLocationDict = {} 
+       self.storeBuildingLocations()
        
-    def createReuseItem(self,email,guess,foundItem):
+    def storeBuildingLocations(self):
+        #queries the list of building locations from parse and stores them for faster lookup.
+        allBuildingLocations = WheresThatBuildingTEST_rev2.Query.all()
+        for building in allBuildingLocations:
+            name = building.buildingName
+            gps_lng = building.gps_lng
+            gps_lat = building.gps_lat
+            self.buildingLocationDict[name]=(gps_lat,gps_lng)
+    
+    def getGpsLocation(self, someGuess):
+        #given a location, return a geopoint object if stored in the lookup table, else 
+        #returns None
+        if someGuess.foundLocation and self.buildingLocationDict.has_key(someGuess.generalLocation):
+            (gps_lat,gps_lng) = self.buildingLocationDict[someGuess.generalLocation]
+            return GeoPoint(latitude=gps_lat, longitude=gps_lng)
+        
+    def createReuseItem(self,email,guess):
         #standardizes how the reuse item class should look
-        # reuseItem = TestReuseItem(email_id="",email_body="", email_sender="",email_subject="", #email info goes here
-        # email_timestamp_unix=1, #the time the email was sent, timezone? who cares lol
-        # guess_location="",guess_found=False) #the location of the guess and did the parser actually find anything 
 
         sent_timestamp = time.mktime(email.sent_at.timetuple())
-        pass #implement me dammit!
+        
         #parcel the object
-        return TestReuseItem_rev2(email_id=email.thread_id,
-        email_body=email.body, 
-        email_sender=email.fr,
-        email_subject=email.subject, 
-        email_timestamp_unix=sent_timestamp,
-        guess_location=guess,
-        guess_found=foundItem) 
+        ReuseItem = TestReuseItem_rev2(email_id= email.thread_id,
+        email_body= email.body, 
+        email_sender= email.fr,
+        email_subject= email.subject, 
+        
+        item_location_general= guess.generalLocation, #the location of the guess
+        item_location_specific= guess.specificLocation, #the location of the guess
+        guess_found= guess.foundLocation, #did the parser actually find anything 
+        
+        keywords=["reuse","such recycle","much trash"], #frontend data
+        uniqueViewers= 0,
+        claimed= False,
+        claimed_by= "",
+        
+        email_timestamp_unix= sent_timestamp) #and the timestamp
+        
+        somePoint = self.getGpsLocation(guess)
+        if somePoint is not None:
+            #set the geopoint if we know where it is!
+            ReuseItem.gps_location = GeoPoint(latitude=somePoint.latitude, longitude=somePoint.longitude)
+        else:
+            print "could not find location _%s_ in lookup dict" % guess.generalLocation
+            
+        return ReuseItem
         
     def yesItShould(self):
         #runs the whole shebang
@@ -92,26 +128,23 @@ class ReuseParser(object):
 
         # emails = g.label("reuse").mail(unread=True,prefetch=True)
         emails = g.label("reuse").mail(prefetch=True)
+        # emails = emails[0:2]
         for email in emails:
-            location = loc.makeGuessByEmail(email)
-            if location is loc.noGuess:
-                #we got nothin!
-                ReuseItem = self.createReuseItem(email,location,False)
-            else:
-                #we got somethin!
-                ReuseItem = self.createReuseItem(email,location,True)
-            
+            locationGuess = loc.makeGuessByEmail(email)
+            ReuseItem = self.createReuseItem(email,locationGuess)
             ReuseItem.save()
 
         g.logout()
 
 if (__name__ == "__main__"):
     #we're running!
-    runTest()
+    # runTest()
     registerAppWithParse()
-    
-    # ShouldItRun = ReuseParser()
-    # ShouldItRun.yesItShould()
+
+    ShouldItRun = ReuseParser()
+    # for a in ShouldItRun.buildingLocationDict:
+        # print a
+    ShouldItRun.yesItShould()
     
 else:
     #we've been imported!
