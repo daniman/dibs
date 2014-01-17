@@ -2,8 +2,9 @@
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwl6CTVUcaPluz69RuPkccQu9YXieyP9k&sensor=false"></script>
-
-    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,900,300italic' rel='stylesheet' type='text/css'>
+    <script src="//www.parsecdn.com/js/parse-1.2.16.min.js"></script>
+    
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,500,600,700,800,900,300italic' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 
@@ -21,22 +22,19 @@
 <template name="page">
 
   <div id="map-canvas"></div>
-  <img id="logo" class="draggable" src="/images/logo.png">
-  <div id="socialLinkHolder">
-    <a class="fancybox" href="/images/logo.png"><img id="info" src="/images/info.png"></a>
-    <a href="http://www.twitter.com"><img id="twitter" src="/images/twitter.png"></a>
-    <br>
-    <a href="http://www.facebook.com"><img id="facebook" src="/images/facebook.png"></a>
-    <a href="http://www.github.com"><img id="github" src="/images/github.png"></a>
-  </div>
+
+  <img id="logo" src="/images/logo.png">
 
   {{#with currentUser}}
 
     {{> accordion}}
 
-    <div class="alert alert-info alert-dismissable draggable">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      Double click the map to post a new item!
+    {{> postList}}
+
+    <input id="alert" name="alertPopup" type="checkbox" />
+    <div id="newItemAlert" class="draggable">
+      <strong>click</strong> the <strong>map</strong> to <strong>post</strong> an <strong>item</strong>!
+      <label for="alert" id="closeAlert"><i class="fa fa-times fa-lg" style="padding-left: 10px"></i></label>
     </div>
 
   {{else}}
@@ -48,105 +46,46 @@
         <p id="welcomeSubtext">The Reuse Enhancement Suite</p>
       </div>
       {{> login}}
-      {{> register}}
     </div>
 
   {{/with}}
 
 </template>
 
-<template name="register">
-  <div id="register-holder">
-    <form id="register-form" action="action">
-      <div id="register-errorMessage"></div>
-      <input type="email" id="account-email" placeholder="Email" />
-      <input type="password" id="account-password" placeholder="Password" />
-      <input type="password" id="account-confirm-password" placeholder="Confirm Password" />
-      <input type="submit" id="create-account"value="Create an Account" /> 
-    </form>
-    <button id="logInButton" class="subtext">
-      Or Log In
-    </button>
-  </div>
-</template>
-
 <template name="login">
+
+  <input id="login" name="welcomePanel" type="radio" />
+  <input id="register" name="welcomePanel" type="radio" checked/>
+  <input id="resetPassword" name="welcomePanel" type="radio"/>
+
   <div id="login-holder">
     <form id="login-form" action="action">
-      <div id="login-errorMessage"></div>
+      <div id="login-errorMessage" class="loginErrorMessage"></div>
       <input type="email" id="login-email" placeholder="Email" />
       <input type="password" id="login-password" placeholder="Password" />
       <input type="submit" id="login-button" value="Sign in" />
     </form>
-    <button id="createNewAccountButton" class="subtext">
-      Create New Account
-    </button>
-    <button id="forgotPasswordButton" class="subtext">
-      Forgot Password
-    </button>
+    <label for="register" id="createNewAccount" class="loginToggle">Create New Account</label>
+    <label for="resetPassword" id="forgotPassword" class="loginToggle">Forgot Password</label>
   </div>
-</template>
 
-<template name="accordion">
-  <section class="ac-container draggable">
-    <div>
-        <input id="ac-1" name="accordion-1" type="checkbox" checked/>
-        <label for="ac-1"><i class="fa fa-cog fa-lg" style="padding-right: 5px"></i>{{displayName}}</label>
-        <article class="ac-settings">
-            <a class="fancybox" href="/images/logo.png"><p id="accountSettings">Account Settings</p></a>
-            <p id="logout">Logout</p>
-        </article>
-    </div>
-    <div>
-        <input id="ac-2" name="accordion-1" type="checkbox"/>
-        <label for="ac-2">Rewards</label>
-        <article class="ac-rewards">
-            <div class="pointsHolder">
-              <div id="pointsNumber">125</div>
-              <div id="pointsLabel">Dibs Points</div>
-            </div>
-            <div class="pointsHolder">
-              <img class="award" src="/images/award.png">
-              <img class="award" src="/images/award.png">
-              <img class="award" src="/images/award.png">
-              <img class="award" src="/images/award.png">
-              <a class="fancybox" href="/images/logo.png"><p id="more">more</p></a>
-            </div>
-        </article>
-    </div>
-    <div>
-        <input id="ac-3" name="accordion-1" type="checkbox" />
-        <label for="ac-3">My Listings</label>
-        <article class="ac-myListings">
-            <ul id="myListings">
-              <li>some item</li>
-              <li>another item</li>
-              <li>a third item</li>
-              <li>fourth item</li>
-              <li>so many items</li>
-              <li>i have too much junk</li>
-              <li><a id="more" class="fancybox" href="/images/logo.png">more</a></li>
-            </ul>
-        </article>
-    </div>
-    <div>
-        <input id="ac-5" name="accordion-1" type="checkbox" />
-        <label for="ac-5">Filter</label>
-        <article class="ac-filter">
-          {{> filter}}
-        </article>
-    </div>
-  </section>
-</template>
+  <div id="register-holder">
+    <form id="register-form" action="action">
+      <div id="register-errorMessage" class="loginErrorMessage"></div>
+      <input type="email" id="account-email" placeholder="Email" />
+      <input type="password" id="account-password" placeholder="Password" />
+      <input type="password" id="account-confirm-password" placeholder="Confirm Password" />
+      <input type="submit" id="create-account" value="Create an Account" />
+    </form>
+    <label for="login" id="logIn" class="loginToggle">Or Log In</label>
+  </div>
 
-<template name="filter">
-  <form>
-    <input type="checkbox">My Listings<br>
-    <input type="checkbox">Food<br>
-    <input type="checkbox">Chairs<br>
-    <input type="checkbox">Computers<br>
-    <input type="checkbox">Monitors<br>
-    <input type="checkbox">Office Supplies<br>
-    Custom: <input class="inputSmall" type="text" name="user">
-  </form>
+  <div id="password-recover-holder">
+    <form id="password-recover-form" action="action">
+      <div id="password-errorMessage" class="loginErrorMessage"></div>
+      <input type="email" id="password-recover-email" placeholder="Email" />
+      <input type="submit" id="send-password-recover-email"value="Send Recovery Email" />
+    </form>
+    <label for="login" id="logIn" class="loginToggle">Or Log In</label>
+  </div>
 </template>

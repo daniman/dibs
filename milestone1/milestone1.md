@@ -131,7 +131,6 @@ These are the critical  components of Dibs. They ensure that Dibs has succesfull
 Fortunately, since we are parsing reuse emails we wil have real data at the MVP. We have no concerns as of yet.
 
 
->>>>>>> 56414375bfdae68a986627f298827c130768c4bf
 About the Team
 ----
 
@@ -155,12 +154,5 @@ Our reuse email parser is assigned a difficult task. It's job is to emulate a hu
 
 Competition Division
 ---
-
-<<<<<<< HEAD
-Even with nearly minimal web development experience prior to 6.470 we are planning on competing in the main division
-
-Even with nearly minimal web development experience prior to 6.470 we are planning on competing in the main division.
-=======
 Even with a combined total minimal web development experience we are planning on competing in the main division.
 
->>>>>>> 56414375bfdae68a986627f298827c130768c4bf
