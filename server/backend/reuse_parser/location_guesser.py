@@ -113,7 +113,7 @@ class LocationGuesser(object):
     def __init__(self):
         self.locationList = ["edgerton", "sidney pacific", "warehouse",
         "simmons","baker", "mccormick", "eastgate", "senior",
-        "ashdown","maseeh","burton-conner","new house","random","bexley","stata"]
+        "ashdown","maseeh","burton-conner","new house","random","bexley","stata","stud", "student center"]
         
         #used to internally redirect dorms to their building numbers
         # self.locationMap = {}
@@ -133,6 +133,7 @@ class LocationGuesser(object):
         # self.locationMap["random","nw61"]
         # self.locationMap["bexley","w13"]
         # self.locationMap["stata","32"]
+        # self.locationMap["stud" | "student center","w20"]
         
         self.noGuess = Guess("","",False)
     
@@ -249,7 +250,10 @@ class LocationGuesser(object):
         
         #arbitrarily take the first as the most likely
         dormMatch = locationListMatches[0][0]
-        # return dormMatch
+
+        if (dormMatch=="stud"):
+            dormMatch = "student center"
+            
         return Guess(dormMatch,"0")
 
 class LocationGuess_methods_Tests(unittest.TestCase):
@@ -302,6 +306,13 @@ class LocationGuess_methods_Tests(unittest.TestCase):
         result = self.L.getLocation_word("dolce gabbana shoes and oprah at the stata center")
         self.assertEquals(result.__str__(),"stata:0")
     
+    def testLG_dorm_studentCenter(self):
+        result = self.L.getLocation_word("lots of action at the student center")
+        self.assertEquals(result.__str__(),"student center:0")
+                
+        result = self.L.getLocation_word("stupid ugly shirts at the stud for a short time")
+        self.assertEquals(result.__str__(),"student center:0")
+        
     def testUrlStripper(self):
         text = "outside 32-044 http://www.amazon.com/gp/product/B004WY4U8S/ref=oh_details_o00_s00_i00?ie=UTF8&psc=1 Had I read the"
         self.assertEquals(urlStripper(text), "outside 32-044 ")
