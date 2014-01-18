@@ -92,6 +92,7 @@ class ReuseParser(object):
         self.logNumLines=0
         
         self.buildingLocationDict = {} 
+        self.logSnippetLength = 128
         
         #WET AND NASTY init
         self.storeBuildingLocations()
@@ -191,6 +192,7 @@ class ReuseParser(object):
         
     def yesItShould(self):
         #runs the whole shebang
+        self.appendToLog(" ")
         self.appendToLog("running the whole shebang")
         
         #the gmail object, maybe
@@ -220,8 +222,8 @@ class ReuseParser(object):
                 continue
 
             #print the first snippet of the email
-            print(email.subject[0:32])   
-            self.appendToLog(email.subject[0:32])            
+            print(email.subject[0:self.logSnippetLength])   
+            self.appendToLog(email.subject[0:self.logSnippetLength])            
             locationGuess = loc.makeGuessByEmail(email)
             self.appendToLog("guess location = %s" % locationGuess.__str__())     
             
