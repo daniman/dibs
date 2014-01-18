@@ -291,7 +291,10 @@ class LocationGuess_methods_Tests(unittest.TestCase):
         self.assertEquals(result.__str__(),"baker:0")
         
         result = self.L.getLocation_word("Free sist at simmons")
-        self.assertEquals(result.__str__(),"simmons:0")
+        self.assertEquals(result.__str__(),"simmons:0")        
+        
+        result = self.L.getLocation_word("pick up in burton-conner.")
+        self.assertEquals(result.__str__(),"burton-conner:0")
         
     def testUrlStripper(self):
         text = "outside 32-044 http://www.amazon.com/gp/product/B004WY4U8S/ref=oh_details_o00_s00_i00?ie=UTF8&psc=1 Had I read the"
