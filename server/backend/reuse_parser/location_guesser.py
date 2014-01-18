@@ -85,7 +85,22 @@ def removeSignature(sender, body):
         newBody = re.sub(r""+firstname+"(.|\d|\r|\n)*", '', body, flags=re.MULTILINE)
 
     return newBody
- 
+
+class Guess(object):
+    #stores a guess 
+    def __init__(self, general, specific, foundIt=True):
+        if (foundIt):
+            self.generalLocation = general.lower().strip()
+            self.specificLocation = specific.lower().strip()
+            self.foundLocation = True
+        else:
+            self.generalLocation = "0"
+            self.specificLocation = "0"
+            self.foundLocation = False
+        
+    def __str__(self):
+        return self.generalLocation + ":"+ self.specificLocation
+        
 class dummyEmail(object):
     #a fake email object that stores attributes
     def __init__(self):
@@ -97,10 +112,28 @@ class LocationGuesser(object):
 
     def __init__(self):
         self.locationList = ["edgerton", "sidney pacific", "warehouse",
-        "simmons","baker", "mccormick", "eastgate", 
-        "ashdown","masseeh","burton-conner","new house","random","bexley","memorial"]
+        "simmons","baker", "mccormick", "eastgate", "senior",
+        "ashdown","maseeh","burton-conner","new house","random","bexley"]
         
-        self.noGuess = "0:0"
+        #used to internally redirect dorms to their building numbers
+        # self.locationMap = {}
+        # self.locationMap["edgerton","4"]
+        # self.locationMap["sidney pacific","nw86"]
+        # self.locationMap["warehouse","ww15"]
+        # self.locationMap["simmons","w79"]
+        
+        # self.locationMap["baker","w7"]
+        # self.locationMap["mccormick","w4"]
+        # self.locationMap["eastgate","e55"]
+        # self.locationMap["senior","e2"]
+        # self.locationMap["ashdown","nw35"]
+        # self.locationMap["maseeh","w1"]
+        # self.locationMap["burton-conner","w51"]
+        # self.locationMap["new house","w70"]
+        # self.locationMap["random","nw61"]
+        # self.locationMap["bexley","w13"]
+        
+        self.noGuess = Guess("","",False)
     
     def makeGuess(self,text):
         #DEPRECATED -> use makeGuessByEmail(email) to filter out the signatures
@@ -116,19 +149,20 @@ class LocationGuesser(object):
         text = urlStripper(text)
         buildingGuess = self.getLocation_building(text)
         locationGuess = self.getLocation_floor(text)
-        dormGuess = self.getLocation_dorm(text)
+        dormGuess = self.getLocation_word(text)
         
         #building guesses have highest priority!
-        if buildingGuess is not self.noGuess:
+        if buildingGuess.foundLocation:
             return buildingGuess
             
-        if locationGuess is not self.noGuess:
+        if locationGuess.foundLocation:
             return locationGuess
             
-        if dormGuess is not self.noGuess:
+        if dormGuess.foundLocation:
             return dormGuess
             
-        return self.noGuess
+        # return self.noGuess
+        return Guess("","",False)
 
     def makeGuessByEmail(self,email):
         #same as makeGuess, but with the email as argument
@@ -156,7 +190,8 @@ class LocationGuesser(object):
     def getLocation_building(self,text):
         #buildings are usually in the X-Y format. returns "X : Y"
         #{1,2} since 34 is a building but not 23232
-        m_obj = re.search(r"(\d{1,2})-(\d{1,3})",text)
+        #NINJA'D! E15-468 is now caught!
+        m_obj = re.search(r"(nw|n|ne|e|w)?(\d{1,2})-(\d{1,3})",text)
         if m_obj:
             #determine if this is a time!
             pos = m_obj.start()
@@ -164,20 +199,34 @@ class LocationGuesser(object):
             time_obj = re.search(r"(am)|(pm)",encasingString)
             if not time_obj:
                 #not a time!
-                return m_obj.group(1)+":"+ m_obj.group(2)
-            # else:
-                # print time_obj.group(0)
-                # print encasingString
+                # return m_obj.group(1)+":"+ m_obj.group(2)
+                if (m_obj.group(1)==None):
+                    return Guess(m_obj.group(2),m_obj.group(3))    
+                else :
+                    return Guess(m_obj.group(1)+m_obj.group(2),m_obj.group(3))        
+                
+        # m_obj = re.search(r"(\d{1,2})-(\d{1,3})",text)
+        # if m_obj:
+            # #determine if this is a time!
+            # pos = m_obj.start()
+            # encasingString = getEncasingString(text, pos, 8)
+            # time_obj = re.search(r"(am)|(pm)",encasingString)
+            # if not time_obj:
+                # #not a time!
+                # # return m_obj.group(1)+":"+ m_obj.group(2)
+                # return Guess(m_obj.group(1),m_obj.group(2))
             
         #sometimes its like "E38" or "E 38"
         k_obj = re.search(r"(\b)(nw|n|ne|e|w)( ){0,2}(\d+)",text.lower())
         if k_obj:
-            return k_obj.group(2)+":"+ k_obj.group(4)
+            # return k_obj.group(2)+":"+ k_obj.group(4)
+            return Guess(k_obj.group(2)+k_obj.group(4),"0")
             
         #sometimes in the form "building 36"
         b_obj = re.search(r"(\b)(building)( ){0,2}(#)?(\d{1,2})",text.lower())
         if b_obj:
-            return b_obj.groups()[-1] + ":0"    
+            # return b_obj.groups()[-1] + ":0"    
+            return Guess(b_obj.groups()[-1], "0")  
             
         return self.noGuess
 
@@ -185,11 +234,12 @@ class LocationGuesser(object):
         #commonly says "on the X floor of Y". returns "X : Y"
         m_obj = re.search(r"(\S+)(\s)(floor of)(\s)(\S+)",text)    
         if m_obj:
-            return m_obj.group(5)+":"+ m_obj.group(1)
+            # return m_obj.group(5)+":"+ m_obj.group(1)
+            return Guess(m_obj.group(5),m_obj.group(1))
             
         return self.noGuess
      
-    def getLocation_dorm(self,text):
+    def getLocation_word(self,text):
         #iterate over the dorms and try to get a winner
         locationListMatches = []
         for dorm in self.locationList:
@@ -207,7 +257,8 @@ class LocationGuesser(object):
         
         #arbitrarily take the first as the most likely
         dormMatch = locationListMatches[0][0]
-        return dormMatch
+        # return dormMatch
+        return Guess(dormMatch,"0")
 
 class LocationGuess_methods_Tests(unittest.TestCase):
     
@@ -217,30 +268,33 @@ class LocationGuess_methods_Tests(unittest.TestCase):
 
     def testLG_bulidingMatch_case1(self):
         result = self.L.getLocation_building("Old Electronics Outside 5-017")
-        self.assertEquals(result,"5:017")
+        self.assertEquals(result.__str__(),"5:017")
         
     def testLG_bulidingMatch_case2(self):
         #E48
         result = self.L.getLocation_building("Vibrating *** toys in E48 lobby")
-        self.assertEquals(result,"e:48")
+        self.assertEquals(result.__str__(),"e48:0")
         
     def testLG_buildingMatch_case3(self):
         result = self.L.getLocation_building("large dildo in building 36")
-        self.assertEquals(result,"36:0")        
+        self.assertEquals(result.__str__(),"36:0")        
         
         result = self.L.getLocation_building("large dildo in building #36")
-        self.assertEquals(result,"36:0")
+        self.assertEquals(result.__str__(),"36:0")
         
     def testLG_floorMatch(self):
         result = self.L.getLocation_floor("Free things are on the 3rd floor of 36")
-        self.assertEquals(result,"36:3rd")
+        self.assertEquals(result.__str__(),"36:3rd")
         
     def testLG_dorm(self):
-        result = self.L.getLocation_dorm("Free bagels outside baker")
-        self.assertEquals(result,"baker")
+        result = self.L.getLocation_word("Free bagels outside baker")
+        self.assertEquals(result.__str__(),"baker:0")
         
-        result = self.L.getLocation_dorm("Free sist at simmons")
-        self.assertEquals(result,"simmons")
+        result = self.L.getLocation_word("Free sist at simmons")
+        self.assertEquals(result.__str__(),"simmons:0")        
+        
+        result = self.L.getLocation_word("pick up in burton-conner.")
+        self.assertEquals(result.__str__(),"burton-conner:0")
         
     def testUrlStripper(self):
         text = "outside 32-044 http://www.amazon.com/gp/product/B004WY4U8S/ref=oh_details_o00_s00_i00?ie=UTF8&psc=1 Had I read the"
@@ -257,25 +311,25 @@ class LocationGuess_class_Tests(unittest.TestCase):
 
     def testLG_makeGuess_clearCutResult(self):
         result = self.L.makeGuess("Old Electronics Outside 5-017")
-        self.assertEquals(result,"5:017")
+        self.assertEquals(result.__str__(),"5:017")
         
         result = self.L.makeGuess("Free things are on the 3rd floor of 36")
-        self.assertEquals(result,"36:3rd")
+        self.assertEquals(result.__str__(),"36:3rd")
                 
         result = self.L.makeGuess("Free sist at simmons")
-        self.assertEquals(result,"simmons")
+        self.assertEquals(result.__str__(),"simmons:0")
      
     def testLG_makeGuess_priority_1(self):
         result = self.L.makeGuess("Old Electronics Outside 5-017 and at simmons")
-        self.assertEquals(result,"5:017")
+        self.assertEquals(result.__str__(),"5:017")
         
     def testLG_makeGuess_priority_2(self):    
         result = self.L.makeGuess("Old Electronics Outside 5-017 and at e48")
-        self.assertEquals(result,"5:017")
+        self.assertEquals(result.__str__(),"5:017")
         
     def testLG_makeGuess_priority_3(self):    
         result = self.L.makeGuess("Old Electronics Outside 5th floor of stud and at e48")
-        self.assertEquals(result,"e:48")
+        self.assertEquals(result.__str__(),"e48:0")
 
     def testLG_makeGuessByEmail_basic(self):
         email = dummyEmail()
@@ -299,7 +353,7 @@ class LocationGuess_class_Tests(unittest.TestCase):
             jweisman@mit.edu<mailto:jweisman@mit.edu>"""
             
         result = self.L.makeGuessByEmail(email)
-        self.assertEquals(result,"6:205")
+        self.assertEquals(result.__str__(),"6:205")
 
 class LocationGuess_if_it_aint_broke(unittest.TestCase):
     #a bunch of tests designed to break it!
@@ -310,11 +364,11 @@ class LocationGuess_if_it_aint_broke(unittest.TestCase):
         
     def testLG_hammertime(self):
         result = self.L.makeGuess("Old Electronics Outside simmons from 9-5pm")
-        self.assertEquals(result,"simmons")
+        self.assertEquals(result.__str__(),"simmons:0")
         
     def testLG_returnsNoGuess(self):
         result = self.L.makeGuess("Old Electronics Outside")
-        self.assertEquals(result,self.L.noGuess)
+        self.assertEquals(result.__str__(),self.L.noGuess.__str__())
         
 class LocationGuess_realTests(unittest.TestCase):      
     #real examples go here
@@ -330,7 +384,7 @@ class LocationGuess_realTests(unittest.TestCase):
                 kiley"""
                 
         locationGuess = self.L.makeGuess(text)
-        self.assertEquals(locationGuess,"1:143")
+        self.assertEquals(locationGuess.__str__(),"1:143")
         
     def testLG_laptopChick(self):
         text = """[Reuse] Pavilion dv6 laptop keyboard New Pavilion dv6 laptop keyboard 
@@ -342,7 +396,7 @@ class LocationGuess_realTests(unittest.TestCase):
             from fitting exactly. Duct tape could probably have fixed this."""
                 
         locationGuess = self.L.makeGuess(text)
-        self.assertEquals(locationGuess,"32:044")
+        self.assertEquals(locationGuess.__str__(),"32:044")
         
     def testLG_2laptops1post(self):
         text = """[Reuse] One Laptop Per Child laptop and charger I have a One Laptop Per Child laptop and charger.
@@ -358,7 +412,7 @@ class LocationGuess_realTests(unittest.TestCase):
             - Max"""
                 
         locationGuess = self.L.makeGuess(text)
-        self.assertEquals(locationGuess,"burton-conner")
+        self.assertEquals(locationGuess.__str__(),"burton-conner:0")
         
     def testLG_brentonsituation(self):
         text = """Slight update; the conference room chairs DO adjust, in the old fashioned screw-type way where you twirl 
@@ -389,7 +443,7 @@ class LocationGuess_realTests(unittest.TestCase):
             To sub/unsubscribe or to see the list rules:  http://mailman.mit.edu/mailman/listinfo/reuse"""
                 
         locationGuess = self.L.makeGuess(text)
-        self.assertEquals(locationGuess,"24:108")    
+        self.assertEquals(locationGuess.__str__(),"24:108")    
     
     def testLG_fischerprice(self):
         email = dummyEmail()
@@ -415,8 +469,17 @@ class LocationGuess_realTests(unittest.TestCase):
                 to sub/unsubscribe or to see the list rules:  http://mailman.mit.edu/mailman/listinfo/reuse"""
             
         result = self.L.makeGuessByEmail(email)
-        self.assertEquals(result,"38:177")
-    
+        self.assertEquals(result.__str__(),"38:177")
+   
+class LocationGuess_miscTests(unittest.TestCase):
+    def setUp(self):
+        self.L = LocationGuesser()
+        print "\nIn method", self._testMethodName   
+
+    def testE15_468(self):
+        result = self.L.makeGuess("Old Electronics Outside e15-468")
+        self.assertEquals(result.__str__(),"e15:468")    
+        
 if __name__=="__main__":
     #useful use guide
     
@@ -428,7 +491,7 @@ if __name__=="__main__":
     
     # if DEBUG: print 'floor match',LG.getLocation_floor(testString)
     # if DEBUG: print 'building match',LG.getLocation_building(testString)
-    # if DEBUG: print 'dorm match',LG.getLocation_dorm(testString)
+    # if DEBUG: print 'dorm match',LG.getLocation_word(testString)
     
     #run tests
     unittest.main()

@@ -26,7 +26,7 @@
 <!--- Start page Template-->
 <template name="page">
 
-  <div id="map-canvas"></div>
+  {{> map}}
 
   <img id="logo" src="/images/logo.png">
 
@@ -58,7 +58,14 @@
 </template>
 <!--- End page Template-->
 
+
 <!--- Start login Template-->
+
+<template name="map">
+  <div id="map-canvas"></div>
+</template>
+
+
 <template name="login">
 
   <input id="login" name="welcomePanel" type="radio" />
