@@ -204,29 +204,19 @@ class LocationGuesser(object):
                     return Guess(m_obj.group(2),m_obj.group(3))    
                 else :
                     return Guess(m_obj.group(1)+m_obj.group(2),m_obj.group(3))        
-                
-        # m_obj = re.search(r"(\d{1,2})-(\d{1,3})",text)
-        # if m_obj:
-            # #determine if this is a time!
-            # pos = m_obj.start()
-            # encasingString = getEncasingString(text, pos, 8)
-            # time_obj = re.search(r"(am)|(pm)",encasingString)
-            # if not time_obj:
-                # #not a time!
-                # # return m_obj.group(1)+":"+ m_obj.group(2)
-                # return Guess(m_obj.group(1),m_obj.group(2))
             
         #sometimes its like "E38" or "E 38"
         k_obj = re.search(r"(\b)(nw|n|ne|e|w)( ){0,2}(\d+)",text.lower())
         if k_obj:
-            # return k_obj.group(2)+":"+ k_obj.group(4)
             return Guess(k_obj.group(2)+k_obj.group(4),"0")
             
-        #sometimes in the form "building 36"
-        b_obj = re.search(r"(\b)(building)( ){0,2}(#)?(\d{1,2})",text.lower())
+        #sometimes in the form "building/lobby 36"
+        b_obj = re.search(r"(\b)((building)|(lobby))( ){0,2}(#)?(\d{1,2})",text.lower())
         if b_obj:
-            # return b_obj.groups()[-1] + ":0"    
-            return Guess(b_obj.groups()[-1], "0")  
+            if (b_obj.group(2)=="lobby"):
+                return Guess(b_obj.groups()[-1], "lobby")
+            else:
+                return Guess(b_obj.groups()[-1], "0")  
             
         return self.noGuess
 
@@ -281,6 +271,10 @@ class LocationGuess_methods_Tests(unittest.TestCase):
         
         result = self.L.getLocation_building("large dildo in building #36")
         self.assertEquals(result.__str__(),"36:0")
+     
+    def testLG_buildingMatch_lobby(self):
+        result = self.L.getLocation_building("free twizzlers in lobby 5")
+        self.assertEquals(result.__str__(),"5:lobby")        
         
     def testLG_floorMatch(self):
         result = self.L.getLocation_floor("Free things are on the 3rd floor of 36")
@@ -478,7 +472,7 @@ class LocationGuess_miscTests(unittest.TestCase):
 
     def testE15_468(self):
         result = self.L.makeGuess("Old Electronics Outside e15-468")
-        self.assertEquals(result.__str__(),"e15:468")    
+        self.assertEquals(result.__str__(),"e15:468")   
         
 if __name__=="__main__":
     #useful use guide
