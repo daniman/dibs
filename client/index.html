@@ -21,7 +21,7 @@
 
 <template name="page">
 
-  <div id="map-canvas"></div>
+  {{> map}}
 
   <img id="logo" src="/images/logo.png">
 
@@ -50,6 +50,10 @@
 
   {{/with}}
 
+</template>
+
+<template name="map">
+  <div id="map-canvas"></div>
 </template>
 
 <template name="login">
