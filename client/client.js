@@ -49,15 +49,15 @@ Template.page.rendered = function() {
 
 //----------------------------------------------------------------------------------------------------------//
 
-  var infoWindow = new google.maps.InfoWindow({
-    content: '<form id="newItemForm">Post a new thing on dibs!' + 
-              '<br><input id="newItemTitle" type="text" name="title" placeholder="Title">' + 
-              '<br><input type="text" id="newItemDescription" name="description" placeholder="Description">' + 
-              '<br><input id="submitNewItem" type="button" value="Post!" />' + 
-              '</form>'
-  });
-
   google.maps.event.addListener(map, 'click', function(event) {
+
+    var infoWindow = new google.maps.InfoWindow({
+      content: '<form id="newItemForm">Post a new thing on dibs!' + 
+                '<br><input id="newItemTitle" type="text" name="title" placeholder="Title">' + 
+                '<br><input type="text" id="newItemDescription" name="description" placeholder="Description">' + 
+                '<br><input id="submitNewItem" type="submit" value="Post!" />' + 
+                '</form>'
+    });
 
     var marker = new google.maps.Marker({
       position: event.latLng,
@@ -71,15 +71,19 @@ Template.page.rendered = function() {
     });
 
     google.maps.event.addListener(infoWindow, 'domready', function() {
-      $("#submitNewItem").click(function( ) {
+      $("#newItemForm").submit(function(e) {
+        var title = $("#newItemTitle").val();
+        var description = $("#newItemDescription").val();
         console.log("meow");
         console.log($("#newItemTitle").val());
         console.log($("#newItemDescription").val());
         Items.insert({
-          title: $("#newItemTitle").val(),
-          description: $("#newItemDescription").val()
+          title: title,
+          description: description
         });
-        infoWindow.setContent("hello world!");
+        infoWindow.setContent("<p>" + title + "</p>" + "<p>" + description + "</p>");
+        $("#postListContainer").prepend("<div class='post'><div class='title'>" + title + "</div><div class='description'>" + description + "</div></div>")
+        e.preventDefault();
       });
     });
 
