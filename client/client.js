@@ -9,12 +9,23 @@ Template.page.rendered = function() {
   var browserSupportFlag = new Boolean(); // A flag to keep track if the clients browser supports geolocation
 
   // Map options for the Google Map
+  var myStyles = [
+    {
+      featureType: 'poi',
+      elementType: 'labels',
+      stylers: [
+        {visibility: 'off'}
+      ] 
+    }
+  ];
   var mapOptions = {
         zoom: 15,
         disableDefaultUI: true,
         disableDoubleClickZoom: false,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
-        streetViewControl: false
+        streetViewControl: false,
+        center: defaultLocation,
+        styles: myStyles
       };
 
   //Create a new google map with the above options
@@ -179,3 +190,12 @@ Template.accordion.displayName = displayName; // referring to helper funtion dis
   
 
 // END LOGIN RELATED CODE ///////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+// Retrieve an array of markers from the Database
+function getMarkers(){
+ var markers = [];
+ 
+ return markers;
+}

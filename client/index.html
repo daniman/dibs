@@ -1,24 +1,29 @@
 <head>
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwl6CTVUcaPluz69RuPkccQu9YXieyP9k&sensor=false"></script>
-    <script src="//www.parsecdn.com/js/parse-1.2.16.min.js"></script>
+  <!--- Loads the Google Maps API-->
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwl6CTVUcaPluz69RuPkccQu9YXieyP9k&sensor=false"></script>
     
-    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,500,600,700,800,900,300italic' rel='stylesheet' type='text/css'>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+  <!--- Loads the dependent libraries/fonts/CSS-->  
+  <link href='http://fonts.googleapis.com/css?family=Lato:300,400,500,600,700,800,900,300italic' rel='stylesheet' type='text/css'>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 
-    <link rel="stylesheet" href="docs/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
-    <script type="text/javascript" src="docs/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  <link rel="stylesheet" href="docs/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+  <script type="text/javascript" src="docs/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
-    <link rel="stylesheet" href="../docs/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../docs/font-awesome/css/font-awesome.min.css">
 
 </head>
 
+<!--- _______________________________________-->
 <body>
   {{> page}}
 </body>
 
+
+
+<!--- Start page Template-->
 <template name="page">
 
   <div id="map-canvas"></div>
@@ -51,7 +56,9 @@
   {{/with}}
 
 </template>
+<!--- End page Template-->
 
+<!--- Start login Template-->
 <template name="login">
 
   <input id="login" name="welcomePanel" type="radio" />
@@ -89,3 +96,4 @@
     <label for="login" id="logIn" class="loginToggle">Or Log In</label>
   </div>
 </template>
+<!--- End login Template-->
