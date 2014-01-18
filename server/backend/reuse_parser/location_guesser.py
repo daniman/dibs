@@ -113,7 +113,7 @@ class LocationGuesser(object):
     def __init__(self):
         self.locationList = ["edgerton", "sidney pacific", "warehouse",
         "simmons","baker", "mccormick", "eastgate", "senior",
-        "ashdown","maseeh","burton-conner","new house","random","bexley"]
+        "ashdown","maseeh","burton-conner","new house","random","bexley","stata"]
         
         #used to internally redirect dorms to their building numbers
         # self.locationMap = {}
@@ -132,6 +132,7 @@ class LocationGuesser(object):
         # self.locationMap["new house","w70"]
         # self.locationMap["random","nw61"]
         # self.locationMap["bexley","w13"]
+        # self.locationMap["stata","32"]
         
         self.noGuess = Guess("","",False)
     
@@ -211,7 +212,8 @@ class LocationGuesser(object):
             return Guess(k_obj.group(2)+k_obj.group(4),"0")
             
         #sometimes in the form "building/lobby 36"
-        b_obj = re.search(r"(\b)((building)|(lobby))( ){0,2}(#)?(\d{1,2})",text.lower())
+        #sometimes building is abbreviated to bldg or bldg.
+        b_obj = re.search(r"(\b)((building)|(lobby)|(bldg)|(bldg\.))( ){0,2}(#)?(\d{1,2})",text.lower())
         if b_obj:
             if (b_obj.group(2)=="lobby"):
                 return Guess(b_obj.groups()[-1], "lobby")
@@ -276,6 +278,13 @@ class LocationGuess_methods_Tests(unittest.TestCase):
         result = self.L.getLocation_building("free twizzlers in lobby 5")
         self.assertEquals(result.__str__(),"5:lobby")        
         
+    def testLG_buildingMatch_abbreviated_1(self):
+        result = self.L.getLocation_building("gta v in bldg 5 along ")
+        self.assertEquals(result.__str__(),"5:0")   
+        
+        result = self.L.getLocation_building("gta iv in bldg. 4")
+        self.assertEquals(result.__str__(),"4:0")   
+        
     def testLG_floorMatch(self):
         result = self.L.getLocation_floor("Free things are on the 3rd floor of 36")
         self.assertEquals(result.__str__(),"36:3rd")
@@ -288,8 +297,11 @@ class LocationGuess_methods_Tests(unittest.TestCase):
         self.assertEquals(result.__str__(),"simmons:0")        
         
         result = self.L.getLocation_word("pick up in burton-conner.")
-        self.assertEquals(result.__str__(),"burton-conner:0")
+        self.assertEquals(result.__str__(),"burton-conner:0")        
         
+        result = self.L.getLocation_word("dolce gabbana shoes and oprah at the stata center")
+        self.assertEquals(result.__str__(),"stata:0")
+    
     def testUrlStripper(self):
         text = "outside 32-044 http://www.amazon.com/gp/product/B004WY4U8S/ref=oh_details_o00_s00_i00?ie=UTF8&psc=1 Had I read the"
         self.assertEquals(urlStripper(text), "outside 32-044 ")
