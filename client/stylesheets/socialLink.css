@@ -1,0 +1,36 @@
+#socialLinkHolder img {
+	width: 30px;
+	height: 30px;
+	transition: 1s;
+	margin: 2px;
+	border-radius: 25px;
+}
+
+#socialLinkHolder {
+	z-index: 3;
+	position: absolute;
+	bottom: 8px;
+	right: 308px;
+	transition: 1s;
+}
+
+#toggle:checked ~ #socialLinkHolder{
+    right: 0px;
+}
+
+#info:hover, #info:focus {
+	transition: 0s;
+	background-color: #18DE4B;
+}
+#twitter:hover, #twitter:focus {
+	transition: 0s;
+	background-color: #4099FF;
+}
+#facebook:hover, #facebook:focus {
+	transition: 0s;
+	background-color: #3B5998;
+}
+#github:hover, #github:focus {
+	transition: 0s;
+	background-color: #ffa900;
+}

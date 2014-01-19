@@ -1,0 +1,218 @@
+form {
+	margin: 0px;
+}
+
+#signUp {
+	width: 40%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#login-holder {
+	width: 260px;
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+	padding-bottom: 30px;
+}
+
+#login-email {
+	width: 244px;
+	display: block;
+	margin: 0px;
+	border-radius: 4px 4px 0px 0px;
+	border-left: 2px solid #0893cf;
+	border-top: 2px solid #0893cf;
+	border-right: 2px solid #0893cf;
+}
+
+#login-password {
+	width: 244px;
+	display: block;
+	margin: 0px;
+	border-radius: 0px 0px 4px 4px;
+	border-left: 2px solid #0893cf;
+	border-bottom: 2px solid #0893cf;
+	border-right: 2px solid #0893cf;
+	margin-bottom: 10px;
+}
+
+#login-button {
+	display: block;
+	width: 100%;
+	background-color: #0893cf;
+	font-size: 20px;
+	color: black;
+	border: none;
+	border-radius: 4px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	height: 30px;
+	margin-bottom: 0px;
+}
+
+#login-button:focus, #login-button:hover {
+	opacity: .9;
+	outline: none;
+}
+
+button:hover, button:focus {
+	outline: none;
+	text-decoration: underline;
+}
+
+.subtext {
+	display: block;
+	padding: 10px;
+	background-color: transparent;
+	color: white;
+	margin-left: auto;
+	margin-right: auto;
+	border: none;
+}
+
+#logInButton {
+	width: 40%;
+}
+
+#createNewAccountButton {
+	width: 70%;
+	padding: 0px;
+	padding-top: 10px;
+}
+
+#forgotPasswordButton {
+	width: 70%;
+	padding-top: 0px;
+}
+
+#register-holder {
+	width: 260px;
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+	padding-bottom: 30px;
+}
+
+#password-recover-holder {
+	width: 260px;
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+	padding-bottom: 30px;
+}
+
+#password-recover-email {
+	width: 244px;
+	display: block;
+	margin: 0px;
+	border-radius: 4px;
+	border: 2px solid #ffa900;
+	margin-bottom: 10px;
+}
+
+#account-email {
+	width: 244px;
+	display: block;
+	margin: 0px;
+	border-radius: 4px 4px 0px 0px;
+	border-left: 2px solid #44d242;
+	border-top: 2px solid #44d242;
+	border-right: 2px solid #44d242;
+}
+
+#account-password {
+	width: 244px;
+	display: block;
+	margin: 0px;
+	border-radius: 0px;
+	border-left: 2px solid #44d242;
+	border-right: 2px solid #44d242;
+}
+
+#account-confirm-password {
+	width: 244px;
+	display: block;
+	margin: 0px;
+	border-radius: 0px 0px 4px 4px;
+	border-left: 2px solid #44d242;
+	border-bottom: 2px solid #44d242;
+	border-right: 2px solid #44d242;
+	margin-bottom: 10px;
+}
+
+#create-account {
+	display: block;
+	width: 100%;
+	background-color: #44d242;
+	font-size: 20px;
+	color: black;
+	border: none;
+	border-radius: 4px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	height: 30px;
+}
+
+#send-password-recover-email {
+	display: block;
+	width: 100%;
+	background-color: #ffa900;
+	font-size: 20px;
+	color: black;
+	border: none;
+	border-radius: 4px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	height: 30px;
+}
+
+#create-account:focus, #create-account:hover {
+	opacity: .9;
+	outline: none;
+}
+
+.loginErrorMessage {
+	height: 15px;
+	font-size: 15px;
+	line-height: 15px;
+	margin: 5px;
+	color: #d84343;
+	text-align: center;
+}
+
+#resetPassword:checked ~ #login-holder {
+	display: none;
+}
+
+#resetPassword:checked ~ #register-holder {
+	display: none;
+}
+
+#register:checked ~ #login-holder {
+	display: none;
+}
+
+#register:checked ~ #password-recover-holder {
+	display: none;
+}
+
+#login:checked ~ #register-holder {
+	display: none;
+}
+
+#login:checked ~ #password-recover-holder {
+	display: none;
+}
+
+#login {
+	display: none;
+}
+
+#register {
+	display: none;
+}
+
+#resetPassword {
+	display: none;
+}
