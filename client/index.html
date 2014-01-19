@@ -1,5 +1,8 @@
+<!--- Dibs! HTML by Danielle Man, Andrew Mikofalvy and Julian Contreras. 2014-->
 <head>
+  <title>Dibs! Reuse Map Client</title>
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <link rel="icon" type ="image/png" href="public/images/favicon.png">
 
   <!--- Loads the Google Maps API-->
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwl6CTVUcaPluz69RuPkccQu9YXieyP9k&sensor=false"></script>
@@ -9,10 +12,11 @@
   <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
   <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 
+
   <link rel="stylesheet" href="docs/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
   <script type="text/javascript" src="docs/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
-  <link rel="stylesheet" href="../docs/font-awesome/css/font-awesome.min.css">
+  <!-- <link rel="stylesheet" href="../docs/font-awesome/css/font-awesome.min.css"> already included in Meteor-->
 
 </head>
 
@@ -34,7 +38,7 @@
 
     {{> accordion}}
 
-    {{> postList}}
+    {{> postsList}}
 
     <input id="alert" name="alertPopup" type="checkbox" />
     <div id="newItemAlert" class="draggable">
@@ -60,11 +64,6 @@
 
 
 <!--- Start login Template-->
-
-<template name="map">
-  <div id="map-canvas"></div>
-</template>
-
 
 <template name="login">
 

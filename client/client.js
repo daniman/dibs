@@ -108,18 +108,6 @@ Template.page.rendered = function() {
 
 Session.set('map', true); // global flag saying we initialized already
 
-
-// END LOGIN RELATED CODE ///////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-// Retrieve an array of markers from the Database
-function getMarkers(){
- var markers = [];
- 
- return markers;
-}
-
 // allows easy access of username from within html handlebars
 Template.accordion.displayName = displayName; // referring to helper funtion displayName() in login.js 
 

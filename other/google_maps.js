@@ -1,6 +1,6 @@
 gmaps = {
 	//The map object
-	map:null,
+	map: null,
 
 	//The google marker objects
 	markers: [],
