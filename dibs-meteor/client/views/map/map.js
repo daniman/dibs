@@ -76,11 +76,9 @@ cursorShit.observeChanges({
 		var marker = {
 			lat: fields.latitude,
 			lng: fields.longitude,
-			title: '#Faggot'
+			title: 'ReUse Listing'
 		};
 		gmaps.addMarker(marker);
-		console.log("FUUUUUUUUUUUUUUU");
-
 	},
 	removed: function(id) {
 
