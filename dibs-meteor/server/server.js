@@ -30,5 +30,5 @@ Meteor.startup(function () {
 		}
 		//console.log(result.content);
 		console.log('Recieved Data from Parse');
-	}, 2700);
+	}, 27000);
 });
