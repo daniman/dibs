@@ -413,6 +413,7 @@ hr {
 	font-style: italic;
     overflow: hidden;
     max-height: 60px;
+    color: #8c8d8c; /*grey*/
 }
 
 .hostname {

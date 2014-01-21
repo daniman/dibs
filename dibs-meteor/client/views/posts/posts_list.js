@@ -6,4 +6,5 @@ Template.postsList.helpers({
 
 $(document).ready(function() {
 	$(".fancybox").fancybox();
+	$(".draggable").draggable();
 });
