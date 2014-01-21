@@ -80,6 +80,11 @@ cursorMarker.observeChanges({
 			title: 'ReUse Listing'
 		};
 		gmaps.addMarker(marker);
+
+		// google.maps.event.addListener(marker, 'click', function() {
+  //    		gmaps.addInfoWindow(marker,'Hello World!');
+  //   	});
+
 	},
 	removed: function(id) {
 

@@ -10,13 +10,17 @@ Meteor.startup(function () {
 				"X-Parse-REST-API-Key": "ES02u7gPWXSmOshD1Lwo2yhxjj4j0fxbcqdTUSBE"
 			},
 			params: {
-				where: "{\"guess_found\":true}"
+				where: "{"+
+					"\"guess_found\":true,"+
+					"\"email_timestamp_unix\": {\"$gte\":"+timeOfLastRequest+"}"+
+				"}"
 			}
 		});
 
 
 		if (result.statusCode === 200){
 			var respJson = JSON.parse(result.content);
+			console.log(respJson.results.length);
 			_.forEach(respJson.results, function(listing) {
 				Posts.upsert({parseId: listing.objectId}, {
 					$set: {
@@ -30,8 +34,10 @@ Meteor.startup(function () {
 					}
 				});			
 			});
+		}else{
+			console.log('Not 200');
 		}
-		timeOfLastRequest = Date.getTime();
+		timeOfLastRequest = new Date().getTime();
 		console.log('Recieved Data from Parse');
 	}, 30000);
 });
