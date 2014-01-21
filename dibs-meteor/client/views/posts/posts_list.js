@@ -3,3 +3,7 @@ Template.postsList.helpers({
     return Posts.find();
   }
 });
+
+$(document).ready(function() {
+	$(".fancybox").fancybox();
+});

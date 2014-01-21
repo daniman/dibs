@@ -26,6 +26,7 @@ Template.page.rendered = function() {// Geolocation Vars for setting up map and 
     };
 
 	gmaps.initialize(mapOptions);
+  console.log("here");
 
 //----------------------------------------------------------------------------------------------------------//
 
@@ -84,6 +85,7 @@ cursorMarker.observeChanges({
 		};
 		
 		gmaps.addMarker(post);
+    console.log("gmaps");
 
 	},
 	removed: function(id) {

@@ -107,7 +107,3 @@ Template.page.rendered = function() {
 //----------------------------------------------------------------------------------------------------------//
 
 Session.set('map', true); // global flag saying we initialized already
-
-// allows easy access of username from within html handlebars
-Template.accordion.displayName = displayName; // referring to helper funtion displayName() in login.js 
-
