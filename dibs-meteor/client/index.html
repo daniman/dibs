@@ -30,17 +30,19 @@
 <!--- Start page Template-->
 <template name="page">
 
-  {{> map}}
+  {{#constant}}
+    {{> map}}
+  {{/constant}}
+  
 
   <img id="logo" src="/images/logo.png">
-
+  {{#isolate}}
   {{#with currentUser}}
 
     {{> accordion}}
 
     
       {{> postsList}}
-    
 
     <input id="alert" name="alertPopup" type="checkbox" />
     <div id="newItemAlert" class="draggable">
@@ -60,6 +62,7 @@
     </div>
 
   {{/with}}
+{{/isolate}}
 
 </template>
 <!--- End page Template-->

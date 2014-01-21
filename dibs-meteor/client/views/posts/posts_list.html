@@ -22,7 +22,9 @@
     </div>
     <div class='posts'>
       {{#each posts}}
-        {{> postItem}}
+        {{#isolate}}
+          {{> postItem}}
+        {{/isolate}}
       {{/each}}
     </div>
 

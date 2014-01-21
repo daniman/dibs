@@ -14,6 +14,7 @@ Template.page.rendered = function() {// Geolocation Vars for setting up map and 
 	      ] 
 	    }
 	  ];
+
 	window.mapOptions = {
         zoom: 15,
         disableDefaultUI: true,
@@ -70,8 +71,8 @@ Template.page.rendered = function() {// Geolocation Vars for setting up map and 
 
   // });\\
 
-var cursorShit = Posts.find();
-cursorShit.observeChanges({
+var cursorMarker = Posts.find();
+cursorMarker.observeChanges({
 	added: function(id, fields){
 		var marker = {
 			lat: fields.latitude,

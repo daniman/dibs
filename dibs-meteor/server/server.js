@@ -1,5 +1,5 @@
 Meteor.startup(function () {
-	
+	var timeOfLastRequest = 0;
 	//Retrieve new found posts from Parse every 2.7 secs
 	Meteor.setInterval( function(){
 		
@@ -14,6 +14,7 @@ Meteor.startup(function () {
 			}
 		});
 
+
 		if (result.statusCode === 200){
 			var respJson = JSON.parse(result.content);
 			_.forEach(respJson.results, function(listing) {
@@ -21,14 +22,16 @@ Meteor.startup(function () {
 					$set: {
 						parseId: listing.objectId,
 						title: listing.email_subject,
+						author: listing.email_sender,
+						postTime: listing.email_timestep_unix,
+						content: listing.email_body,
 						latitude: listing.gps_location.latitude,
 						longitude: listing.gps_location.longitude,
 					}
 				});			
 			});
-			//console.log('Total available Posts:'+ respJson.results.length);
 		}
-		//console.log(result.content);
+		timeOfLastRequest = Date.getTime();
 		console.log('Recieved Data from Parse');
-	}, 27000);
+	}, 30000);
 });
