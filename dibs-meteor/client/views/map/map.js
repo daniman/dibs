@@ -74,20 +74,20 @@ Template.page.rendered = function() {// Geolocation Vars for setting up map and 
 var cursorMarker = Posts.find();
 cursorMarker.observeChanges({
 	added: function(id, fields){
-		var marker = {
+		var post = {
 			lat: fields.latitude,
 			lng: fields.longitude,
-			title: 'ReUse Listing'
+			title: fields.title,
+			content:fields.content,
+			author: fields.author,
+			postTime: fields.postTime
 		};
-		gmaps.addMarker(marker);
-
-		// google.maps.event.addListener(marker, 'click', function() {
-  //    		gmaps.addInfoWindow(marker,'Hello World!');
-  //   	});
+		
+		gmaps.addMarker(post);
 
 	},
 	removed: function(id) {
-
+		//marker.setMap(null);
 	}
 });
 

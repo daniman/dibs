@@ -27,7 +27,7 @@ Meteor.startup(function () {
 						parseId: listing.objectId,
 						title: listing.email_subject,
 						author: listing.email_sender,
-						postTime: listing.email_timestep_unix,
+						postTime: listing.email_timestamp_unix,
 						content: listing.email_body,
 						latitude: listing.gps_location.latitude,
 						longitude: listing.gps_location.longitude,
