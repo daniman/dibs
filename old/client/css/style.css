@@ -366,6 +366,11 @@ A {
 	color: black;
 }
 
+#postListContainerHeader:hover {
+	color: black;
+	cursor: default;
+}
+
 #postListTitle {
 	font-size: 30px;
 	text-align: center;
@@ -382,8 +387,7 @@ A {
 	padding: 5px;
 }
 
-.post-content:hover .description,
-.post-content:hover .title {
+.post:hover {
 	color: #18DE4B;
 	cursor: pointer;
 }
@@ -405,18 +409,6 @@ hr {
 	margin: 5px;
 	margin-top: 0px;
 	white-space: normal;
-	font-weight: 300;
-	font-style: italic;
-    overflow: hidden;
-    max-height: 60px;
-    color: #8c8d8c; /*grey*/
-}
-
-.hostname {
-    line-height: 15px;
-	margin: 5px;
-	margin-top: 0px;
-	white-space: nowrap;
 	font-weight: 300;
 	font-style: italic;
     overflow: hidden;
