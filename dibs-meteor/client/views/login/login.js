@@ -56,17 +56,6 @@ Template.login.events({ // code to be run when an event occurs in the 'login' te
   }
 });
 
-Template.accordion.events({ // code to be run when events occur in the 'logout' template
-  'click #logout' : function(e, t){ // when the user requests a logout
-    Meteor.logout(function(){ }); // tell meteor to logout the user
-    return false; 
-  }
-
-
-
-});
-
-
 
 
 

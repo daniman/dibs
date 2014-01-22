@@ -2,9 +2,17 @@
 	<hr>
     <div class="post">
     	<div class='post-content'>
+
 	      <div class="title">{{title}}</div>
+
 	      <div class="description">{{content}}</div>
-	      <div class="hostname"><a href='{{url}}'>{{author}}</a></div>
+
+	      <div class="hostname">
+	      	<a href='mailto:{{author}}?Subject=Re: {{title}}' target="_top">
+	      		{{author}}
+	      	</a>
+	      </div>
+
       	</div>
     </div>
 </template>

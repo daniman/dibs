@@ -26,8 +26,7 @@ gmaps = {
 		});
 		
 		infowindow = new google.maps.InfoWindow({
-			width: 300,
-			height: 300
+			maxWidth: 400
 		});
 		
 		//set the marker color according to time
