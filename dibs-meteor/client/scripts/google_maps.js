@@ -20,6 +20,18 @@ gmaps = {
 			title: marker.title,
 			icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
 		});
+
+		console.log(marker);
+
+		var infoWindow = new google.maps.InfoWindow({
+		    content: '<p>' + marker.title + '</p>' + 
+                '<p>' + marker.content + '</p>'                
+		});
+
+		google.maps.event.addListener(gMarker, 'click', function() {
+		    infoWindow.open(map,gMarker);
+		});
+
 		this.latLngs.push(gLatLng);
 		this.markers.push(gMarker);
 		this.markerData.push(marker);
@@ -66,6 +78,9 @@ gmaps = {
 			mapOptions
 		);
 
+		// A global flag to say we are done with init
+		Session.set('map', true);
+
 /** ------------------------------------------------------------------------------------------------------------- **/
 		google.maps.event.addListener(map, 'click', function(event) {
 
@@ -82,7 +97,7 @@ gmaps = {
 		    var marker = new google.maps.Marker({
 		      position: event.latLng,
 		      map: map,
-		      icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+		      icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
 		      title: "New Item!"
 		    })
 
@@ -97,8 +112,8 @@ gmaps = {
 		        console.log("meow");
 
 		        var post = {
-			        lat: event.latLng.lat(),
-			        lng: event.latLng.lng(),
+			        latitude: event.latLng.lat(),
+			        longitude: event.latLng.lng(),
 			        title: title,
 			        content: description,
 			        author: "current user",
@@ -109,6 +124,8 @@ gmaps = {
 
 		        infoWindow.setContent("<p>" + title + "</p>" + "<p>" + description + "</p>");
 		        e.preventDefault();
+
+		        marker.setMap(null);
 		      });
 		    });
 
@@ -116,8 +133,6 @@ gmaps = {
 
 		});
 /** ------------------------------------------------------------------------------------------------------------- **/
-		// A global flag to say we are done with init
-		Session.set('map', true);
 
 	}
 }
