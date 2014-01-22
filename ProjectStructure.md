@@ -36,5 +36,3 @@ _Note that js files in lib folders are loaded before other js files_
 | client/views/&lt;page&gt;.js     |  _and the JS to hook it up_  |
 | client/views/&lt;type&gt;/       |  _if you find you have a lot of views of the same object type_ |
 | client/lib                       | _client specific libraries (also loaded first)_ |
-| client/lib/environment.js  	   |   _configuration of any client side packages_ |
-| client/lib/helpers            |  _any helpers (handlebars or otherwise) that are used often in view files_ |
