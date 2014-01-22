@@ -17,6 +17,7 @@ gmaps = {
 
 	//add a marker with formatted marker data
 	addMarker: function(marker) {
+		//console.log('in addmarker');
 		var gLatLng = new google.maps.LatLng(marker.lat, marker.lng);
 		var gMarker = new google.maps.Marker({
 			position: gLatLng,
@@ -26,22 +27,31 @@ gmaps = {
 		});
 		
 		infowindow = new google.maps.InfoWindow({
-			width: 300,
-			height: 300
+			maxWidth: 300
 		});
 		
-		//set the marker color according to time
+		///////////////////////////////////////
+		//Change the marker color according to how old the post is 
 		var currentTime = new Date();
-		var thisTime = new Date(marker.postTime*1000);  
+		var thisTime = new Date(marker.postTimeUnix*1000);  
 		var timeDifference = currentTime.getTime() - thisTime.getTime();
-		var days = Math.floor(timeDifference / 86400000);
 		
-		//console.log('DAYS: '+days);
-		var maxDays = 3;
+		var days = Math.floor(timeDifference / 86400000);
 
+		var maxDays = 3;
+		
 		var R = Math.round((255*days)/maxDays);
 		var G = Math.round((255*(maxDays-days))/maxDays);
 		var B = Math.round(0);
+		
+		//console.log('Before: '+R+':'+G);
+		R = clamp(R,0,255);
+		G = clamp(G,0,255);
+		//console.log('After: '+R+':'+G);
+
+		function clamp(value, minValue, maxValue){
+			return Math.max(Math.min(value,maxValue), minValue);
+		}
 
 
 		function componentToHex(c) {
@@ -53,24 +63,27 @@ gmaps = {
 			return componentToHex(r) + componentToHex(g) + componentToHex(b);
 		}
 
-		// console.log(rgbToHex(R,G,B));
-		// gMarker.setIcon('http://www.googlemapsmarkers.com/v1/' + rgbToHex(R,G,B));
 		
+		gMarker.setIcon('http://www.googlemapsmarkers.com/v1/' + rgbToHex(R,G,B));
+		
+		//////////////////////////////
 		this.latLngs.push(gLatLng);
 		this.markers.push(gMarker);
 		this.markerData.push(marker);
 		
 		google.maps.event.addListener(gMarker, 'click', function() {
 			this.map.panTo(gMarker.getPosition());
-			var date =  new Date(marker.postTime*1000);
+			// var date =  new Date(marker.postTimeUnix*1000);
 			infowindow.setContent("<p class='infowindowTitle'>" + marker.title + "</p>" + 
-				"<p class='infowindowAuthorAndDate'> By:" + marker.author + " at " + date.toUTCString() + "</p>" +
+				"<p class='infowindowAuthorAndDate'> By:" + marker.author + " on " + marker.postDateTime + "</p>" +
 				"<p class='infowindowContent'>" + marker.content + "</p>");
 			infowindow.open(this.map,gMarker);
 		});
 
 		return gMarker;
 	},
+
+
 
 	//calculate the bounding box from markers
 	calcBounds: function() {
@@ -114,25 +127,27 @@ gmaps = {
 		);
 
 		//A click listener to create a reuse listing
-		google.maps.event.addListener(this.map, 'click', function(event) {
-		    var tempMarker = new google.maps.Marker({
-				position: event.latLng,
-				map: this.map,
-				icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
-				title: "New Post!"
-		    })
-			infowindow.setContent(
-				'<form id="newItemForm">Post a new thing on dibs!' + 
-                '<br><input id="newItemTitle" type="text" name="title" placeholder="Title">' + 
-                '<br><input type="text" id="newItemDescription" name="description" placeholder="Description">' + 
-                '<br><input id="submitNewItem" type="submit" value="Post!" />' + 
-                '</form>'
-            );
-			infowindow.open(this.map,tempMarker);
-		});
+		// google.maps.event.addListener(this.map, 'click', function (event) {
+		// 	console.log('clicked on map');
+		//     var tempMarker = new google.maps.Marker({
+		// 		position: event.latLng,
+		// 		map: this.map,
+		// 		icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+		// 		title: "Dibs Post!"
+		//     });
+			// infowindow.setContent(
+			// 	'<form id="newItemForm">Post a new thing on dibs!' + 
+   //              '<br><input id="newItemTitle" type="text" name="title" placeholder="Title">' + 
+   //              '<br><input type="text" id="newItemDescription" name="description" placeholder="Description">' + 
+   //              '<br><input id="submitNewItem" type="submit" value="Post!" />' + 
+   //              '</form>'
+   //          );
+			// infowindow.open(this.map,tempMarker);
+		// });
 		
 
 		// A global flag to say we are done with init
 		Session.set('map', true);
+		//console.log('init done');
 	}
 }

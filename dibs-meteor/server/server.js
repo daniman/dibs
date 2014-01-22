@@ -1,8 +1,9 @@
 Meteor.startup(function () {
+	console.log('startup');
 	var timeOfLastRequest = 0;
 	//Retrieve new found posts from Parse every 2.7 secs
 	Meteor.setInterval( function(){
-		
+		console.log('request');
 		// RESTful Parse Query with fixed params
 		result = Meteor.http.get('https://api.parse.com/1/classes/ReuseItem?', { //where={"guess_found":true}',{ //"https://api.parse.com/1/classes/SuperDildo", {//TestReuseItem_rev2
 			headers: {
@@ -25,17 +26,31 @@ Meteor.startup(function () {
 				Posts.upsert({parseId: listing.objectId}, {
 					$set: {
 						parseId: listing.objectId,
+
 						title: listing.email_subject,
-						author: listing.email_sender,
-						postTime: listing.email_timestamp_unix,
 						content: listing.email_body,
+						claimedBy: listing.claimed_by,
+						emailId: listing.email_id,
+						emailSender: listing.email_sender,
+						postTimeUnix: listing.email_timestamp_unix,
 						latitude: listing.gps_location.latitude,
 						longitude: listing.gps_location.longitude,
+						guessFound: listing.guess_found,
+						itemLocationGeneral: listing.item_location_general,
+						claimed: listing.claimed,
+						itemLocationSpecific: listing.item_location_specific,
+						keywords: listing.keywords,
+						uniqueViewers: listing.uniqueViewers,
+						postDateTime: listing.email_datetime,
+						senderAddress: listing.email_senderAddress,
+						author: listing.email_senderName,
+						guessLastResort: listing.guess_last_resort
+								
 					}
 				});			
 			});
 		}else{
-			console.log('Not 200');
+			console.log('Not status 200');
 		}
 		timeOfLastRequest = new Date().getTime();
 		console.log('Recieved Data from Parse');

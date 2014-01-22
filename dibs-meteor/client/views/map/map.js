@@ -56,18 +56,26 @@ Template.map.rendered = function() {// Geolocation Vars for setting up map and d
         typeof post.latitude !== 'undefined' &&
         typeof post.longitude !== 'undefined') {
 
-        console.log(post.title);
+        //console.log(post.title);
  
         var postMarker = {
             id: post._id,
+            title: post.title,
+            content: post.content,
             lat: post.latitude,
             lng: post.longitude,
-            title: post.title,
-            content: post.content
+            
+            postTimeUnix: post.postTimeUnix,
+            postDateTime: post.postDateTime,
+            author: post.author,
+            guessLastResort: post.guessLastResort,
+            claimed: post.claimed,
+            claimedBy: post.claimedBy     
         };
-
+        //console.log('data created');
         // check if marker already exists
         if (!gmaps.markerExists('id', postMarker.id)) {
+            //console.log('data used');
             gmaps.addMarker(postMarker);
         }
       }
