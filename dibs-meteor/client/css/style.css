@@ -561,3 +561,27 @@ hr {
 #toggle:checked ~ #zoomout{
     right: 0px;
 }
+
+.infowindowTitle {
+	font-size: 15px;
+	font-weight: 400;
+	color: black;
+	margin: 0px;
+}
+
+.infowindowAuthorAndDate {
+	font-size: 13px;
+	font-weight: 300;
+	font-style: italic;
+}
+
+.infowindowContent{
+	font-size: 13px;
+	font-weight: 200;
+	line-height: 12px;
+	color: #8c8d8c; /*grey*/
+}
+
+img {
+	max-width: none;
+}

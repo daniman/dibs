@@ -63,7 +63,9 @@ gmaps = {
 		google.maps.event.addListener(gMarker, 'click', function() {
 			this.map.panTo(gMarker.getPosition());
 			var date =  new Date(marker.postTime*1000);
-			infowindow.setContent("<strong>" + marker.title + "</strong>" + "<p> By:" + marker.author + " at " + date.toUTCString() + "</p>"+"<p>" + marker.content + "</p>");
+			infowindow.setContent("<p class='infowindowTitle'>" + marker.title + "</p>" + 
+				"<p class='infowindowAuthorAndDate'> By:" + marker.author + " at " + date.toUTCString() + "</p>" +
+				"<p class='infowindowContent'>" + marker.content + "</p>");
 			infowindow.open(this.map,gMarker);
 		});
 
