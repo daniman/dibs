@@ -366,11 +366,6 @@ A {
 	color: black;
 }
 
-#postListContainerHeader:hover {
-	color: black;
-	cursor: default;
-}
-
 #postListTitle {
 	font-size: 30px;
 	text-align: center;
@@ -387,7 +382,8 @@ A {
 	padding: 5px;
 }
 
-.post:hover {
+.post-content:hover .description,
+.post-content:hover .title {
 	color: #18DE4B;
 	cursor: pointer;
 }
