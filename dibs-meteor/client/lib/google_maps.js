@@ -27,7 +27,7 @@ gmaps = {
 		});
 		
 		infowindow = new google.maps.InfoWindow({
-			maxWidth: 300
+			maxWidth: 400
 		});
 		
 		///////////////////////////////////////

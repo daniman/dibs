@@ -1,0 +1,75 @@
+@media all and (min-width: 1px) {
+	#logo {
+		display: none;
+	}
+    #socialLinkHolder {
+    	display: none;
+    }
+    .ac-container {
+    	top: -10px;
+    	width: 120px;
+    }
+    #newItemAlert {
+	    display: none;
+	}
+	.hide {
+    	display: none;
+    }
+    #hideArrow {
+    	display: none;
+    }
+    #postListContainer {
+    	display: none;
+    }
+}
+
+@media all and (min-width: 500px) {
+    #logo {
+		z-index: 10;
+		position: absolute;
+		top: 0;
+		width: 100px;
+		height: 35px;
+		margin: 10px;
+		margin-left:45px;
+		display: block;
+	}
+	.ac-container {
+    	top: 45px;
+    	width: 190px;
+    }
+    .hide {
+    	display: inline;
+    }
+}
+
+@media all and (min-width: 850px){
+    #logo {
+		z-index: 10;
+		position: absolute;
+		top: 0;
+		width: 200px;
+		height: 70px;
+		margin: 20px;
+		display: block;
+	}
+    #socialLinkHolder {
+    	display: block;
+    }
+    #hideArrow {
+    	display: block;
+    }
+    #postListContainer {
+    	display: block;
+    }
+    #socialLinkHolder {
+    	display: block;
+    }
+    .ac-container {
+    	top: 110px;
+    	width: 240px;
+    }
+    #newItemAlert{
+	    display: block;
+	}
+}
