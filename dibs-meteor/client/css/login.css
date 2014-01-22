@@ -86,7 +86,15 @@ button:hover, button:focus {
 	padding-top: 0px;
 }
 
-#register-holder {
+#register-1-holder {
+	width: 260px;
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+	padding-bottom: 30px;
+}
+
+#register-2-holder {
 	width: 260px;
 	position: relative;
 	margin-left: auto;
@@ -141,6 +149,19 @@ button:hover, button:focus {
 	margin-bottom: 10px;
 }
 
+#sign-up {
+	display: block;
+	width: 100%;
+	background-color: #44d242;
+	font-size: 20px;
+	color: black;
+	border: none;
+	border-radius: 4px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	height: 30px;
+}
+
 #create-account {
 	display: block;
 	width: 100%;
@@ -152,6 +173,54 @@ button:hover, button:focus {
 	padding-top: 5px;
 	padding-bottom: 5px;
 	height: 30px;
+}
+
+#mit-student {
+	width: 244px;
+	display: block;
+	margin: 0px;
+	border-radius: 4px 4px 0px 0px;
+	border-left: 2px solid #44d242;
+	border-top: 2px solid #44d242;
+	border-right: 2px solid #44d242;
+}
+
+#tos {
+	text-align: center;
+	padding-top: 5px;
+	line-height: 14px;
+	width: 256px;
+	height: 40px;
+	display: block;
+	background-color: white;
+	color: grey;
+	margin: 0px;
+	border-radius: 0px 0px 4px 4px;
+	border-left: 2px solid #44d242;
+	border-bottom: 2px solid #44d242;
+	border-right: 2px solid #44d242;
+	margin-bottom: 10px;
+}
+
+#tosLabel {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	line-height: 14px;
+	vertical-align: bottom;
+	position: relative;
+	display: inline;
+	color: #5794ae; /*#0893cf;*/
+}
+
+#terms-of-service {
+	width: 14px;
+    height: 14px;
+    padding: 0;
+    margin-right: 5px;
+    vertical-align: bottom;
+    position: relative;
+    top: -1px;
+    *overflow: hidden;
 }
 
 #send-password-recover-email {
@@ -181,23 +250,49 @@ button:hover, button:focus {
 	text-align: center;
 }
 
+/** ----------------------------------------------------------------------------------- **/
+
 #resetPassword:checked ~ #login-holder {
 	display: none;
 }
 
-#resetPassword:checked ~ #register-holder {
+#resetPassword:checked ~ #register-1-holder {
 	display: none;
 }
 
-#register:checked ~ #login-holder {
+#resetPassword:checked ~ #register-2-holder {
 	display: none;
 }
 
-#register:checked ~ #password-recover-holder {
+#register-1:checked ~ #login-holder {
 	display: none;
 }
 
-#login:checked ~ #register-holder {
+#register-1:checked ~ #password-recover-holder {
+	display: none;
+}
+
+#register-1:checked ~ #register-2-holder {
+	display: none;
+}
+
+#register-2:checked ~ #login-holder {
+	display: none;
+}
+
+#register-2:checked ~ #password-recover-holder {
+	display: none;
+}
+
+#register-2:checked ~ #register-1-holder {
+	display: none;
+}
+
+#login:checked ~ #register-1-holder {
+	display: none;
+}
+
+#login:checked ~ #register-2-holder {
 	display: none;
 }
 
@@ -205,11 +300,17 @@ button:hover, button:focus {
 	display: none;
 }
 
+/** ----------------------------------------------------------------------------------- **/
+
 #login {
 	display: none;
 }
 
-#register {
+#register-1 {
+	display: none;
+}
+
+#register-2 {
 	display: none;
 }
 

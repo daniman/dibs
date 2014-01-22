@@ -1,3 +1,6 @@
+var email;
+var password;
+
 Template.login.events({ // code to be run when an event occurs in the 'login' template
 
   'submit #login-form' : function(e, t){ // when the user submits the login form
@@ -16,39 +19,57 @@ Template.login.events({ // code to be run when an event occurs in the 'login' te
     return false; 
   },
 
-  'submit #register-form' : function(e, t) { // when the user submits request to create a new account
+  'submit #register-1-form' : function(e, t) { // when the user submits request to create a new account
     e.preventDefault();
-    var email = t.find('#account-email').value, password = t.find('#account-password').value;
+    email = $('#account-email').val();
+    password = $('#account-password').val();
 
     // trim helper
     var trimInput = function(val) {
       return val.replace(/^\s*|\s*$/g, "");
     }
-    var email = trimInput(email); // trim email
+    email = trimInput(email); // trim email
 
     var isValidPassword = function(val) { // specifies that a user's password must be more than six characters
       return val.length >= 6; 
     }
 
-    if ($("#account-email").val() === "") { // if the user tries to submit w/o entering an email
-      console.log("no email");
-      $("#register-errorMessage").html("please enter an email");
-    } else if ($("#account-password").val() === "") { // if the user tries to submit w/o entering a password
-      $("#register-errorMessage").html("please enter a password");
-    } else if ($("#account-password").val() !== $("#account-confirm-password").val()) { // if the user's two passwords don't match
-      $("#register-errorMessage").html("passwords don't match");
-    } else { // user has filled out all the inputs
+    if (email === "") { // if the user tries to submit w/o entering an email
+      $("#register-1-errorMessage").html("please enter an email");
+    } else if (password === "") { // if the user tries to submit w/o entering a password
+      $("#register-1-errorMessage").html("please enter a password");
+    } else if (password !== $("#account-confirm-password").val()) { // if the user's two passwords don't match
+      $("#register-1-errorMessage").html("passwords don't match");
+    } else {
       if (isValidPassword(password)) {
+        $('#register-2').prop('checked', true);
+        $("#register-1-errorMessage").html("");
+      } else {
+        $("#register-1-errorMessage").html("passwords must be at least 6 chars");
+      }
+    }
+
+    return false;
+  },
+
+  'submit #register-2-form' : function(e, t) { // when the user submits request to create a new account
+    e.preventDefault();
+
+    console.log($("#mit-student").val());
+    if ($("#mit-student").val().toLowerCase() !== "yes") {
+      $("#register-2-errorMessage").html("you must be an mit-affiliate");
+    } else {
+      if ($("#terms-of-service").is(":checked")) {
         Accounts.createUser({email: email, password : password}, function(err){
           if (err) {
-            $("#register-errorMessage").html("account already exists"); // inform the user that account creation failed
+            $("#register-2-errorMessage").html("account already exists"); // inform the user that account creation failed
           } else {
             // success - account has been created and the user has logged in successfully
+            console.log("account successfully made");
           }
         });
-        Accounts.sendVerificationEmail(email);
-      } else { // the user has not submitted a strong enough password (less than 6 chars)
-        $("#register-errorMessage").html("password must be at least 6 chars");
+      } else {
+        $("#register-2-errorMessage").html("please read and accept the TOS");
       }
     }
 
@@ -64,21 +85,6 @@ var loginButtonsSession = Accounts._loginButtonsSession;
 passwordEntered = function () {
   alert("change!");
 }
-
-// displayName = function () {
-//   var user = Meteor.user();
-//   if (!user)
-//     return '';
-
-//   if (user.profile && user.profile.name)
-//     return user.profile.name;
-//   if (user.username)
-//     return user.username;
-//   if (user.emails && user.emails[0] && user.emails[0].address)
-//     return user.emails[0].address;
-
-//   return '';
-// };
 
 validateUsername = function (username) {
   if (username.length >= 3) {
