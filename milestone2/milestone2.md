@@ -1,4 +1,5 @@
 Team Dibs: Milestone 2 
+====
 
 <strong>Members: Julian Contreras, Danielle Man, Andrew Mikofalvy</strong>
 
@@ -9,7 +10,6 @@ Although Dibs still uses the reuse email list to create posts that provide immed
 
 2. Current Features
 ----
-Currently we have:
 - A navigable map interface 
 - Clickable map markers that dispaly information
 - Clickable 'news feed' style list of ReUse posts that focus on the associated map marker
@@ -22,7 +22,6 @@ Currently we have:
 - Uses a database of mit buildings/general locations gathered from MIT facilities and the google maps python geocode API
 - The algorithm runs on an on-demand refresh rate, so posts during the day appear fast and throttles down during the night when posts are less frequent
 - Optimized map rendering using meteor isolate tags
--
 
 3.Features for the Future (near future)
 ----
