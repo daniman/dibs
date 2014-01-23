@@ -174,8 +174,9 @@ gmaps = {
 		//console.log(post);
 		//console.log("post.title"+post.title);
 		infowindow.setContent("<p class='infowindowTitle'>" + post.title + "</p>" + 
-			"<p class='infowindowAuthorAndDate'> By:" + post.author + " on " + post.postDateTime + "</p>" +
-			"<p class='infowindowContent'>" + post.content + "</p>");
+			"<p class='infowindowAuthorAndDate'> By: <a href='mailto:" + post.senderAddress +
+			"?Subject=Re: " + post.title + "' target='_top'>" + post.author + "</a> on " + post.postDateTime +
+			"</p>" + "<p class='infowindowContent'>" + post.content + "</p>");
 		infowindow.open(map,marker);
 	},
 
@@ -238,18 +239,17 @@ gmaps = {
 		      	e.preventDefault();
 		        var title = $("#newItemTitle").val();
 		        var description = $("#newItemDescription").val();
-		        var time = Date.now();
+		        var d = new Date();
+
 		        var post = {
 			        latitude: event.latLng.lat(),
 			        longitude: event.latLng.lng(),
 			        title: title,
 			        content: description,
 			        author: Template.accordion.displayName(),
-			        postTimeUnix: time,
-			        postDateTime: time
+			        postTimeUnix: Date.now(),
+			        postDateTime: formatDate(d.toUTCString())
 			    };
-
-			    //console.log(post);
 			      
 			    Posts.insert(post);
 
@@ -270,4 +270,10 @@ gmaps = {
 		Session.set('map', true);
 		//console.log('init done');
 	}
+}
+
+formatDate = function(utcDate) {
+	var tmpDate = new Date(utcDate);
+	tmpDate = tmpDate + "";
+	return tmpDate.slice(0, tmpDate.length-15);
 }

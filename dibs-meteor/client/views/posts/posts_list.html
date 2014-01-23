@@ -3,18 +3,18 @@
   <input id="toggle" name="toggleArrow" type="checkbox" />
   <label for="toggle" id="hideArrow"></label>
 
-  <!--   <div id="zoomout"></div>
-  <div id="zoomin"></div> -->
+  <div id="helpHolder">
+    <a class="fancybox fancybox.iframe" href="html/help.html"><img id="help" src="/images/help.png"></a>
+  </div>
 
   <div id="socialLinkHolder">
-    <a class="fancybox fancybox.iframe" href="html/dibsInfo.html"><img id="info" src="/images/social/info.png"></a><br>
+    <a class="fancybox fancybox.iframe" href="html/info.html"><img id="info" src="/images/social/info.png"></a><br>
     <a href="http://www.twitter.com"><img id="twitter" src="/images/social/twitter.png"></a><br>
     <a href="http://www.facebook.com"><img id="facebook" src="/images/social/facebook.png"></a><br>
     <a href="http://github.mit.edu/mit6470/Dibs"><img id="github" src="/images/social/github.png"></a>
   </div>
 
   <div id="postListContainer">
-
     <div id="postListContainerHeader" class="post">
       <div class="description" style="text-align: center; height: 20px; font-weight: 500;">
         Recent Listings (the last 24 hours or so)
@@ -28,6 +28,6 @@
       {{/each}}
       <hr> <!-- added to keep a nice looking space at the bottom of post list -->
     </div>
-
   </div>
+
 </template>

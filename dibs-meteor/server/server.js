@@ -46,7 +46,8 @@ Meteor.startup(function () {
 							itemLocationSpecific: listing.item_location_specific,
 							keywords: listing.keywords,
 							uniqueViewers: listing.uniqueViewers,
-							postDateTime: listing.email_datetime,
+							// postDateTime: listing.email_datetime,
+							postDateTime: formatDate(listing.email_datetime),
 							senderAddress: listing.email_senderAddress,
 							author: listing.email_senderName,
 							guessLastResort: listing.guess_last_resort
@@ -64,3 +65,9 @@ Meteor.startup(function () {
 		console.log('Recieved Data from Parse');
 	}, 3000);
 });
+
+formatDate = function(utcDate) {
+	var tmpDate = new Date(utcDate);
+	tmpDate = tmpDate + "";
+	return tmpDate.slice(0, tmpDate.length-15);
+}

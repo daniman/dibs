@@ -53,10 +53,10 @@ Template.map.rendered = function() {// Geolocation Vars for setting up map and d
  
     _.each(posts, function(post) {
       if (typeof post.title !== 'undefined' &&
-        // typeof post.content !== 'undefined' &&
+        typeof post.content !== 'undefined' &&
         typeof post.latitude !== 'undefined' &&
         typeof post.longitude !== 'undefined') {
-         
+
         // check if marker already exists
         if (!gmaps.markerExists('_id', post._id)) {
             //console.log('data used');

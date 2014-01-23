@@ -316,6 +316,7 @@ A {
 
 hr {
 	margin: 5px;
+	margin-top: 25px;
 }
 
 .title {
@@ -349,7 +350,12 @@ hr {
     overflow: hidden;
     max-height: 60px;
     color: #8c8d8c; /*grey*/
-    display: inline;
+    width: 140px;
+    white-space: nowrap;
+    text-align: right;
+    right: 10px;
+    position: absolute;
+    margin-top: 2px;
 }
 
 .author {
@@ -362,7 +368,10 @@ hr {
     overflow: hidden;
     text-overflow: ellipsis;
     max-height: 60px;
-    display: inline;
+    max-width: 130px;
+    width: 130px;
+    left: 10px;
+    position: absolute;
 }
 
 #newItemForm {
@@ -401,14 +410,13 @@ hr {
 	color: #18DE4B;
 }
 
+#postListContainer input {
+	display: none;
+}
+
 #hideArrow img {
 	padding: 10px;
 	transition: 1s;
-}
-
-
-#postListContainer input {
-	display: none;
 }
 
 #hideArrow{
@@ -425,10 +433,34 @@ hr {
 	transition: 1s;
 }
 
+#help{
+	width: 30px;
+	height: 30px;	
+}
+
+#helpHolder {
+	top: 35px;
+	right: 300px;
+	position: absolute;
+	z-index: 20;
+	margin: 10px;
+	cursor: pointer;
+	transition: 1s;
+	border-radius: 15px;
+}
+
+#helpHolder:hover, #helpHolder:focus {
+	transition: 0s;
+	background-color: #18DE4B;
+}
+
 #toggle:checked + #hideArrow{
 	background: transparent url(/images/arrows/arrow-left.png) no-repeat center center;
     background-size: 30px 30px;
     right: 0px;
+    transition: 1s;
+    padding: 10px 2px 2px 2px;
+    margin-top: 5px
 }
 
 #toggle:checked + #hideArrow ~ #postListContainer{
@@ -436,17 +468,15 @@ hr {
     transition: 1s;
 }
 
+#toggle:checked + #hideArrow ~ #helpHolder{
+    right: 0px;
+    transition: 1s;
+    margin-right: 2px;
+}
+
 #toggle:checked + #hideArrow ~ #socialLinkHolder{
     right: 0px;
     transition: 1s;
-}
-
-#toggle:checked + #hideArrow {
-    right: 0px;
-    transition: 1s;
-    width: 30px;
-	height: 30px;
-	margin: 5px;
 }
 
 #toggle {
