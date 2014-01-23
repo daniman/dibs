@@ -16,10 +16,11 @@ gmaps = {
 	infowindow: null,
 
 	//add a marker with formatted marker data
-	addMarker: function(marker) {
+	addMarkerFromData: function(marker) {
 		//console.log('in addmarker');
 		var gLatLng = new google.maps.LatLng(marker.lat, marker.lng);
 		var gMarker = new google.maps.Marker({
+			_id: marker._id,
 			position: gLatLng,
 			map: this.map,
 			title: marker.title,
@@ -102,6 +103,21 @@ gmaps = {
 		});
 	},
 
+	addUserMarker: function(){
+
+	},
+
+	findMarkerById: function(id){
+		_.each(this.markers,function(currentMarker) {
+			console.log(currentMarker._id);
+			if (currentMarker._id === id){
+				return currentMarker;
+			}else{
+				return null;
+			}
+		});
+	},
+
 	//init map
 	initialize: function(mapOptions, mapStyles) {
 		console.log('[+] Initializing Google Maps...');
@@ -127,23 +143,23 @@ gmaps = {
 		);
 
 		//A click listener to create a reuse listing
-		// google.maps.event.addListener(this.map, 'click', function (event) {
-		// 	console.log('clicked on map');
-		//     var tempMarker = new google.maps.Marker({
-		// 		position: event.latLng,
-		// 		map: this.map,
-		// 		icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-		// 		title: "Dibs Post!"
-		//     });
-			// infowindow.setContent(
-			// 	'<form id="newItemForm">Post a new thing on dibs!' + 
-   //              '<br><input id="newItemTitle" type="text" name="title" placeholder="Title">' + 
-   //              '<br><input type="text" id="newItemDescription" name="description" placeholder="Description">' + 
-   //              '<br><input id="submitNewItem" type="submit" value="Post!" />' + 
-   //              '</form>'
-   //          );
-			// infowindow.open(this.map,tempMarker);
-		// });
+		google.maps.event.addListener(this.map, 'click', function (event) {
+			console.log('clicked on map');
+		    var tempMarker = new google.maps.Marker({
+				position: event.latLng,
+				map: this.map,
+				icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+				title: "Dibs Post!"
+		    });
+			infowindow.setContent(
+				'<form id="newItemForm">Post a new thing on dibs!' + 
+                '<br><input id="newItemTitle" type="text" name="title" placeholder="Title">' + 
+                '<br><input type="text" id="newItemDescription" name="description" placeholder="Description">' + 
+                '<br><input id="submitNewItem" type="submit" value="Post!" />' + 
+                '</form>'
+            );
+			infowindow.open(this.map,tempMarker);
+		});
 		
 
 		// A global flag to say we are done with init

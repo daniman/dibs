@@ -59,7 +59,7 @@ Template.map.rendered = function() {// Geolocation Vars for setting up map and d
         //console.log(post.title);
  
         var postMarker = {
-            id: post._id,
+            _id: post._id,
             title: post.title,
             content: post.content,
             lat: post.latitude,
@@ -76,7 +76,7 @@ Template.map.rendered = function() {// Geolocation Vars for setting up map and d
         // check if marker already exists
         if (!gmaps.markerExists('id', postMarker.id)) {
             //console.log('data used');
-            gmaps.addMarker(postMarker);
+            gmaps.addMarkerFromData(postMarker);
         }
       }
     });
