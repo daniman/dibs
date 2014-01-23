@@ -308,7 +308,7 @@ A {
 	padding: 5px;
 }
 
-.post-content:hover .description,
+.post-content:hover .content,
 .post-content:hover .title {
 	color: #18DE4B;
 	cursor: pointer;
@@ -326,7 +326,7 @@ hr {
     white-space: nowrap;
 }
 
-.description {
+.content {
 	line-height: 15px;
 	margin: 5px;
 	margin-top: 0px;
@@ -338,7 +338,7 @@ hr {
     color: #8c8d8c; /*grey*/
 }
 
-.hostname {
+.author {
     line-height: 15px;
 	margin: 5px;
 	margin-top: 0px;
@@ -350,6 +350,30 @@ hr {
     max-height: 60px;
 }
 
+#newItemForm {
+	margin-top: 5px;
+}
+
+#newItemFormLabel {
+	font-size: 18px;
+	font-weight: 500;
+}
+
+#newItemTitle {
+	width: 350px;
+	margin: 0px;
+	margin-bottom: 5px;
+}
+
+#newItemDescription {
+	width: 350px;
+	height: 100px;
+}
+
+#submitNewItem {
+	background-color: orange;
+}
+
 #hideArrow img {
 	padding: 10px;
 	transition: 1s;
@@ -359,8 +383,6 @@ hr {
 #postListContainer input {
 	display: none;
 }
-
-
 
 #hideArrow{
 	background: transparent url(/images/arrows/arrow-right.png) no-repeat center center;  

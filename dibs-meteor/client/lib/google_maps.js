@@ -22,7 +22,7 @@ gmaps = {
 		var gMarker = new google.maps.Marker({
 			_id: marker._id,
 			position: gLatLng,
-			map: this.map,
+			map: map,
 			title: marker.title,
 			icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
 		});
@@ -73,12 +73,12 @@ gmaps = {
 		this.markerData.push(marker);
 		
 		google.maps.event.addListener(gMarker, 'click', function() {
-			this.map.panTo(gMarker.getPosition());
+			map.panTo(gMarker.getPosition());
 			// var date =  new Date(marker.postTimeUnix*1000);
 			infowindow.setContent("<p class='infowindowTitle'>" + marker.title + "</p>" + 
 				"<p class='infowindowAuthorAndDate'> By:" + marker.author + " on " + marker.postDateTime + "</p>" +
 				"<p class='infowindowContent'>" + marker.content + "</p>");
-			infowindow.open(this.map,gMarker);
+			infowindow.open(map,gMarker);
 		});
 
 		return gMarker;
@@ -92,7 +92,7 @@ gmaps = {
 		for (var i=0, latLngLength = this.latLngs.length; i<latLngLength; i++){
 			bounds.extend(this.latLngs[i]);
 		}
-		this.map.fitBounds(bounds);
+		map.fitBounds(bounds);
 	},
 
 	// check if a marker previously exists
@@ -137,28 +137,58 @@ gmaps = {
 		  clientLng = position.coords.longitude; 
 		  }
 
-		this.map = new google.maps.Map(
+		map = new google.maps.Map(
 			document.getElementById('map-canvas'),
 			mapOptions
 		);
 
 		//A click listener to create a reuse listing
-		google.maps.event.addListener(this.map, 'click', function (event) {
-			console.log('clicked on map');
-		    var tempMarker = new google.maps.Marker({
-				position: event.latLng,
-				map: this.map,
-				icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-				title: "Dibs Post!"
+		google.maps.event.addListener(map, 'click', function(event) {
+
+		    var infoWindow = new google.maps.InfoWindow({
+		      content: '<div id="newItemFormLabel">Post a new thing on dibs!</div>' + 
+		                '<form id="newItemForm"><input id="newItemTitle" type="text" name="title" placeholder="Title">' + 
+		                '<br><textarea id="newItemDescription" name="description" placeholder="Enter a ' +
+		                	'description of your item here." form="newItemForm"></textarea>' + 
+		                '<br><input id="submitNewItem" type="submit" value="Post!" />' + 
+		                '</form>'
 		    });
-			infowindow.setContent(
-				'<form id="newItemForm">Post a new thing on dibs!' + 
-                '<br><input id="newItemTitle" type="text" name="title" placeholder="Title">' + 
-                '<br><input type="text" id="newItemDescription" name="description" placeholder="Description">' + 
-                '<br><input id="submitNewItem" type="submit" value="Post!" />' + 
-                '</form>'
-            );
-			infowindow.open(this.map,tempMarker);
+
+		    var tempMarker = new google.maps.Marker({
+		      position: event.latLng,
+		      map: map,
+		      icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+		      title: "New Item!"
+		    })
+
+		    google.maps.event.addListener(tempMarker, 'click', function() {
+		      infoWindow.open(map, tempMarker);
+		    });
+
+		    google.maps.event.addListener(infoWindow, 'domready', function() {
+		      $("#newItemForm").submit(function(e) {
+		        var title = $("#newItemTitle").val();
+		        var description = $("#newItemDescription").val();
+
+		        var post = {
+			        latitude: event.latLng.lat(),
+			        longitude: event.latLng.lng(),
+			        title: title,
+			        content: description,
+			        author: "current user",
+			        postTime: Date.now()
+			    };
+
+			    console.log(post);
+			      
+			    // Posts.insert(post);
+
+		        tempMarker.setMap(null);
+		      });
+		    });
+
+		    infoWindow.open(map, tempMarker);
+
 		});
 		
 

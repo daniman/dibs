@@ -1,6 +1,28 @@
 var email;
 var password;
 
+$(document).ready(function() {
+  $("#createNewAccount").click(function() {
+    $("#account-email").val($("#login-email").val());
+    $("#account-password").val($("#login-password").val());
+    $("#login-email").val("");
+    $("#login-password").val("");
+    $("#login-errorMessage").html("");
+  });
+  $("#forgotPassword").click(function() {
+    $("#password-recover-email").val($("#login-email").val());
+    $("#login-password").val("");
+  });
+  $("#logIn").click(function() {
+    $("#login-email").val($("#account-email").val());
+    $("#login-password").val($("#account-password").val());
+    $("#account-email").val("");
+    $("#account-password").val("");
+    $("#account-confirm-password").val("");
+    $("#register-1-errorMessage").html("");
+  });
+});
+
 Template.login.events({ // code to be run when an event occurs in the 'login' template
 
   'submit #login-form' : function(e, t){ // when the user submits the login form
@@ -57,7 +79,7 @@ Template.login.events({ // code to be run when an event occurs in the 'login' te
 
     console.log($("#mit-student").val());
     if ($("#mit-student").val().toLowerCase() !== "yes") {
-      $("#register-2-errorMessage").html("you must be an mit-affiliate");
+      $("#register-2-errorMessage").html("you must be an mit-affiliate to join Dibs");
     } else {
       if ($("#terms-of-service").is(":checked")) {
         Accounts.createUser({email: email, password : password}, function(err){
