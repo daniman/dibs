@@ -67,8 +67,49 @@ gmaps = {
 			return componentToHex(r) + componentToHex(g) + componentToHex(b);
 		}
 
+		var hsv2rgb = function(h, s, v) {
+			var rgb, i, data = [];
+			if (s === 0) {
+			rgb = [v,v,v];
+			} else {
+			h = h / 60;
+			i = Math.floor(h);
+			data = [v*(1-s), v*(1-s*(h-i)), v*(1-s*(1-(h-i)))];
+			switch(i) {
+			  case 0:
+			    rgb = [v, data[2], data[0]];
+			    break;
+			  case 1:
+			    rgb = [data[1], v, data[0]];
+			    break;
+			  case 2:
+			    rgb = [data[0], v, data[2]];
+			    break;
+			  case 3:
+			    rgb = [data[0], data[1], v];
+			    break;
+			  case 4:
+			    rgb = [data[2], data[0], v];
+			    break;
+			  default:
+			    rgb = [v, data[0], data[1]];
+			    break;
+			}
+			}
+			return rgb.map(function(x){
+			return ("0" + Math.round(x*255).toString(16)).slice(-2);
+			}).join('');
+			};
+
+		    
+		    var h= Math.floor(Math.abs(maxDays - days) * 120 / maxDays);		    
+		    
+		    //console.log();
+		   
+			
+
 		
-		gMarker.setIcon('http://www.googlemapsmarkers.com/v1/' + rgbToHex(R,G,B));
+		gMarker.setIcon('http://www.googlemapsmarkers.com/v1/' + rgbToHex(R,G,B));//hsv2rgb(h, 1, 1));
 		
 		//////////////////////////////
 		//this.latLngs.push(gLatLng);
@@ -127,15 +168,19 @@ gmaps = {
 	},
 
 	setInfoWindowContent: function(marker) {
-		console.log('setinfowindowcontent');
-		console.log('marker._id:'+ marker._id);
+		//console.log('setinfowindowcontent');
+		//console.log('marker._id:'+ marker._id);
 		post = Posts.findOne({_id: marker._id});
-		console.log(post);
-		console.log("post.title"+post.title);
+		//console.log(post);
+		//console.log("post.title"+post.title);
 		infowindow.setContent("<p class='infowindowTitle'>" + post.title + "</p>" + 
 			"<p class='infowindowAuthorAndDate'> By:" + post.author + " on " + post.postDateTime + "</p>" +
 			"<p class='infowindowContent'>" + post.content + "</p>");
 		infowindow.open(map,marker);
+	},
+
+	setInfowindowForm: function (){
+
 	},
 
 
@@ -166,7 +211,7 @@ gmaps = {
 
 		//A click listener to create a reuse listing
 		google.maps.event.addListener(map, 'click', function(event) {
-
+			//console.log(Meteor.user());
 		    infowindow.setContent('<div id="newItemFormLabel">Post a new thing on Dibs!</div>' + 
 		                '<form id="newItemForm"><input id="newItemTitle" type="text" name="title" placeholder="Title">' + 
 		                '<br><textarea id="newItemDescription" name="description" placeholder="Enter a ' +
@@ -185,6 +230,7 @@ gmaps = {
 
 		    google.maps.event.addListener(tempMarker, 'click', function() {
 		    	infowindow.open(map, tempMarker);
+
 		    });
 
 		    google.maps.event.addListener(infowindow, 'domready', function() {
@@ -192,17 +238,18 @@ gmaps = {
 		      	e.preventDefault();
 		        var title = $("#newItemTitle").val();
 		        var description = $("#newItemDescription").val();
-
+		        var time = Date.now();
 		        var post = {
 			        latitude: event.latLng.lat(),
 			        longitude: event.latLng.lng(),
 			        title: title,
 			        content: description,
-			        author: "current user",
-			        postDateTime: Date.now()
+			        author: Template.accordion.displayName(),
+			        postTimeUnix: time,
+			        postDateTime: time
 			    };
 
-			    console.log(post);
+			    //console.log(post);
 			      
 			    Posts.insert(post);
 
