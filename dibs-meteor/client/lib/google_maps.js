@@ -17,6 +17,8 @@ gmaps = {
 	// There is only one instance of Infowindow that get moved from marker to marker
 	infowindow: null,
 
+	tempMarker:null,
+
 	//add a marker with formatted marker data
 	addMarkerFromPost: function(post) {
 		var gLatLng = new google.maps.LatLng(post.latitude, post.longitude);
@@ -28,9 +30,7 @@ gmaps = {
 			icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
 		});
 		
-		infowindow = new google.maps.InfoWindow({
-			maxWidth: 400
-		});
+		
 
 		//console.log(gMarker._id);
 		
@@ -210,9 +210,21 @@ gmaps = {
 			mapOptions
 		);
 
+		// creates the infowindow once
+		infowindow = new google.maps.InfoWindow({
+			maxWidth: 400
+		});
+
+		//creates the temp marker once
+		tempMarker = new google.maps.Marker({
+		      map: null,
+		      icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+		      title: "New Post!"
+		    });
+
 		//A click listener to create a reuse listing
 		google.maps.event.addListener(map, 'click', function(event) {
-			//console.log(Meteor.user());
+			console.log('map clicked');
 		    infowindow.setContent('<div id="newItemFormLabel">Post a new thing on Dibs!</div>' + 
 		                '<form id="newItemForm"><input id="newItemTitle" type="text" name="title" placeholder="Title">' + 
 		                '<br><textarea id="newItemDescription" name="description" placeholder="Enter a ' +
@@ -220,21 +232,19 @@ gmaps = {
 		                '<br><input id="submitNewItem" type="submit" value="Post!" />' + 
 		                '</form>');
 
-		    var tempMarker = new google.maps.Marker({
-		      position: event.latLng,
-		      map: map,
-		      icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-		      title: "New Item!"
-		    });
+		     tempMarker.setPosition(event.latLng);
+		     tempMarker.setMap(map);
+		    
+
+		    //console.log('marker created');
 
 		    map.panTo(tempMarker.getPosition()); //centers the map on the new temp listing
 
-		    google.maps.event.addListener(tempMarker, 'click', function() {
-		    	infowindow.open(map, tempMarker);
+		    //console.log('map centered');
 
-		    });
+		    google.maps.event.clearListeners(infowindow,'domready');
 
-		    google.maps.event.addListener(infowindow, 'domready', function() {
+		    var infowindowHandler = google.maps.event.addListener(infowindow, 'domready', function() {
 		      $("#newItemForm").submit(function(e) {
 		      	e.preventDefault();
 		        var title = $("#newItemTitle").val();
@@ -250,17 +260,21 @@ gmaps = {
 			        postTimeUnix: Date.now(),
 			        postDateTime: formatDate(d.toUTCString())
 			    };
-			      
+			    console.log('post insert');
 			    Posts.insert(post);
-
+				console.log('remove marker');
 		        tempMarker.setMap(null);
 		      });
 		    });
 
 		    infowindow.open(map, tempMarker);
 
+		    google.maps.event.clearListeners(infowindow,'closeclick');
 		    google.maps.event.addListener(infowindow, 'closeclick', function() {
+		    	console.log('close click');
+		    	google.maps.event.clearListeners(infowindow,infowindowHandler);
 		    	tempMarker.setMap(null);
+
 		    });
 
 		});
@@ -268,7 +282,7 @@ gmaps = {
 
 		// A global flag to say we are done with init
 		Session.set('map', true);
-		//console.log('init done');
+		console.log('init done');
 	}
 }
 
