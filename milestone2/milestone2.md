@@ -11,7 +11,7 @@ Although Dibs still uses the reuse email list to create posts that provide immed
 2. Current Features
 ----
 - A navigable map interface 
-- Clickable map markers that dispaly information
+- Clickable map markers that display information
 - Clickable 'news feed' style list of ReUse posts that focus on the associated map marker
 - Realtime updates: Syncs across all current users browsers whenever someone posts on Dibs or an email comes in through reuse.
 - The ability to post from Dibs
@@ -57,5 +57,5 @@ Google Chrome
 
 8.Risks
 ----
-We are worried about users creating fake accounts and posting inappropraite messages. We are developing a report users features to help alleiviate this risk.
+We are worried about users creating fake accounts and posting inappropriate messages. We are developing a report users features to help alleviate this risk.
 Additionally, we are contemplating email verification.
