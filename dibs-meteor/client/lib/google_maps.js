@@ -189,6 +189,10 @@ gmaps = {
 
 		    infoWindow.open(map, tempMarker);
 
+		    google.maps.event.addListener(infoWindow, 'closeclick', function() {
+		    	tempMarker.setMap(null);
+		    });
+
 		});
 		
 

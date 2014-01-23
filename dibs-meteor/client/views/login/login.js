@@ -96,7 +96,28 @@ Template.login.events({ // code to be run when an event occurs in the 'login' te
     }
 
     return false;
-  }
+  },
+
+  'submit #password-recover-form' : function(e, t) {
+      console.log("click");
+        e.preventDefault();
+        var email = $('#password-recover-email').val();
+        if ((email !== "")) {
+          Accounts.forgotPassword({email: email}, function(err){
+          if (err) {
+           $('#password-errorMessage').html('Password Reset Error &amp; Doh');
+           console.log("fail");
+          }
+          else {
+            $('#password-errorMessage').html('Email Sent &amp; Please check your email.');
+            console.log("success");
+          }
+        });
+        }
+        return false; 
+      },
+
+
 });
 
 
