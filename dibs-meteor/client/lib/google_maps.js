@@ -146,7 +146,7 @@ gmaps = {
 		google.maps.event.addListener(map, 'click', function(event) {
 
 		    var infoWindow = new google.maps.InfoWindow({
-		      content: '<div id="newItemFormLabel">Post a new thing on dibs!</div>' + 
+		      content: '<div id="newItemFormLabel">Post a new thing on Dibs!</div>' + 
 		                '<form id="newItemForm"><input id="newItemTitle" type="text" name="title" placeholder="Title">' + 
 		                '<br><textarea id="newItemDescription" name="description" placeholder="Enter a ' +
 		                	'description of your item here." form="newItemForm"></textarea>' + 
