@@ -8,8 +8,9 @@
 
 Template.postItem.events({
 	'click': function(event){
-		console.log('Clicked on a post!!!');
-		console.log(this._id);
+		
+		gmaps.setFocusToMarker(gmaps.findMarkerById(this._id));
+		
 	}
 });
 

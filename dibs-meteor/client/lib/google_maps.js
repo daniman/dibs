@@ -6,6 +6,8 @@ gmaps = {
 	//The google marker objects
 	markers: [],
 
+	//global associative array
+
 	//Google lat and long objects
 	latLngs: [],
 
@@ -30,6 +32,7 @@ gmaps = {
 		infowindow = new google.maps.InfoWindow({
 			maxWidth: 400
 		});
+		//console.log(gMarker._id);
 		
 		///////////////////////////////////////
 		//Change the marker color according to how old the post is 
@@ -108,15 +111,35 @@ gmaps = {
 	},
 
 	findMarkerById: function(id){
-		_.each(this.markers,function(currentMarker) {
-			console.log(currentMarker._id);
-			if (currentMarker._id === id){
-				return currentMarker;
-			}else{
-				return null;
-			}
-		});
+		console.log(id);
+		 for (i=0;i< this.markers.length;i++){
+		 	if(this.markers[i]._id === id){
+		 		console.log('found');
+		 		return this.markers[i];
+		 	}
+		 }
+		 console.log('not found');
+		 return null;
+		//  _.each(this.markers,function(currentMarker) {
+		// 	console.log(currentMarker._id);
+		// 	if (currentMarker._id === id){
+		// 		console.log('found');
+		// 		return currentMarker;
+		// 	}
+		// });
+		// console.log('not found');
+		// return null;
 	},
+
+	setFocusToMarker: function(marker) {
+		map.panTo(marker.getPosition());
+			// var date =  new Date(marker.postTimeUnix*1000);
+			infowindow.setContent("<p class='infowindowTitle'>" + marker.title + "</p>" + 
+				"<p class='infowindowAuthorAndDate'> By:" + marker.author + " on " + marker.postDateTime + "</p>" +
+				"<p class='infowindowContent'>" + marker.content + "</p>");
+			infowindow.open(map,marker);
+	},
+
 
 	//init map
 	initialize: function(mapOptions, mapStyles) {
@@ -145,14 +168,12 @@ gmaps = {
 		//A click listener to create a reuse listing
 		google.maps.event.addListener(map, 'click', function(event) {
 
-		    var infoWindow = new google.maps.InfoWindow({
-		      content: '<div id="newItemFormLabel">Post a new thing on Dibs!</div>' + 
+		    infowindow.setContent('<div id="newItemFormLabel">Post a new thing on Dibs!</div>' + 
 		                '<form id="newItemForm"><input id="newItemTitle" type="text" name="title" placeholder="Title">' + 
 		                '<br><textarea id="newItemDescription" name="description" placeholder="Enter a ' +
 		                	'description of your item here." form="newItemForm"></textarea>' + 
 		                '<br><input id="submitNewItem" type="submit" value="Post!" />' + 
-		                '</form>'
-		    });
+		                '</form>');
 
 		    var tempMarker = new google.maps.Marker({
 		      position: event.latLng,
@@ -162,10 +183,10 @@ gmaps = {
 		    })
 
 		    google.maps.event.addListener(tempMarker, 'click', function() {
-		      infoWindow.open(map, tempMarker);
+		    	infowindow.open(map, tempMarker);
 		    });
 
-		    google.maps.event.addListener(infoWindow, 'domready', function() {
+		    google.maps.event.addListener(infowindow, 'domready', function() {
 		      $("#newItemForm").submit(function(e) {
 		        var title = $("#newItemTitle").val();
 		        var description = $("#newItemDescription").val();
@@ -187,7 +208,7 @@ gmaps = {
 		      });
 		    });
 
-		    infoWindow.open(map, tempMarker);
+		    infowindow.open(map, tempMarker);
 
 		});
 		
