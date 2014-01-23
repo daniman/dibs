@@ -47,8 +47,6 @@ def findWords(text,wordSequence):
     #join each tuple to a string
     joined = joinAllInTupleList(c)
     
-    #.72 is a good cutoff
-    
     return difflib.get_close_matches(wordSequence, joined, cutoff=0.85)
 
 def urlStripper(text):
@@ -63,8 +61,6 @@ def urlStripper(text):
 def removeSignature(sender, body):
     #attempts to remove the signature from body
     #returns body without the signature
-    # sender = sender.strip().lower()
-    # body = body.strip().lower()
     
     #strip the email from the sender string
     newSender = re.sub(r'(<)[^>]*(>)', '', sender, flags=re.MULTILINE)
@@ -79,16 +75,28 @@ def removeSignature(sender, body):
         #first and last name included!
         lastname = re.escape(exp[-2])
         if DEBUG: print 'LASTNAME====>',lastname
-        newBody = re.sub(r""+lastname+"(.|\d|\r|\n)*", '', body, flags=re.MULTILINE)
+        if len(lastname)>0:
+            newBody = re.sub(r""+lastname+"(.|\d|\r|\n)*", '', body, flags=re.MULTILINE)
     else:
         #only a firstname!
-        newBody = re.sub(r""+firstname+"(.|\d|\r|\n)*", '', body, flags=re.MULTILINE)
+        if len(firstname)>0:
+            newBody = re.sub(r""+firstname+"(.|\d|\r|\n)*", '', body, flags=re.MULTILINE)
 
     return newBody
 
+# def getSignatureFromParts(largerBody, smallerBody):
+    # #this whole pipeline is dumb really
+    # #gets the part of largerBody not included by smallerBody
+    # if not (smallerBody in largerBody):
+        # return ""
+     
+    # return largerBody.replace(smallerBody,"").strip()    
+    
 class Guess(object):
     #stores a guess 
-    def __init__(self, general, specific, foundIt=True):
+    #lastResort is ONLY true if the location was found in the signature
+    def __init__(self, general, specific, foundIt=True, lastResort = False):
+        self.lastResort = lastResort
         if (foundIt):
             self.generalLocation = general.lower().strip()
             self.specificLocation = specific.lower().strip()
@@ -113,7 +121,8 @@ class LocationGuesser(object):
     def __init__(self):
         self.locationList = ["edgerton", "sidney pacific", "warehouse",
         "simmons","baker", "mccormick", "eastgate", "senior",
-        "ashdown","maseeh","burton-conner","new house","random","bexley","stata","stud", "student center"]
+        "ashdown","maseeh","burton-conner","new house","random","bexley","stata","stud", "student center",
+        "east campus"]
         
         #used to internally redirect dorms to their building numbers
         # self.locationMap = {}
@@ -134,6 +143,8 @@ class LocationGuesser(object):
         # self.locationMap["bexley","w13"]
         # self.locationMap["stata","32"]
         # self.locationMap["stud" | "student center","w20"]
+        # self.locationMap[""east campus"","62"]
+
         
         self.noGuess = Guess("","",False)
     
@@ -147,7 +158,10 @@ class LocationGuesser(object):
                 # ("dorm", "*X")
                     #X->General location (Simmons, 34, etc.)
                     #Y->Specific location (3rd floor, 017, 343, etc.
-                    
+        
+        if len(text)==0:
+            return Guess("","",False)
+            
         text = urlStripper(text)
         buildingGuess = self.getLocation_building(text)
         locationGuess = self.getLocation_floor(text)
@@ -163,7 +177,6 @@ class LocationGuesser(object):
         if dormGuess.foundLocation:
             return dormGuess
             
-        # return self.noGuess
         return Guess("","",False)
 
     def makeGuessByEmail(self,email):
@@ -176,18 +189,27 @@ class LocationGuesser(object):
                 # ("dorm", "*X")
                     #X->General location (Simmons, 34, etc.)
                     #Y->Specific location (3rd floor, 017, 343, etc.
-                    
 
-        
-        #put all email attr's to lowercase and trim them!
-        email.fr = email.fr.lower().strip()
-        email.body = email.body.lower().strip()
-        email.subject = email.subject.lower().strip()
+        #put all email attr's to lowercase and trim them! 
+        fr = email.fr.lower().strip()
+        body = email.body.lower().strip()
+        subject = email.subject.lower().strip()
         
         #build the text to parse
         newBody = removeSignature(email.fr, email.body)
         text = email.subject +" "+newBody
-        return self.makeGuess(text)
+        
+        guessText = self.makeGuess(text)
+        
+        if guessText.foundLocation:
+            return guessText
+        
+        # return self.makeGuess(text)
+        
+        #oh crap, scraping the bin on this one, let the signature remain in there!
+        guessSignature = self.makeGuess(email.subject +" "+body)
+        guessSignature.lastResort=True
+        return guessSignature
         
     def getLocation_building(self,text):
         #buildings are usually in the X-Y format. returns "X : Y"
@@ -256,6 +278,11 @@ class LocationGuesser(object):
             
         return Guess(dormMatch,"0")
 
+        
+        
+        
+        
+    
 class LocationGuess_methods_Tests(unittest.TestCase):
     
     def setUp(self):
@@ -487,6 +514,53 @@ class LocationGuess_realTests(unittest.TestCase):
             
         result = self.L.makeGuessByEmail(email)
         self.assertEquals(result.__str__(),"38:177")
+        
+    def testLG_appleBannana(self):
+        email = dummyEmail()
+        email.subject = "[Reuse] Apple 24 inch Displayport Display (Does not power on.)"
+        email.fr = "Thomas Brand <tbrand@mit.edu>"
+        email.body =  """
+            i have a apple 24 inch displayport display up for reuse at e17-110. the display has had its logic board replaced 
+            multiple times, but continues to fail. it may need a psu replacement at this point along with a new logic board, but it is out of warranty.
+             up for grabs to the first person who wants it. ask for me at the desk. i will post again when it is gone.
+
+            https://www.apple.com/pr/library/2008/10/14apple-unveils-24-inch-led-cinema-display-for-new-macbook-family.html
+
+            thomas brand
+            team lead, hardware & software services
+
+            mit information systems & technology
+            40 ames st. | cambridge, ma 02139
+            617-324-7527 | ist.mit.edu/help
+
+
+            _______________________________________________
+            to sub/unsubscribe or to see the list rules:  http://mailman.mit.edu/mailman/listinfo/reuse"""
+            
+        result = self.L.makeGuessByEmail(email)
+        self.assertEquals(result.__str__(),"e17:110")
+        
+    def testSignatureLastResort(self):
+        email = dummyEmail()
+        email.subject = "[Reuse] 1000 piece puzzle - Hometown Collection - will send inter-offic IF you supply bldg. and room #"
+        email.fr = "Helen F Ray <hfray@mit.edu>"
+        email.body =  """
+            i have a face.
+
+
+            Helen F. Ray
+            Administrative Asst.
+            Dept. of Political Science
+            77 Mass. Avenue, E53-370
+            Cambridge, MA 02139
+            ________________________________________
+            to sub/unsubscribe or to see the list rules:  http://mailman.mit.edu/mailman/listinfo/reuse"""
+            
+        result = self.L.makeGuessByEmail(email)
+        self.assertEquals(result.__str__(),"e53:370")
+        self.assertEquals(result.lastResort,True)
+     
+    
    
 class LocationGuess_miscTests(unittest.TestCase):
     def setUp(self):
@@ -496,6 +570,7 @@ class LocationGuess_miscTests(unittest.TestCase):
     def testE15_468(self):
         result = self.L.makeGuess("Old Electronics Outside e15-468")
         self.assertEquals(result.__str__(),"e15:468")   
+
         
 if __name__=="__main__":
     #useful use guide
