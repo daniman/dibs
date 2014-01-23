@@ -78,10 +78,11 @@ gmaps = {
 		google.maps.event.addListener(gMarker, 'click', function() {
 			map.panTo(gMarker.getPosition());
 			// var date =  new Date(marker.postTimeUnix*1000);
-			infowindow.setContent("<p class='infowindowTitle'>" + post.title + "</p>" + 
-				"<p class='infowindowAuthorAndDate'> By:" + post.author + " on " + post.postDateTime + "</p>" +
-				"<p class='infowindowContent'>" + post.content + "</p>");
-			infowindow.open(map,gMarker);
+			gmaps.setInfoWindowContent(gMarker);
+			// infowindow.setContent("<p class='infowindowTitle'>" + post.title + "</p>" + 
+			// 	"<p class='infowindowAuthorAndDate'> By:" + post.author + " on " + post.postDateTime + "</p>" +
+			// 	"<p class='infowindowContent'>" + post.content + "</p>");
+			// infowindow.open(map,gMarker);
 		});
 
 		return gMarker;
@@ -118,18 +119,25 @@ gmaps = {
 		 return null;
 	},
 
-	setFocusToMarker: function(marker, id) {
+	setFocusToMarker: function(marker) {
 		map.panTo(marker.getPosition());
+		console.log(marker._id);
+				
+		gmaps.setInfoWindowContent(marker);
+	},
 
-		console.log(id);
-
-		post = Posts.find({_id: id});
-		
+	setInfoWindowContent: function(marker) {
+		console.log('setinfowindowcontent');
+		console.log('marker._id:'+ marker._id);
+		post = Posts.findOne({_id: marker._id});
+		console.log(post);
+		console.log("post.title"+post.title);
 		infowindow.setContent("<p class='infowindowTitle'>" + post.title + "</p>" + 
 			"<p class='infowindowAuthorAndDate'> By:" + post.author + " on " + post.postDateTime + "</p>" +
 			"<p class='infowindowContent'>" + post.content + "</p>");
 		infowindow.open(map,marker);
 	},
+
 
 
 	//init map
@@ -155,10 +163,10 @@ gmaps = {
 			document.getElementById('map-canvas'),
 			mapOptions
 		);
-		
+
 		//A click listener to create a reuse listing
 		google.maps.event.addListener(map, 'click', function(event) {
-			
+
 		    infowindow.setContent('<div id="newItemFormLabel">Post a new thing on Dibs!</div>' + 
 		                '<form id="newItemForm"><input id="newItemTitle" type="text" name="title" placeholder="Title">' + 
 		                '<br><textarea id="newItemDescription" name="description" placeholder="Enter a ' +
