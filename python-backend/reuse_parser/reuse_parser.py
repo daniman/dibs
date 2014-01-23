@@ -2,6 +2,7 @@
 import time
 import datetime
 import sys, os #for restarting this program
+import traceback
 
 #ported modules
 from gmail import Gmail # https://github.com/charlierguo/gmail
@@ -11,6 +12,7 @@ from parse_rest.connection import register, ParseBatcher
 #self written
 from location_guesser import LocationGuesser as Locator
 import send_log_email as emailer
+import parser_util as util
 
 #TODO: amazon python sdk http://aws.amazon.com/sdkforpython/
 
@@ -37,42 +39,12 @@ def registerAppWithParse():
     
     # register(<application_id>, <rest_api_key>[, master_key=None])
     register(parseAppId, parseRestApiKey)
+ 
+def isReplyEmail(email):
+    #returns true if the email is a reply
+    return email.subject.strip().lower().startswith("re:")
     
-def runTest():
-    pass #needs to be re implemented!
-    #the gmail object
-    g = Gmail()
-    g.login("radixdeveloper", "whereisstrauss")
-    
-    #the location object
-    loc = Locator()
-   
-
-    emails = g.label("reuse").mail(prefetch=True)
-    # email0 = emails[0]
-    # print email0.thread_id
-    # print email0.sent_at,type(email0.sent_at)
-    for email in emails:
-        if email.thread_id=="1456766328446676971": #testing id
-            print email.uid
-            print email.message_id
-            print email.body[0:32] #just a snippet
-            print " "
-        # emails[0].fetch()
-        # location = loc.makeGuessByEmail(email)
-        # if location is None:
-            # counter+=1
-            # print email.body
-            # print 'SUBJECT====>',email.subject
-            # print 'SENDER====>',email.fr
-            
-            # print 'LOCATION====>',location
-            # print "="*40
-            # print "\n"*5
-
-    g.logout()
-    
-class TestReuseItem_rev4(Object):
+class TestReuseItem_rev5(Object):
     pass
     
 class ReuseItem(Object):
@@ -118,11 +90,7 @@ class ReuseParser(object):
         if someGuess.foundLocation and self.buildingLocationDict.has_key(someGuess.generalLocation):
             (gps_lat,gps_lng) = self.buildingLocationDict[someGuess.generalLocation]
             return GeoPoint(latitude=gps_lat, longitude=gps_lng)
-    
-    def isReplyEmail(self,email):
-        #returns true if the email is a reply
-        return email.subject.strip().lower().startswith("re:")
-        
+   
     def appendToLog(self, message):
         #get the timestamp
         
@@ -143,25 +111,33 @@ class ReuseParser(object):
         
     def createReuseItem(self,email,guess):
         #standardizes how the reuse item class should look
-
+            
+        util.cleanUpEmail(email)
+        
         sent_timestamp = time.mktime(email.sent_at.timetuple())
+        (senderName, senderAddress) = util.splitEmailSender(email.fr)
         
         #parcel the object
-        theReuseItem = ReuseItem(email_id= email.thread_id,
+        theReuseItem = ReuseItem(email_id= email.thread_id, 
         email_body= email.body, 
-        email_sender= email.fr,
+        email_senderName = senderName,
+        email_senderAddress = senderAddress,
+        # email_sender= email.fr,
         email_subject= email.subject, 
+        email_timestamp_unix= sent_timestamp, #and the timestamp
+        email_datetime= str(email.sent_at),
         
         item_location_general= guess.generalLocation, #the location of the guess
         item_location_specific= guess.specificLocation, #the location of the guess
         guess_found= guess.foundLocation, #did the parser actually find anything 
+        guess_last_resort = guess.lastResort, #how desperate was the guess?!
         
         keywords=[], #frontend data
-        uniqueViewers= 0,
+        
         claimed= False,
         claimed_by= "",
-        
-        email_timestamp_unix= sent_timestamp) #and the timestamp
+
+        uniqueViewers= 0)
         
         if (guess.foundLocation):
             somePoint = self.getGpsLocation(guess)
@@ -171,14 +147,13 @@ class ReuseParser(object):
             else:
                 print "could not find location _%s_ in lookup dict" % guess.generalLocation
                 self.appendToLog("could not find location _%s_ in lookup dict" % guess.generalLocation)
+                theReuseItem.guess_found=False
                 
         return theReuseItem
         
     def batchSaveList(self, listOfParseObjects):
         print 'batch saving objects'
         self.appendToLog('batch saving %d objects' % len(listOfParseObjects))
-        if (self.isDebugMode):
-            print 'debug mode is on, not saving these objects'
         
         #batch save a list of parseobjects. the batch limit is 50!
         batcher = ParseBatcher()
@@ -210,20 +185,23 @@ class ReuseParser(object):
         logCounter= 0
         for email in emails:
             email.fetch()
+
             logCounter+=1
             if (logCounter %25)==0:
                 print 'read 25 new emails'
                 self.appendToLog('read 25 new emails')
                 
-            email.read()
+            if not self.isDebugMode: email.read()
 
-            if self.isReplyEmail(email):
+            if isReplyEmail(email):
                 if self.isDebugMode: print "skipping"
                 continue
 
             #print the first snippet of the email
             print(email.subject[0:self.logSnippetLength])   
-            self.appendToLog(email.subject[0:self.logSnippetLength])            
+            self.appendToLog(email.subject[0:self.logSnippetLength])      
+
+            #make the guess
             locationGuess = loc.makeGuessByEmail(email)
             self.appendToLog("guess location = %s" % locationGuess.__str__())     
             
@@ -231,7 +209,8 @@ class ReuseParser(object):
             parseObjectBatchList.append(theReuseItem)
         
         #batch save the objects we created above
-        self.batchSaveList(parseObjectBatchList)
+        if len(parseObjectBatchList)>0:
+            self.batchSaveList(parseObjectBatchList)
 
         print 'done'
         self.appendToLog("done with run, logging out of gmail.")
@@ -246,13 +225,17 @@ if (__name__ == "__main__"):
     try:   
         while (True):
             ShouldItRun.yesItShould()
-            time.sleep(300) #wait 5 minutes  
+            if (ShouldItRun.isDebugMode):
+                break; #break for debug
+                
+            time.sleep(util.getWaitTime()) #wait some time 
     except Exception, e:
         #dump the log!
         if (len(ShouldItRun.logStore)>0):
             sendLogEmail(ShouldItRun.logStore)
             
-        sendLogEmail("reuse parser has crashed. restarting. <br><br>"+e.message)
+        ex = traceback.format_exc()
+        sendLogEmail("reuse parser has crashed. restarting. <br><br>"+e.message+"<br>"+ex)
         print("error!",e.message)
         restart_program()
     
