@@ -25,7 +25,7 @@ Although Dibs still uses the reuse email list to create posts that provide immed
 
 3.Features for the Future (near future)
 ----
- - We still would like to add post management to Dibs. Currently it offers as much as the reuse mailing list, but we are close to adding additional features like retracting a post. We just need to add a button/interface to complete such action. The site is useable without this functionality, but 
+ - We still would like to add post management to Dibs. Currently it offers as much as the reuse mailing list, but we are close to adding additional features like retracting a post. We just need to add a button/interface to complete such action. 
 
 4.Features Beyond the MVP
 ----
