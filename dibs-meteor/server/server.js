@@ -1,9 +1,12 @@
 Meteor.startup(function () {
 	console.log('startup');
 	var timeOfLastRequest = 0;
+	
+
 	//Retrieve new found posts from Parse every 2.7 secs
 	Meteor.setInterval( function(){
 		console.log('request');
+		console.log("timeOfLastRequest:"+timeOfLastRequest);
 		// RESTful Parse Query with fixed params
 		result = Meteor.http.get('https://api.parse.com/1/classes/ReuseItem?', { //where={"guess_found":true}',{ //"https://api.parse.com/1/classes/SuperDildo", {//TestReuseItem_rev2
 			headers: {
@@ -13,8 +16,9 @@ Meteor.startup(function () {
 			params: {
 				where: "{"+
 					"\"guess_found\":true,"+
-					"\"email_timestamp_unix\": {\"$gte\":"+timeOfLastRequest+"}"+
-				"}"
+					"\"email_timestamp_unix\": {\"$gt\":"+timeOfLastRequest+"}"+
+				"}",
+				order: '-email_timestamp_unix'
 			}
 		});
 
@@ -22,37 +26,41 @@ Meteor.startup(function () {
 		if (result.statusCode === 200){
 			var respJson = JSON.parse(result.content);
 			console.log(respJson.results.length);
-			_.forEach(respJson.results, function(listing) {
-				Posts.upsert({parseId: listing.objectId}, {
-					$set: {
-						parseId: listing.objectId,
+			if (respJson.results.length>0){
+				_.forEach(respJson.results, function(listing) {
+					Posts.upsert({parseId: listing.objectId}, {
+						$set: {
+							parseId: listing.objectId,
 
-						title: listing.email_subject,
-						content: listing.email_body,
-						claimedBy: listing.claimed_by,
-						emailId: listing.email_id,
-						emailSender: listing.email_sender, //empty
-						postTimeUnix: listing.email_timestamp_unix,
-						latitude: listing.gps_location.latitude,
-						longitude: listing.gps_location.longitude,
-						guessFound: listing.guess_found,
-						itemLocationGeneral: listing.item_location_general,
-						claimed: listing.claimed,
-						itemLocationSpecific: listing.item_location_specific,
-						keywords: listing.keywords,
-						uniqueViewers: listing.uniqueViewers,
-						postDateTime: listing.email_datetime,
-						senderAddress: listing.email_senderAddress,
-						author: listing.email_senderName,
-						guessLastResort: listing.guess_last_resort
-								
-					}
-				});			
-			});
+							title: listing.email_subject,
+							content: listing.email_body,
+							claimedBy: listing.claimed_by,
+							emailId: listing.email_id,
+							emailSender: listing.email_sender, //empty
+							postTimeUnix: listing.email_timestamp_unix,
+							latitude: listing.gps_location.latitude,
+							longitude: listing.gps_location.longitude,
+							guessFound: listing.guess_found,
+							itemLocationGeneral: listing.item_location_general,
+							claimed: listing.claimed,
+							itemLocationSpecific: listing.item_location_specific,
+							keywords: listing.keywords,
+							uniqueViewers: listing.uniqueViewers,
+							postDateTime: listing.email_datetime,
+							senderAddress: listing.email_senderAddress,
+							author: listing.email_senderName,
+							guessLastResort: listing.guess_last_resort
+									
+						}
+					});			
+				});
+
+				timeOfLastRequest = respJson.results[0].email_timestamp_unix;
+			}
 		}else{
-			console.log('Not status 200');
+			console.log(result.statusCode);
 		}
-		timeOfLastRequest = new Date().getTime();
+		
 		console.log('Recieved Data from Parse');
-	}, 30000);
+	}, 3000);
 });

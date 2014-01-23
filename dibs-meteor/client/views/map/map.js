@@ -12,8 +12,9 @@ Template.map.rendered = function() {// Geolocation Vars for setting up map and d
 	      stylers: [
 	        {visibility: 'off'}
 	      ] 
-	    }
-	  ];
+	    },{"featureType":"road","elementType":"labels","stylers":[{"visibility":"simplified"}]},{"featureType":"water","stylers":[{"visibility":"simplified"}]},{"featureType":"transit","stylers":[{"visibility":"simplified"}]},{"featureType":"landscape","stylers":[{"visibility":"simplified"}]},{"featureType":"road.highway","stylers":[{"visibility":"off"}]},{"featureType":"road.local","stylers":[{"visibility":"on"}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"visibility":"on"}]},{"featureType":"water","stylers":[{"color":"#84afa3"},{"lightness":52}]},{"stylers":[{"saturation":-17},{"gamma":0.36}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"color":"#3f518c"}]}]
+	  // ];
+   //    {"featureType":"poi","stylers":[{"visibility":"simplified"}]}
 
 	window.mapOptions = {
         zoom: 15,
@@ -55,28 +56,11 @@ Template.map.rendered = function() {// Geolocation Vars for setting up map and d
         // typeof post.content !== 'undefined' &&
         typeof post.latitude !== 'undefined' &&
         typeof post.longitude !== 'undefined') {
-
-        //console.log(post.title);
- 
-        var postMarker = {
-            _id: post._id,
-            title: post.title,
-            content: post.content,
-            lat: post.latitude,
-            lng: post.longitude,
-            
-            postTimeUnix: post.postTimeUnix,
-            postDateTime: post.postDateTime,
-            author: post.author,
-            guessLastResort: post.guessLastResort,
-            claimed: post.claimed,
-            claimedBy: post.claimedBy     
-        };
-        //console.log('data created');
+         
         // check if marker already exists
-        if (!gmaps.markerExists('id', postMarker.id)) {
+        if (!gmaps.markerExists('_id', post._id)) {
             //console.log('data used');
-            gmaps.addMarkerFromData(postMarker);
+            gmaps.addMarkerFromPost(post,post._id);
         }
       }
     });

@@ -9,35 +9,35 @@ gmaps = {
 	//global associative array
 
 	//Google lat and long objects
-	latLngs: [],
+	//latLngs: [],
 
 	//Formatted marker data objects
-	markerData: [],
+	//markerData: [],
 
 	// There is only one instance of Infowindow that get moved from marker to marker
 	infowindow: null,
 
 	//add a marker with formatted marker data
-	addMarkerFromData: function(marker) {
-		//console.log('in addmarker');
-		var gLatLng = new google.maps.LatLng(marker.lat, marker.lng);
+	addMarkerFromPost: function(post) {
+		var gLatLng = new google.maps.LatLng(post.latitude, post.longitude);
 		var gMarker = new google.maps.Marker({
-			_id: marker._id,
+			_id: post._id,
 			position: gLatLng,
 			map: map,
-			title: marker.title,
+			title: post.title,
 			icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
 		});
 		
 		infowindow = new google.maps.InfoWindow({
 			maxWidth: 400
 		});
+
 		//console.log(gMarker._id);
 		
 		///////////////////////////////////////
 		//Change the marker color according to how old the post is 
 		var currentTime = new Date();
-		var thisTime = new Date(marker.postTimeUnix*1000);  
+		var thisTime = new Date(post.postTimeUnix*1000);  
 		var timeDifference = currentTime.getTime() - thisTime.getTime();
 		
 		var days = Math.floor(timeDifference / 86400000);
@@ -71,16 +71,16 @@ gmaps = {
 		gMarker.setIcon('http://www.googlemapsmarkers.com/v1/' + rgbToHex(R,G,B));
 		
 		//////////////////////////////
-		this.latLngs.push(gLatLng);
+		//this.latLngs.push(gLatLng);
 		this.markers.push(gMarker);
-		this.markerData.push(marker);
+		//this.markerData.push(marker);
 		
 		google.maps.event.addListener(gMarker, 'click', function() {
 			map.panTo(gMarker.getPosition());
 			// var date =  new Date(marker.postTimeUnix*1000);
-			infowindow.setContent("<p class='infowindowTitle'>" + marker.title + "</p>" + 
-				"<p class='infowindowAuthorAndDate'> By:" + marker.author + " on " + marker.postDateTime + "</p>" +
-				"<p class='infowindowContent'>" + marker.content + "</p>");
+			infowindow.setContent("<p class='infowindowTitle'>" + post.title + "</p>" + 
+				"<p class='infowindowAuthorAndDate'> By:" + post.author + " on " + post.postDateTime + "</p>" +
+				"<p class='infowindowContent'>" + post.content + "</p>");
 			infowindow.open(map,gMarker);
 		});
 
@@ -106,38 +106,29 @@ gmaps = {
 		});
 	},
 
-	addUserMarker: function(){
-
-	},
-
 	findMarkerById: function(id){
-		console.log(id);
-		 for (i=0;i< this.markers.length;i++){
-		 	if(this.markers[i]._id === id){
-		 		console.log('found');
-		 		return this.markers[i];
-		 	}
-		 }
-		 console.log('not found');
+		//console.log(id);
+		for (i=0;i< this.markers.length;i++){
+			if(this.markers[i]._id === id){
+				console.log('found');
+				return this.markers[i];
+			}
+		}
+		 //console.log('not found');
 		 return null;
-		//  _.each(this.markers,function(currentMarker) {
-		// 	console.log(currentMarker._id);
-		// 	if (currentMarker._id === id){
-		// 		console.log('found');
-		// 		return currentMarker;
-		// 	}
-		// });
-		// console.log('not found');
-		// return null;
 	},
 
-	setFocusToMarker: function(marker) {
+	setFocusToMarker: function(marker, id) {
 		map.panTo(marker.getPosition());
-			// var date =  new Date(marker.postTimeUnix*1000);
-			infowindow.setContent("<p class='infowindowTitle'>" + marker.title + "</p>" + 
-				"<p class='infowindowAuthorAndDate'> By:" + marker.author + " on " + marker.postDateTime + "</p>" +
-				"<p class='infowindowContent'>" + marker.content + "</p>");
-			infowindow.open(map,marker);
+
+		console.log(id);
+
+		post = Posts.find({_id: id});
+		
+		infowindow.setContent("<p class='infowindowTitle'>" + post.title + "</p>" + 
+			"<p class='infowindowAuthorAndDate'> By:" + post.author + " on " + post.postDateTime + "</p>" +
+			"<p class='infowindowContent'>" + post.content + "</p>");
+		infowindow.open(map,marker);
 	},
 
 
@@ -164,10 +155,10 @@ gmaps = {
 			document.getElementById('map-canvas'),
 			mapOptions
 		);
-
+		
 		//A click listener to create a reuse listing
 		google.maps.event.addListener(map, 'click', function(event) {
-
+			
 		    infowindow.setContent('<div id="newItemFormLabel">Post a new thing on Dibs!</div>' + 
 		                '<form id="newItemForm"><input id="newItemTitle" type="text" name="title" placeholder="Title">' + 
 		                '<br><textarea id="newItemDescription" name="description" placeholder="Enter a ' +
@@ -180,7 +171,9 @@ gmaps = {
 		      map: map,
 		      icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
 		      title: "New Item!"
-		    })
+		    });
+
+		    map.panTo(tempMarker.getPosition()); //centers the map on the new temp listing
 
 		    google.maps.event.addListener(tempMarker, 'click', function() {
 		    	infowindow.open(map, tempMarker);
@@ -188,6 +181,7 @@ gmaps = {
 
 		    google.maps.event.addListener(infowindow, 'domready', function() {
 		      $("#newItemForm").submit(function(e) {
+		      	e.preventDefault();
 		        var title = $("#newItemTitle").val();
 		        var description = $("#newItemDescription").val();
 
@@ -197,12 +191,12 @@ gmaps = {
 			        title: title,
 			        content: description,
 			        author: "current user",
-			        postTime: Date.now()
+			        postDateTime: Date.now()
 			    };
 
 			    console.log(post);
 			      
-			    // Posts.insert(post);
+			    Posts.insert(post);
 
 		        tempMarker.setMap(null);
 		      });
@@ -210,7 +204,7 @@ gmaps = {
 
 		    infowindow.open(map, tempMarker);
 
-		    google.maps.event.addListener(infoWindow, 'closeclick', function() {
+		    google.maps.event.addListener(infowindow, 'closeclick', function() {
 		    	tempMarker.setMap(null);
 		    });
 
