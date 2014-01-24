@@ -438,6 +438,12 @@ hr {
 	height: 30px;	
 }
 
+#gps{
+	width: 30px;
+	height: 30px;
+	border-radius: 25px;
+}
+
 #helpHolder {
 	top: 35px;
 	right: 300px;
@@ -447,6 +453,22 @@ hr {
 	cursor: pointer;
 	transition: 1s;
 	border-radius: 15px;
+}
+
+#gpsHolder {
+	top: 70px;
+	right: 300px;
+	position: absolute;
+	z-index: 20;
+	margin: 10px;
+	cursor: pointer;
+	transition: 1s;
+	border-radius: 15px;
+}
+
+#gpsHolder:hover, #gpsHolder:focus {
+	transition: 0s;
+	background-color: orange;
 }
 
 #helpHolder:hover, #helpHolder:focus {
@@ -469,6 +491,12 @@ hr {
 }
 
 #toggle:checked + #hideArrow ~ #helpHolder{
+    right: 0px;
+    transition: 1s;
+    margin-right: 2px;
+}
+
+#toggle:checked + #hideArrow ~ #gpsHolder{
     right: 0px;
     transition: 1s;
     margin-right: 2px;
