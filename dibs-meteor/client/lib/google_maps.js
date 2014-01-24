@@ -6,14 +6,6 @@ gmaps = {
 	//The google marker objects
 	markers: [],
 
-	//global associative array
-
-	//Google lat and long objects
-	//latLngs: [],
-
-	//Formatted marker data objects
-	//markerData: [],
-
 	// There is only one instance of Infowindow that get moved from marker to marker
 	infowindow: null,
 
@@ -36,19 +28,19 @@ gmaps = {
 		var thisTime = new Date(post.postTimeUnix*1000);  
 		var timeDifference = currentTime.getTime() - thisTime.getTime();
 		
-		var days = Math.floor(timeDifference / 86400000);
+		// var days = Math.floor(timeDifference / 86400000);
 
 		var maxDays = 3;
 		var maxSeconds = maxDays*86400000;
 		
-		var R = Math.round((255*days)/maxDays);
-		var G = Math.round((255*(maxDays-days))/maxDays);
-		var B = Math.round(0);
+		// var R = Math.round((255*days)/maxDays);
+		// var G = Math.round((255*(maxDays-days))/maxDays);
+		// var B = Math.round(0);
 		
-		//console.log('Before: '+R+':'+G);
-		R = clamp(R,0,255);
-		G = clamp(G,0,255);
-		//console.log('After: '+R+':'+G);
+		// //console.log('Before: '+R+':'+G);
+		// R = clamp(R,0,255);
+		// G = clamp(G,0,255);
+		// //console.log('After: '+R+':'+G);
 
 		function clamp(value, minValue, maxValue){
 			return Math.max(Math.min(value,maxValue), minValue);
@@ -90,56 +82,15 @@ gmaps = {
 		        b: Math.floor(b * 255)
 		    };
 		}
-		// var hsv2rgb = function(h, s, v) {
-		// 	//	A formula from Wikipedia 
-		// 	//	http://en.wikipedia.org/wiki/HSL_and_HSV#Converting_to_RGB
-		// 	var chroma = v*s;
-		// 	var huePrime = h/60;
-
-		// 	var x = chroma(1-Math.abs(huePrime%2-1));
-
-		// 	var rgb = [null,null,null];
-		// 	if (h === undefined){
-		// 		rgb = [0,0,0];
-		// 	}else if(huePrime <= 1){
-		// 		rgb = [chroma,x,0];
-		// 	}else if(huePrime <= 2){
-		// 		rgb = [x,chroma,0];
-		// 	}else if(huePrime <= 3){
-		// 		rgb = [0,chroma,x];
-		// 	}else if(huePrime <= 4){
-		// 		rgb = [0,x,chroma];
-		// 	}else if(huePrime <= 5){
-		// 		rgb = [x,0,chroma];
-		// 	}else if(huePrime <= 6){
-		// 		rgb = [chroma,0,x];
-		// 	}
-
-		// 	var m = v-chroma;
-		// 	rgb = [rgb[0]+m,rgb[1]+m,rgb[2]+m];
-		// 	console.log('chroma'+chroma);
-		// 	console.log('huePrime'+huePrime);
-		// 	console.log('x'+x);
-		// 	console.log('rgb'+rgb);
-		// 	return rgb;
-		// }	
+	
 
 	    var h = Math.floor(clamp((maxSeconds - timeDifference),0,maxSeconds) * 120 / maxSeconds); 
 	    
 	    var rgb = HSVtoRGB(h/360, 1, 1);
-		// console.log ('R'+rgb.r);
-		// console.log ('G'+rgb.g);
-		// console.log ('B'+rgb.b);
-		   
-			
-
 		
 		gMarker.setIcon('http://www.googlemapsmarkers.com/v1/' + rgbToHex(rgb.r,rgb.g,rgb.b));//hsv2rgb(h, 1, 1));
 		
-		//////////////////////////////
-		//this.latLngs.push(gLatLng);
 		this.markers.push(gMarker);
-		//this.markerData.push(marker);
 		
 		google.maps.event.addListener(gMarker, 'click', function() {
 			map.panTo(gMarker.getPosition());
@@ -281,6 +232,7 @@ gmaps = {
 		        var d = new Date();
 
 		        var post = {
+		        	posterId: null,
 			        latitude: event.latLng.lat(),
 			        longitude: event.latLng.lng(),
 			        title: title,

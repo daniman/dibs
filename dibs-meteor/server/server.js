@@ -30,6 +30,8 @@ Meteor.startup(function () {
 				_.forEach(respJson.results, function(listing) {
 					Posts.upsert({parseId: listing.objectId}, {
 						$set: {
+							posterId: null,
+
 							parseId: listing.objectId,
 
 							title: listing.email_subject,
