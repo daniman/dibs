@@ -66,44 +66,75 @@ gmaps = {
 
 		//	Convert Hue Saturation Value Model to RGB Model
 		//	Takes three separate values for Hue, Saturation, and Value
-		//	Returns an array of [R,G,B]
-		var hsv2rgb = function(h, s, v) {
-			//	A formula from Wikipedia 
-			//	http://en.wikipedia.org/wiki/HSL_and_HSV#Converting_to_RGB
-			var chroma = v*s;
-			var huePrime = h/60;
-			var x = chroma(1-Math.abs(huePrime%2-1));
+		function HSVtoRGB(h, s, v) {
+		    var r, g, b, i, f, p, q, t;
+		    if (h && s === undefined && v === undefined) {
+		        s = h.s, v = h.v, h = h.h;
+		    }
+		    i = Math.floor(h * 6);
+		    f = h * 6 - i;
+		    p = v * (1 - s);
+		    q = v * (1 - f * s);
+		    t = v * (1 - (1 - f) * s);
+		    switch (i % 6) {
+		        case 0: r = v, g = t, b = p; break;
+		        case 1: r = q, g = v, b = p; break;
+		        case 2: r = p, g = v, b = t; break;
+		        case 3: r = p, g = q, b = v; break;
+		        case 4: r = t, g = p, b = v; break;
+		        case 5: r = v, g = p, b = q; break;
+		    }
+		    return {
+		        r: Math.floor(r * 255),
+		        g: Math.floor(g * 255),
+		        b: Math.floor(b * 255)
+		    };
+		}
+		// var hsv2rgb = function(h, s, v) {
+		// 	//	A formula from Wikipedia 
+		// 	//	http://en.wikipedia.org/wiki/HSL_and_HSV#Converting_to_RGB
+		// 	var chroma = v*s;
+		// 	var huePrime = h/60;
 
-			var rgb = [null,null,null];
-			if (h === undefined){
-				rgb = [0,0,0];
-			}else if(huePrime <= 1){
-				rgb = [chroma,x,0];
-			}else if(huePrime <= 2){
-				rgb = [x,chroma,0];
-			}else if(huePrime <= 3){
-				rgb = [0,chroma,x];
-			}else if(huePrime <= 4){
-				rgb = [0,x,chroma];
-			}else if(huePrime <= 5){
-				rgb = [x,0,chroma];
-			}else if(huePrime <= 6){
-				rgb = [chroma,0,x];
-			}
+		// 	var x = chroma(1-Math.abs(huePrime%2-1));
 
-			var m = v-chroma;
-			rgb = [rgb[0]+m,rgb[1]+m,rgb[2]+m];
-			return rgb;
-		}	
+		// 	var rgb = [null,null,null];
+		// 	if (h === undefined){
+		// 		rgb = [0,0,0];
+		// 	}else if(huePrime <= 1){
+		// 		rgb = [chroma,x,0];
+		// 	}else if(huePrime <= 2){
+		// 		rgb = [x,chroma,0];
+		// 	}else if(huePrime <= 3){
+		// 		rgb = [0,chroma,x];
+		// 	}else if(huePrime <= 4){
+		// 		rgb = [0,x,chroma];
+		// 	}else if(huePrime <= 5){
+		// 		rgb = [x,0,chroma];
+		// 	}else if(huePrime <= 6){
+		// 		rgb = [chroma,0,x];
+		// 	}
 
-	    var h = clamp((maxSeconds - timeDifference),0,maxSeconds) * 120 / maxSeconds;		    
-	    console.log (h);
-	    //console.log(hsv2rgb(h, 1, 1));
+		// 	var m = v-chroma;
+		// 	rgb = [rgb[0]+m,rgb[1]+m,rgb[2]+m];
+		// 	console.log('chroma'+chroma);
+		// 	console.log('huePrime'+huePrime);
+		// 	console.log('x'+x);
+		// 	console.log('rgb'+rgb);
+		// 	return rgb;
+		// }	
+
+	    var h = Math.floor(clamp((maxSeconds - timeDifference),0,maxSeconds) * 120 / maxSeconds); 
+	    
+	    var rgb = HSVtoRGB(h/360, 1, 1);
+		// console.log ('R'+rgb.r);
+		// console.log ('G'+rgb.g);
+		// console.log ('B'+rgb.b);
 		   
 			
 
 		
-		gMarker.setIcon('http://www.googlemapsmarkers.com/v1/' + rgbToHex(R,G,B));//hsv2rgb(h, 1, 1));
+		gMarker.setIcon('http://www.googlemapsmarkers.com/v1/' + rgbToHex(rgb.r,rgb.g,rgb.b));//hsv2rgb(h, 1, 1));
 		
 		//////////////////////////////
 		//this.latLngs.push(gLatLng);
