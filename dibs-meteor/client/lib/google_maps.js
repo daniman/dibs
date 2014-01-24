@@ -30,10 +30,6 @@ gmaps = {
 			icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
 		});
 		
-		
-
-		//console.log(gMarker._id);
-		
 		///////////////////////////////////////
 		//Change the marker color according to how old the post is 
 		var currentTime = new Date();
@@ -43,6 +39,7 @@ gmaps = {
 		var days = Math.floor(timeDifference / 86400000);
 
 		var maxDays = 3;
+		var maxSeconds = maxDays*86400000;
 		
 		var R = Math.round((255*days)/maxDays);
 		var G = Math.round((255*(maxDays-days))/maxDays);
@@ -67,44 +64,41 @@ gmaps = {
 			return componentToHex(r) + componentToHex(g) + componentToHex(b);
 		}
 
+		//	Convert Hue Saturation Value Model to RGB Model
+		//	Takes three separate values for Hue, Saturation, and Value
+		//	Returns an array of [R,G,B]
 		var hsv2rgb = function(h, s, v) {
-			var rgb, i, data = [];
-			if (s === 0) {
-			rgb = [v,v,v];
-			} else {
-			h = h / 60;
-			i = Math.floor(h);
-			data = [v*(1-s), v*(1-s*(h-i)), v*(1-s*(1-(h-i)))];
-			switch(i) {
-			  case 0:
-			    rgb = [v, data[2], data[0]];
-			    break;
-			  case 1:
-			    rgb = [data[1], v, data[0]];
-			    break;
-			  case 2:
-			    rgb = [data[0], v, data[2]];
-			    break;
-			  case 3:
-			    rgb = [data[0], data[1], v];
-			    break;
-			  case 4:
-			    rgb = [data[2], data[0], v];
-			    break;
-			  default:
-			    rgb = [v, data[0], data[1]];
-			    break;
-			}
-			}
-			return rgb.map(function(x){
-			return ("0" + Math.round(x*255).toString(16)).slice(-2);
-			}).join('');
-			};
+			//	A formula from Wikipedia 
+			//	http://en.wikipedia.org/wiki/HSL_and_HSV#Converting_to_RGB
+			var chroma = v*s;
+			var huePrime = h/60;
+			var x = chroma(1-Math.abs(huePrime%2-1));
 
-		    
-		    var h= Math.floor(Math.abs(maxDays - days) * 120 / maxDays);		    
-		    
-		    //console.log();
+			var rgb = [null,null,null];
+			if (h === undefined){
+				rgb = [0,0,0];
+			}else if(huePrime <= 1){
+				rgb = [chroma,x,0];
+			}else if(huePrime <= 2){
+				rgb = [x,chroma,0];
+			}else if(huePrime <= 3){
+				rgb = [0,chroma,x];
+			}else if(huePrime <= 4){
+				rgb = [0,x,chroma];
+			}else if(huePrime <= 5){
+				rgb = [x,0,chroma];
+			}else if(huePrime <= 6){
+				rgb = [chroma,0,x];
+			}
+
+			var m = v-chroma;
+			rgb = [rgb[0]+m,rgb[1]+m,rgb[2]+m];
+			return rgb;
+		}	
+
+	    var h = clamp((maxSeconds - timeDifference),0,maxSeconds) * 120 / maxSeconds;		    
+	    console.log (h);
+	    //console.log(hsv2rgb(h, 1, 1));
 		   
 			
 
@@ -181,6 +175,10 @@ gmaps = {
 	},
 
 	setInfowindowForm: function (){
+
+	},
+
+	setCenterToUser: function() {
 
 	},
 
