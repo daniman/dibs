@@ -71,5 +71,5 @@ Meteor.startup(function () {
 formatDate = function(utcDate) {
 	var tmpDate = new Date(utcDate);
 	tmpDate = tmpDate + "";
-	return tmpDate.slice(0, tmpDate.length-15);
+	return tmpDate.slice(0, tmpDate.length-18);
 }

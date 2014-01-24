@@ -21,6 +21,15 @@
     #postListContainer {
     	display: none;
     }
+    #scaleHolder {
+        display: none;
+    }
+    #gpsHolder {
+        display: none;
+    }
+    #helpHolder {
+        display: none;
+    }
 }
 
 @media all and (min-width: 500px) {
@@ -72,4 +81,13 @@
     #newItemAlert{
 	    display: block;
 	}
+    #scaleHolder {
+        display: block;
+    }
+    #gpsHolder {
+        display: block;
+    }
+    #helpHolder {
+        display: block;
+    }
 }

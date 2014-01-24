@@ -36,6 +36,9 @@ Template.login.events({ // code to be run when an event occurs in the 'login' te
         $("#login-password").val("");
       } else {
         // The user has been logged in.
+        setTimeout(function() {
+            document.getElementById("toggle").checked = false;
+        }, 2000);
       }
     });
     return false; 
@@ -88,6 +91,9 @@ Template.login.events({ // code to be run when an event occurs in the 'login' te
           } else {
             // success - account has been created and the user has logged in successfully
             console.log("account successfully made");
+            setTimeout(function() {
+                document.getElementById("toggle").checked = false;
+            }, 2000);
           }
         });
       } else {

@@ -19,19 +19,22 @@
   </div>
 
   <div id="postListContainer">
+
     <div id="postListContainerHeader" class="post">
-      <div class="description" style="text-align: center; height: 20px; font-weight: 500;">
+      <div class="description">
         Listings (Most Recent at Top)
       </div>
     </div>
+    <hr id="headerBreak">
+
     <div class='posts'>
       {{#each posts}}
         {{#isolate}}
           {{> postItem}}
         {{/isolate}}
       {{/each}}
-      <hr> <!-- added to keep a nice looking space at the bottom of post list -->
     </div>
+    
   </div>
 
 </template>
