@@ -1,8 +1,11 @@
 // This function is run when the page renders on client's browser
 Template.map.rendered = function() {// Geolocation Vars for setting up map and default position.
 
+    $("#changePasswordPopup").hide();
+
     setTimeout(function() {
         document.getElementById("toggle").checked = false;
+        document.getElementById("ac-2").checked = true;
     }, 2000);
 
   var initialLocation;

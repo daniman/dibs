@@ -20,6 +20,11 @@ Template.accordion.events({
     return false; 
   },
 
+  'click #accountSettings' : function(e, t) {
+    $("#changePasswordPopup").fadeIn();
+    $("#tint").fadeIn();
+  },
+
   // 'click #accountSettings' : function(e, t) {
   //     e.preventDefault();
   //       var pw = t.find('#new-password-password').value;

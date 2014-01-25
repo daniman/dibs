@@ -35,13 +35,27 @@
 
   {{#isolate}}
     {{#with currentUser}}
+
       {{> accordion}}
-        {{> postsList}}
-          <input id="alert" name="alertPopup" type="checkbox" />
-          <div id="newItemAlert" class="draggable">
-            <strong>click</strong> the <strong>map</strong> to <strong>post</strong> an <strong>item</strong>!
-            <label for="alert" id="closeAlert"><i class="fa fa-times fa-lg" style="padding-left: 10px"></i></label>
-          </div>
+
+      {{> postsList}}
+      
+      <input id="alert" name="alertPopup" type="checkbox" />
+      <div id="newItemAlert" class="draggable">
+        <strong>click</strong> the <strong>map</strong> to <strong>post</strong> an <strong>item</strong>!
+        <label for="alert" id="closeAlert"><i class="fa fa-times fa-lg" style="padding-left: 10px"></i></label>
+      </div>
+
+      <div id="scaleHolder">
+        <div id="wrapper">
+          <div id="newLabel">new</div>
+          <div id="oldLabel">3+ days</div>
+          <img id="hsvScale" src="images/hsvRGscale.png">
+        </div>
+      </div>
+
+      {{> changePassword}}
+
     {{else}}
       <div id="tint"></div>
       <div id="welcomeBanner">
@@ -53,13 +67,5 @@
       </div>
     {{/with}}
   {{/isolate}}
-
-  <div id="scaleHolder">
-    <div id="wrapper">
-      <div id="newLabel">new</div>
-      <div id="oldLabel">3+ days old</div>
-      <img id="hsvScale" src="images/hsvRGscale.png">
-    </div>
-  </div>
 
 </template>

@@ -354,10 +354,11 @@ hr {
 	font-size: 12px;
 	margin: 5px;
 	margin-top: 0px;
-	white-space: normal;
+	white-space: nowrap;
 	font-weight: 300;
 	font-style: italic;
     overflow: hidden;
+    text-overflow: ellipsis;
     max-height: 60px;
     color: #8c8d8c; /*grey*/
     width: 140px;

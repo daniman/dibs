@@ -102,7 +102,15 @@ button:hover, button:focus {
 	padding-bottom: 30px;
 }
 
-#password-recover-holder {
+#password-recover-1-holder {
+	width: 260px;
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+	padding-bottom: 30px;
+}
+
+#password-recover-2-holder {
 	width: 260px;
 	position: relative;
 	margin-left: auto;
@@ -161,6 +169,53 @@ button:hover, button:focus {
 	padding-bottom: 5px;
 	height: 30px;
 }
+
+/** **/
+
+#password-recover-token {
+	width: 244px;
+	display: block;
+	margin: 0px;
+	border-radius: 4px 4px 0px 0px;
+	border-left: 2px solid #ffa900;
+	border-top: 2px solid #ffa900;
+	border-right: 2px solid #ffa900;
+}
+
+#password-reset {
+	width: 244px;
+	display: block;
+	margin: 0px;
+	border-radius: 0px;
+	border-left: 2px solid #ffa900;
+	border-right: 2px solid #ffa900;
+}
+
+#confirm-password-reset {
+	width: 244px;
+	display: block;
+	margin: 0px;
+	border-radius: 0px 0px 4px 4px;
+	border-left: 2px solid #ffa900;
+	border-bottom: 2px solid #ffa900;
+	border-right: 2px solid #ffa900;
+	margin-bottom: 10px;
+}
+
+#reset-password {
+	display: block;
+	width: 100%;
+	background-color: #ffa900;
+	font-size: 20px;
+	color: black;
+	border: none;
+	border-radius: 4px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	height: 30px;
+}
+
+/** **/
 
 #create-account {
 	display: block;
@@ -252,23 +307,51 @@ button:hover, button:focus {
 
 /** ----------------------------------------------------------------------------------- **/
 
-#resetPassword:checked ~ #login-holder {
+#resetPassword-1:checked ~ #login-holder {
 	display: none;
 }
 
-#resetPassword:checked ~ #register-1-holder {
+#resetPassword-1:checked ~ #register-1-holder {
 	display: none;
 }
 
-#resetPassword:checked ~ #register-2-holder {
+#resetPassword-1:checked ~ #register-2-holder {
 	display: none;
 }
+
+#resetPassword-1:checked ~ #password-recover-2-holder {
+	display: none;
+}
+
+/** **/
+
+#resetPassword-2:checked ~ #login-holder {
+	display: none;
+}
+
+#resetPassword-2:checked ~ #register-1-holder {
+	display: none;
+}
+
+#resetPassword-2:checked ~ #register-2-holder {
+	display: none;
+}
+
+#resetPassword-2:checked ~ #password-recover-1-holder {
+	display: none;
+}
+
+/** **/
 
 #register-1:checked ~ #login-holder {
 	display: none;
 }
 
-#register-1:checked ~ #password-recover-holder {
+#register-1:checked ~ #password-recover-1-holder {
+	display: none;
+}
+
+#register-1:checked ~ #password-recover-2-holder {
 	display: none;
 }
 
@@ -276,17 +359,25 @@ button:hover, button:focus {
 	display: none;
 }
 
+/** **/
+
 #register-2:checked ~ #login-holder {
 	display: none;
 }
 
-#register-2:checked ~ #password-recover-holder {
+#register-2:checked ~ #password-recover-1-holder {
+	display: none;
+}
+
+#register-2:checked ~ #password-recover-2-holder {
 	display: none;
 }
 
 #register-2:checked ~ #register-1-holder {
 	display: none;
 }
+
+/** **/
 
 #login:checked ~ #register-1-holder {
 	display: none;
@@ -296,7 +387,11 @@ button:hover, button:focus {
 	display: none;
 }
 
-#login:checked ~ #password-recover-holder {
+#login:checked ~ #password-recover-1-holder {
+	display: none;
+}
+
+#login:checked ~ #password-recover-2-holder {
 	display: none;
 }
 
@@ -314,6 +409,10 @@ button:hover, button:focus {
 	display: none;
 }
 
-#resetPassword {
+#resetPassword-1 {
+	display: none;
+}
+
+#resetPassword-2 {
 	display: none;
 }
