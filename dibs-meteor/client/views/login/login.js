@@ -37,7 +37,9 @@ Template.login.events({ // code to be run when an event occurs in the 'login' te
       } else {
         // The user has been logged in.
         setTimeout(function() {
+            $("#changePasswordPopup").hide();
             document.getElementById("toggle").checked = false;
+            document.getElementById("ac-2").checked = true;
         }, 2000);
       }
     });
@@ -81,7 +83,7 @@ Template.login.events({ // code to be run when an event occurs in the 'login' te
     e.preventDefault();
 
     console.log($("#mit-student").val());
-    if ($("#mit-student").val().toLowerCase() !== "yes") {
+    if ($("#mit-affiliate").checked == true) {
       $("#register-2-errorMessage").html("you must be an mit-affiliate to join Dibs");
     } else {
       if ($("#terms-of-service").is(":checked")) {
@@ -92,7 +94,9 @@ Template.login.events({ // code to be run when an event occurs in the 'login' te
             // success - account has been created and the user has logged in successfully
             console.log("account successfully made");
             setTimeout(function() {
+              $("#changePasswordPopup").hide();
                 document.getElementById("toggle").checked = false;
+                document.getElementById("ac-2").checked = true;
             }, 2000);
           }
         });
@@ -104,32 +108,52 @@ Template.login.events({ // code to be run when an event occurs in the 'login' te
     return false;
   },
 
-  'submit #password-recover-form' : function(e, t) {
-      console.log("click");
-        e.preventDefault();
-        var email = $('#password-recover-email').val();
-        if ((email !== "")) {
-          Accounts.forgotPassword({email: email}, function(err){
-          if (err) {
+  'submit #password-recover-1-form' : function(e, t) {
+    console.log("clicked here");
+    e.preventDefault();
+    var email = $('#password-recover-email').val();
+    if ((email !== "")) {
+      Accounts.forgotPassword({email: email}, function(err){
+        if (err) {
            $('#password-errorMessage').html('Password Reset Error &amp; Doh');
            console.log("fail");
-          }
-          else {
-            $('#password-errorMessage').html('Email Sent &amp; Please check your email.');
-            console.log("success");
-          }
-        });
+        } else {
+          alert('A recover email has been sent to ' + email + '!');
+          document.getElementById("resetPassword-2").checked = true;
         }
-        return false; 
-      },
+      });
+    }
+    return false; 
+  },
+
+  'submit #password-recover-2-form' : function(e, t) {
+    e.preventDefault();
+    var token = $("#password-recover-token").val();
+    var password = $('#password-reset').val();
+    var confirmPassword = $("#confirm-password-reset").val();
+
+    if ((password == confirmPassword)) {
+      if (validatePassword(password)) {
+        Accounts.resetPassword(
+          token, password, function(err) {
+            if (err) {
+              $('#password-2-errorMessage').html('You have entered a bad token');
+            } else {
+              console.log("success - new password!");
+            }
+        });
+      } else {
+        $('#password-2-errorMessage').html('Password must be at least 6 chars.');
+      }
+    } else {
+      $('#password-2-errorMessage').html('Your passwords do not match.');
+    }
+
+    return false; 
+  },
 
 
 });
-
-
-
-
-var loginButtonsSession = Accounts._loginButtonsSession;
 
 passwordEntered = function () {
   alert("change!");
@@ -139,7 +163,6 @@ validateUsername = function (username) {
   if (username.length >= 3) {
     return true;
   } else {
-    loginButtonsSession.errorMessage("Username must be at least 3 characters long");
     return false;
   }
 };
@@ -150,7 +173,6 @@ validateEmail = function (email) {
   if (email.indexOf('@') !== -1) {
     return true;
   } else {
-    loginButtonsSession.errorMessage("Invalid email");
     return false;
   }
 };
@@ -158,7 +180,6 @@ validatePassword = function (password) {
   if (password.length >= 6) {
     return true;
   } else {
-    loginButtonsSession.errorMessage("Password must be at least 6 characters long");
     return false;
   }
 };

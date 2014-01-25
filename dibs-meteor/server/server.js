@@ -69,7 +69,13 @@ Meteor.startup(function () {
 });
 
 formatDate = function(utcDate) {
-	var tmpDate = new Date(utcDate);
-	tmpDate = tmpDate + "";
-	return tmpDate.slice(0, tmpDate.length-18);
+	var date = new Date(utcDate);
+	tmpDate = date + "";
+	tmpDate = tmpDate.slice(0, 21);
+	console.log(tmpDate.charAt(tmpDate.length-3));
+	if (tmpDate.charAt(tmpDate.length-3) == ":") {
+		return tmpDate
+	} else {
+		return date.toUTCString();
+	}
 }

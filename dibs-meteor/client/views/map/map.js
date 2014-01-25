@@ -1,12 +1,14 @@
 // This function is run when the page renders on client's browser
 Template.map.rendered = function() {// Geolocation Vars for setting up map and default position.
 
+    $("#changePasswordPopup").hide();
     setTimeout(function() {
         document.getElementById("toggle").checked = false;
+        document.getElementById("ac-2").checked = true;
     }, 2000);
 
   var initialLocation;
-	var defaultLocation = new google.maps.LatLng (42.357,-71.09); // the lat/long of a default location. Set to central campus at MIT
+	var defaultLocation = new google.maps.LatLng (42.36,-71.09); // the lat/long of a default location. Set to central campus at MIT
 	var browserSupportFlag = new Boolean(); // A flag to keep track if the clients browser supports geolocation
 
 	// Map options for the Google Map
