@@ -152,7 +152,8 @@ gmaps = {
 		infowindow.setContent("<p class='infowindowTitle'>" + post.title + "</p>" + 
 			"<p class='infowindowAuthorAndDate'> By: <a href='mailto:" + post.senderAddress +
 			"?Subject=Re: " + post.title + "' target='_top'>" + post.author + "</a> on " + post.postDateTime +
-			"</p>" + "<p class='infowindowContent'>" + post.content + "</p>");
+			"</p>" + "<p class='infowindowItemLocation'>Can be found at: " + post.itemLocationGeneral + "-" + 
+			post.itemLocationSpecific + "</p>" +"<p class='infowindowContent'>" + post.content + "</p>");
 		infowindow.open(map,marker);
 	},
 
@@ -214,7 +215,8 @@ gmaps = {
 
 		     tempMarker.setPosition(event.latLng);
 		     tempMarker.setMap(map);
-		    
+
+		 
 
 		    //console.log('marker created');
 

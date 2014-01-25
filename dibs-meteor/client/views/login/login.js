@@ -36,6 +36,7 @@ Template.login.events({ // code to be run when an event occurs in the 'login' te
         $("#login-password").val("");
       } else {
         // The user has been logged in.
+        $("#changePasswordPopup").hide();
         setTimeout(function() {
             document.getElementById("toggle").checked = false;
             document.getElementById("ac-2").checked = true;
@@ -82,7 +83,7 @@ Template.login.events({ // code to be run when an event occurs in the 'login' te
     e.preventDefault();
 
     console.log($("#mit-student").val());
-    if ($("#mit-student").val().toLowerCase() !== "yes") {
+    if ($("#mit-affiliate").checked == true) {
       $("#register-2-errorMessage").html("you must be an mit-affiliate to join Dibs");
     } else {
       if ($("#terms-of-service").is(":checked")) {
@@ -92,8 +93,10 @@ Template.login.events({ // code to be run when an event occurs in the 'login' te
           } else {
             // success - account has been created and the user has logged in successfully
             console.log("account successfully made");
+            $("#changePasswordPopup").hide();
             setTimeout(function() {
                 document.getElementById("toggle").checked = false;
+                document.getElementById("ac-2").checked = true;
             }, 2000);
           }
         });

@@ -257,6 +257,25 @@ button:hover, button:focus {
 	margin-bottom: 10px;
 }
 
+#mit-student {
+	text-align: left;
+	padding-top: 5px;
+	padding-left: 5px;
+	line-height: 14px;
+	width: 251px;
+	height: 25px;
+	display: block;
+	background-color: white;
+	color: grey;
+	margin: 0px;
+	border-radius: 4px 4px 0px 0px;
+	border-left: 2px solid #44d242;
+	border-top: 2px solid #44d242;
+	border-right: 2px solid #44d242;
+	border-bottom: 1px solid #cccccc;
+	margin-top: 10px;
+}
+
 #tosLabel {
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size: 14px;
@@ -267,7 +286,28 @@ button:hover, button:focus {
 	color: #5794ae; /*#0893cf;*/
 }
 
+#mitAffiliateLabel {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	line-height: 14px;
+	vertical-align: bottom;
+	position: relative;
+	display: inline;
+	color: #5794ae; /*#0893cf;*/
+}
+
 #terms-of-service {
+	width: 14px;
+    height: 14px;
+    padding: 0;
+    margin-right: 5px;
+    vertical-align: bottom;
+    position: relative;
+    top: -1px;
+    *overflow: hidden;
+}
+
+#mit-affiliate {
 	width: 14px;
     height: 14px;
     padding: 0;
