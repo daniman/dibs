@@ -56,7 +56,8 @@ Template.map.rendered = function() {// Geolocation Vars for setting up map and d
     // });
 
   Deps.autorun(function() {
-    var posts = Posts.find().fetch();
+    var posts = Posts.find({},{sort: {postTimeUnix: -1}}).fetch();
+
  
     _.each(posts, function(post) {
       if (typeof post.title !== 'undefined' &&
