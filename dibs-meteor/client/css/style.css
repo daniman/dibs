@@ -652,7 +652,7 @@ img {
 	white-space: nowrap;
 }
 
-#scaleHolder {
+/*#scaleHolder {
 	cursor: default;
 	color: black;
 	padding: 5px;
@@ -661,7 +661,7 @@ img {
 	position: absolute;
 	bottom: 0px;
 }
-
+*/
 #newLabel {
 	position: absolute;
 	left: 0;
@@ -691,8 +691,13 @@ img {
 }
 
 #hsvScale {
-	border: 2px solid black;
+	height: 360px;
+	width: 30px;
+	right: 300px;
+	margin: 10px;
+	z-index: 5;
+	position: absolute;
+	top: 110px;
+	opacity: .8;
 	border-radius: 5px;
-	height: 24px;
-	width: 200px;
 }
