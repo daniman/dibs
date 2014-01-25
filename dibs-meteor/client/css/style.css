@@ -624,22 +624,24 @@ img {
 */
 #newLabel {
 	position: absolute;
-	left: 0;
-	z-index: 21;
-	line-height: 16px;
-	margin: 6px;
-	font-size: 13px;
+	font-size: 12px;
+	margin: 2px;
 	font-weight: 400;
+	top: 0;
+	width: 26px;
+	text-align: center;
+	color: black;
 }
 
 #oldLabel {
 	position: absolute;
-	right: 0;
-	z-index: 21;
-	line-height: 16px;
-	margin: 6px;
-	font-size: 13px;
+	font-size: 12px;
+	margin: 2px;
 	font-weight: 400;
+	bottom: 0;
+	width: 26px;
+	text-align: center;
+	color: black;
 }
 
 #wrapper {
