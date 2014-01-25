@@ -152,7 +152,7 @@ gmaps = {
 		infowindow.setContent("<p class='infowindowTitle'>" + post.title + "</p>" + 
 			"<p class='infowindowAuthorAndDate'> By: <a href='mailto:" + post.senderAddress +
 			"?Subject=Re: " + post.title + "' target='_top'>" + post.author + "</a> on " + post.postDateTime +
-			"</p>" + "<p class='infowindowItemLocation'>Can be found at: " + post.itemLocationGeneral + "-" + 
+			"</p>" + "<p class='infowindowItemLocation'>Location: " + post.itemLocationGeneral + "-" + 
 			post.itemLocationSpecific + "</p>" +"<p class='infowindowContent'>" + post.content + "</p>");
 		infowindow.open(map,marker);
 	},
@@ -207,7 +207,10 @@ gmaps = {
 		google.maps.event.addListener(map, 'click', function(event) {
 			console.log('map clicked');
 		    infowindow.setContent('<div id="newItemFormLabel">Post a new thing on Dibs!</div>' + 
+		    			'<div id="newPostError"></div>' +
 		                '<form id="newItemForm"><input id="newItemTitle" type="text" name="title" placeholder="Title">' + 
+		                '<br><span id="locationLabel">Location:</span><input id="newItemLocationGeneral" type="text" name="locationGeneral" placeholder="Building">' +
+		                '<input id="newItemLocationSpecific" type="text" name="locationSpecific" placeholder="Room/Floor/Etc.">' +
 		                '<br><textarea id="newItemDescription" name="description" placeholder="Enter a ' +
 		                	'description of your item here." form="newItemForm"></textarea>' + 
 		                '<br><input id="submitNewItem" type="submit" value="Post!" />' + 
@@ -231,22 +234,41 @@ gmaps = {
 		      	e.preventDefault();
 		        var title = $("#newItemTitle").val();
 		        var description = $("#newItemDescription").val();
+		        var locationGeneral = $("#newItemLocationGeneral").val();
+		        var locationSpecific = $("#newItemLocationSpecific").val();
 		        var d = new Date();
 
-		        var post = {
-		        	posterId: null,
-			        latitude: event.latLng.lat(),
-			        longitude: event.latLng.lng(),
-			        title: title,
-			        content: description,
-			        author: Template.accordion.displayName(),
-			        postTimeUnix: Date.now(),
-			        postDateTime: formatDate(d.toUTCString())
-			    };
-			    console.log('post insert');
-			    Posts.insert(post);
-				console.log('remove marker');
-		        tempMarker.setMap(null);
+		        if (title !== "") {
+		        	if (locationGeneral !== "") {
+		        		if (locationSpecific !== "") {
+			        		if (description !== "") {
+			        			var post = {
+						        	posterId: null,
+							        latitude: event.latLng.lat(),
+							        longitude: event.latLng.lng(),
+							        title: title,
+							        content: description,
+							        author: Template.accordion.displayName(),
+							        postTimeUnix: Date.now(),
+							        postDateTime: formatDate(d.toUTCString()),
+							        itemLocationGeneral: locationGeneral,
+							        itemLocationSpecific: locationSpecific
+							    };
+							    Posts.insert(post);
+						        tempMarker.setMap(null);
+			        		} else {
+			        			$("#newPostError").html("Please enter a description.");
+			        		}
+		        		} else {
+		        			$("#newPostError").html("Please enter a more specic location (room, floor, etc).");
+		        		}
+		        	} else {
+		        		$("#newPostError").html("Please enter a general location (building, field, etc).");
+		        	}
+		        } else {
+		        	$("#newPostError").html("Please enter a title.");
+		        }
+
 		      });
 		    });
 

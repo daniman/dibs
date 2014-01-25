@@ -75,3 +75,8 @@ Template.map.rendered = function() {// Geolocation Vars for setting up map and d
   });
 
 }
+
+$(document).ready(function() {
+    $(".fancybox").fancybox();
+    $(".draggable").draggable();
+})

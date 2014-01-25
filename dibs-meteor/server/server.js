@@ -72,7 +72,6 @@ formatDate = function(utcDate) {
 	var date = new Date(utcDate);
 	tmpDate = date + "";
 	tmpDate = tmpDate.slice(0, 21);
-	console.log(tmpDate.charAt(tmpDate.length-3));
 	if (tmpDate.charAt(tmpDate.length-3) == ":") {
 		return tmpDate
 	} else {
