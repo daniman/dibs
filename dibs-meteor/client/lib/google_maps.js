@@ -19,7 +19,12 @@ gmaps = {
 			position: gLatLng,
 			map: map,
 			title: post.title,
-			icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+			animation: google.maps.Animation.DROP,
+			icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+			zIndexProcess: function (){
+				//console.log(post.postTimeUnix);
+				return markers.length;
+			}
 		});
 		
 		///////////////////////////////////////
@@ -93,13 +98,7 @@ gmaps = {
 		this.markers.push(gMarker);
 		
 		google.maps.event.addListener(gMarker, 'click', function() {
-			map.panTo(gMarker.getPosition());
-			// var date =  new Date(marker.postTimeUnix*1000);
-			gmaps.setInfoWindowContent(gMarker);
-			// infowindow.setContent("<p class='infowindowTitle'>" + post.title + "</p>" + 
-			// 	"<p class='infowindowAuthorAndDate'> By:" + post.author + " on " + post.postDateTime + "</p>" +
-			// 	"<p class='infowindowContent'>" + post.content + "</p>");
-			// infowindow.open(map,gMarker);
+			gmaps.setFocusToMarker(gMarker);
 		});
 
 		return gMarker;
@@ -138,7 +137,8 @@ gmaps = {
 
 	setFocusToMarker: function(marker) {
 		map.panTo(marker.getPosition());
-		console.log(marker._id);
+		//console.log(marker._id);
+		marker.setAnimation(google.maps.Animation.BOUNCE);
 				
 		gmaps.setInfoWindowContent(marker);
 	},
@@ -198,7 +198,7 @@ gmaps = {
 		//creates the temp marker once
 		tempMarker = new google.maps.Marker({
 		      map: null,
-		      icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+		      icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
 		      title: "New Post!"
 		    });
 
