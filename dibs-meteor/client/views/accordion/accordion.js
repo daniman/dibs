@@ -21,8 +21,7 @@ Template.accordion.events({
   },
 
   'click #accountSettings' : function(e, t) {
-    $("#changePasswordPopup").fadeIn();
-    $("#tint").fadeIn();
+    $("#changePasswordPopup").css({"display": "block"});
   },
 
   // 'click #accountSettings' : function(e, t) {

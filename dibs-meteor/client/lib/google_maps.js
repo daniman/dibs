@@ -187,7 +187,7 @@ gmaps = {
 		//creates the temp marker once
 		tempMarker = new google.maps.Marker({
 		      map: null,
-		      icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+		      icon: 'http://maps.google.com/mapfiles/ms/icons/blue.png',
 		      title: "New Post!"
 		    });
 
