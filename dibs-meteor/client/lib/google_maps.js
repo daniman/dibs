@@ -24,7 +24,7 @@ gmaps = {
 			zIndex: google.maps.Marker.MAX_ZINDEX-this.markers.length
 			
 		});
-		console.log(this.markers.length);
+		//console.log(this.markers.length);
 		
 		///////////////////////////////////////
 		//Change the marker color according to how old the post is 
@@ -88,6 +88,7 @@ gmaps = {
 		
 		google.maps.event.addListener(gMarker, 'click', function() {
 			gmaps.setFocusToMarker(gMarker);
+			listmanager.setListFocus(post._id);
 		});
 
 		return gMarker;
@@ -125,8 +126,7 @@ gmaps = {
 	},
 
 	setFocusToMarker: function(marker) {
-		// for m in markers:
-		// 	m.setAnimation(null);
+		gmaps.stopAllAnimation();
 		tempMarker.setMap(null);
 		map.panTo(marker.getPosition());
 		marker.setAnimation(google.maps.Animation.BOUNCE);		
@@ -153,6 +153,12 @@ gmaps = {
 
 	setCenterToUser: function() {
 
+	},
+
+	stopAllAnimation: function(){
+		for(i=0;i<gmaps.markers.length;i++){
+			gmaps.markers[i].setAnimation(null);
+		}
 	},
 
 
@@ -196,6 +202,8 @@ gmaps = {
 		//A click listener to create a reuse listing
 		google.maps.event.addListener(map, 'click', function(event) {
 			console.log('map clicked');
+			gmaps.stopAllAnimation();
+			listmanager.clearListFormatting();
 		    infowindow.setContent('<div id="newItemFormLabel">Post a new thing on Dibs!</div>' + 
 		    			'<div id="newPostError"></div>' +
 		                '<form id="newItemForm"><input id="newItemTitle" type="text" name="title" placeholder="Title">' + 
@@ -211,11 +219,11 @@ gmaps = {
 
 		 
 
-		    //console.log('marker created');
+		    
 
 		    map.panTo(tempMarker.getPosition()); //centers the map on the new temp listing
 
-		    //console.log('map centered');
+		    
 
 		    google.maps.event.clearListeners(infowindow,'domready');
 
@@ -244,7 +252,7 @@ gmaps = {
 							        title: title,
 							        content: description,
 							        author: Template.accordion.displayName(),
-							        postTimeUnix: Date.now(),
+							        postTimeUnix: Date.now()/1000,
 							        postDateTime: formatDate(d.toUTCString()),
 							        itemLocationGeneral: locationGeneral,
 							        itemLocationSpecific: locationSpecific
@@ -273,6 +281,7 @@ gmaps = {
 		    google.maps.event.addListener(infowindow, 'closeclick', function() {
 		    	console.log('close click');
 		    	google.maps.event.clearListeners(infowindow,infowindowHandler);
+		    	gmaps.stopAllAnimation();
 		    	tempMarker.setMap(null);
 
 		    });

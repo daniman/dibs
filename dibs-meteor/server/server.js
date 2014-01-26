@@ -48,7 +48,7 @@ Meteor.startup(function () {
 							keywords: listing.keywords,
 							uniqueViewers: listing.uniqueViewers,
 							// postDateTime: listing.email_datetime,
-							postDateTime: formatDate(listing.email_datetime),
+							postDateTime: formatDate(listing.email_datetime),//
 							senderAddress: listing.email_senderAddress,
 							author: listing.email_senderName,
 							guessLastResort: listing.guess_last_resort
