@@ -1,6 +1,17 @@
 Meteor.startup(function () {
 	console.log('startup');
 	var timeOfLastRequest = 0;
+
+	Accounts.emailTemplates.siteName = "Dibs! ReUse Map Client";
+	Accounts.emailTemplates.from = "Dibs Admin <calldibs@mit.edu>";
+	// Accounts.emailTemplates.resetPassword.subject = function (user) {
+	//     return "Welcome to Awesome Town, " + user.profile.name;
+	// };
+	// Accounts.emailTemplates.resetPassword.text = function (user, url) {
+	//    return "You have been selected to participate in building a better future!"
+	//      + " To activate your account, simply click the link below:\n\n"
+	//      + url;
+	// };
 	
 
 	//Retrieve new found posts from Parse every 2.7 secs
@@ -46,13 +57,13 @@ Meteor.startup(function () {
 							claimed: listing.claimed,
 							itemLocationSpecific: listing.item_location_specific,
 							keywords: listing.keywords,
-							uniqueViewers: listing.uniqueViewers,
 							// postDateTime: listing.email_datetime,
 							postDateTime: formatDate(listing.email_datetime),//
 							senderAddress: listing.email_senderAddress,
 							author: listing.email_senderName,
-							guessLastResort: listing.guess_last_resort
-									
+							guessLastResort: listing.guess_last_resort,
+							uniqueViewersList: [],
+							uniqueViewers: listing.uniqueViewers
 						}
 					});			
 				});

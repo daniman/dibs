@@ -1,14 +1,16 @@
 <template name = "postItem">
     <div class="post" id = "category_{{_id}}">
-    	<div class='post-content'>
+    	<div class="postListItemWrapper">
+	    	<div class='post-content'>
 
-	    <div class="title">{{title}}</div>
+		    <div class="title">{{title}}</div>
 
-	    <div class="content">{{content}}</div>
+		    <div class="content">{{content}}</div>
 
- 		<div class="author"><a href="mailto:{{senderAddress}}?Subject=Re: {{title}}" target="_top">{{author}}</a></div>
+	 		<div class="author"><a href="mailto:{{senderAddress}}?Subject=Re: {{title}}" target="_top">{{author}}</a></div>
 
-	    <div class="date">{{itemLocationGeneral}}-{{itemLocationSpecific}}<br>{{postDateTime}}</div>
+		    <div class="date">{{itemLocationGeneral}}-{{itemLocationSpecific}}<br>{{postDateTime}}</div>
+	    </div>
     </div>
     <hr>
 </template>

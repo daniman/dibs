@@ -1,0 +1,129 @@
+.infowindowTitle {
+	font-size: 15px;
+	font-weight: 400;
+	color: black;
+	margin: 0px;
+}
+
+.infowindowAuthorAndDate {
+	font-size: 13px;
+	font-weight: 300;
+	font-style: italic;
+	margin: 0px;
+	line-height: 13px;
+}
+
+.infowindowLocation {
+	font-size: 13px;
+	font-weight: 300;
+	font-style: italic;
+	margin: 0px;
+	line-height: 13px;
+}
+
+.infowindowViewers {
+	font-size: 13px;
+	font-weight: 300;
+	font-style: italic;
+	margin: 0px;
+	margin-bottom: 10px;
+	line-height: 13px;
+}
+
+.infowindowContent{
+	font-size: 13px;
+	font-weight: 200;
+	line-height: 12px;
+	color: #8c8d8c; /*grey*/
+}
+
+img {
+	max-width: none;
+}
+
+#newItemForm {
+	margin-top: 5px;
+}
+
+#newItemFormLabel {
+	font-size: 20px;
+	margin-top: 10px;
+	font-weight: 500;
+}
+
+#newPostError {
+	color: #d84343;
+	margin-top: 2px;
+	margin-bottom: 2px;
+	line-height: 12px;
+	font-size: 12px;
+	height: 12px;
+	margin-left: 10px;
+}
+
+#newItemTitle {
+	width: 360px;
+	margin: 0px;
+	margin-bottom: 5px;
+}
+
+#locationLabel {
+	font-size: 15px;
+	font-weight: 400;
+	margin-right: 20px;
+}
+
+#newItemLocationGeneral {
+	width: 132px;
+	margin: 0px;
+	margin-bottom: 5px;
+	margin-right: 10px;
+}
+
+#newItemLocationSpecific {
+	width: 120px;
+	margin: 0px;
+	margin-bottom: 5px;
+}
+
+#newItemDescription {
+	min-width: 360px;
+	max-width: 360px;
+	height: 100px;
+	margin-bottom: 5px;
+}
+
+#submitNewItem {
+	background-color: transparent;
+	border: 2px solid black;
+	border-radius: 4px;
+	outline: none;
+	font-size: 20px;
+	font-weight: 500;
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	background-color: rgba(251, 211, 57, 0.8);
+	color: black;
+}
+
+#submitNewItem:hover {
+	background-color: rgba(251, 211, 57, 1);
+}
+
+#cancelNewItem {
+	position: absolute;
+	margin-left: 231px;
+	background-color: transparent;
+	border: 2px solid black;
+	border-radius: 4px;
+	outline: none;
+	font-size: 20px;
+	font-weight: 500;
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	color: black;
+	background-color: rgba(251, 211, 57, 0.8);
+}
+
+#cancelNewItem:hover {
+	text-decoration: none;
+	background-color: rgba(251, 211, 57, 1);
+}
