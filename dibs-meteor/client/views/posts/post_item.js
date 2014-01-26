@@ -8,9 +8,7 @@
 
 Template.postItem.events({
 	'click': function(event){
-		
 		gmaps.setFocusToMarker(gmaps.findMarkerById(this._id));
-		
 	}
 });
 

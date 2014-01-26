@@ -21,11 +21,10 @@ gmaps = {
 			title: post.title,
 			animation: google.maps.Animation.DROP,
 			icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-			zIndexProcess: function (){
-				//console.log(post.postTimeUnix);
-				return markers.length;
-			}
+			zIndex: this.markers.length
+			
 		});
+		//console.log(google.maps.Marker.MAX_ZINDEX);
 		
 		///////////////////////////////////////
 		//Change the marker color according to how old the post is 
@@ -136,10 +135,9 @@ gmaps = {
 	},
 
 	setFocusToMarker: function(marker) {
+		tempMarker.setMap(null);
 		map.panTo(marker.getPosition());
-		//console.log(marker._id);
-		marker.setAnimation(google.maps.Animation.BOUNCE);
-				
+		marker.setAnimation(google.maps.Animation.BOUNCE);		
 		gmaps.setInfoWindowContent(marker);
 	},
 
@@ -245,7 +243,6 @@ gmaps = {
 			    };
 			    console.log('post insert');
 			    Posts.insert(post);
-				console.log('remove marker');
 		        tempMarker.setMap(null);
 		      });
 		    });

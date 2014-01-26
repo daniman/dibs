@@ -5,7 +5,6 @@ Meteor.startup(function () {
 
 	//Retrieve new found posts from Parse every 2.7 secs
 	Meteor.setInterval( function(){
-		console.log('request');
 		console.log("timeOfLastRequest:"+timeOfLastRequest);
 		// RESTful Parse Query with fixed params
 		result = Meteor.http.get('https://api.parse.com/1/classes/ReuseItem?', { //where={"guess_found":true}',{ //"https://api.parse.com/1/classes/SuperDildo", {//TestReuseItem_rev2
@@ -28,7 +27,7 @@ Meteor.startup(function () {
 			console.log(respJson.results.length);
 			if (respJson.results.length>0){
 				_.forEach(respJson.results, function(listing) {
-					Posts.upsert({parseId: listing.objectId}, {
+					Posts.upsert({emailId: listing.email_id}, {
 						$set: {
 							posterId: null,
 
@@ -65,7 +64,7 @@ Meteor.startup(function () {
 		}
 		
 		console.log('Recieved Data from Parse');
-	}, 3000);
+	}, 30000);
 });
 
 formatDate = function(utcDate) {
