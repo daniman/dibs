@@ -390,12 +390,42 @@ hr {
 }
 
 #newItemFormLabel {
-	font-size: 18px;
+	font-size: 20px;
+	margin-top: 10px;
 	font-weight: 500;
+}
+
+#newPostError {
+	color: #d84343;
+	margin-top: 2px;
+	margin-bottom: 2px;
+	line-height: 12px;
+	font-size: 12px;
+	height: 12px;
+	margin-left: 10px;
 }
 
 #newItemTitle {
 	width: 360px;
+	margin: 0px;
+	margin-bottom: 5px;
+}
+
+#locationLabel {
+	font-size: 15px;
+	font-weight: 400;
+	margin-right: 20px;
+}
+
+#newItemLocationGeneral {
+	width: 132px;
+	margin: 0px;
+	margin-bottom: 5px;
+	margin-right: 10px;
+}
+
+#newItemLocationSpecific {
+	width: 120px;
 	margin: 0px;
 	margin-bottom: 5px;
 }
