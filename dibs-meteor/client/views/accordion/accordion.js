@@ -20,9 +20,29 @@ Template.accordion.events({
     return false; 
   },
 
-  'click #accountSettings' : function(e, t) {
-    $("#changePasswordPopup").css({"display": "block"});
+  'click #ac-1-label' : function(e, t) {
+    document.getElementById("ac-2").checked = false;
+    document.getElementById("ac-3").checked = false;
+    document.getElementById("ac-4").checked = false;
   },
+
+  'click #ac-2-label' : function(e, t) {
+    document.getElementById("ac-1").checked = false;
+    document.getElementById("ac-3").checked = false;
+    document.getElementById("ac-4").checked = false;
+  },
+
+  'click #ac-3-label' : function(e, t) {
+    document.getElementById("ac-1").checked = false;
+    document.getElementById("ac-2").checked = false;
+    document.getElementById("ac-4").checked = false;
+  },
+
+  'click #ac-4-label' : function(e, t) {
+    document.getElementById("ac-1").checked = false;
+    document.getElementById("ac-2").checked = false;
+    document.getElementById("ac-3").checked = false;
+  }
 
   // 'click #accountSettings' : function(e, t) {
   //     e.preventDefault();
