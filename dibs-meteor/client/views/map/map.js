@@ -57,7 +57,7 @@ Template.map.rendered = function() {// Geolocation Vars for setting up map and d
 
   Deps.autorun(function() {
     var posts = Posts.find({},{sort: {postTimeUnix: -1}}).fetch();
-
+    var i = 0;
  
     _.each(posts, function(post) {
       if (typeof post.title !== 'undefined' &&
@@ -66,10 +66,12 @@ Template.map.rendered = function() {// Geolocation Vars for setting up map and d
         typeof post.longitude !== 'undefined') {
 
         // check if marker already exists
-        if (!gmaps.markerExists('_id', post._id)) {
-            //console.log('data used');
-            gmaps.addMarkerFromPost(post,post._id);
+        if (gmaps.findMarkerById(post._id) === null) {
+            setTimeout(function() {              
+              gmaps.addMarkerFromPost(post,post._id);
+            }, i * 200);            
         }
+        i++;
       }
     });
 

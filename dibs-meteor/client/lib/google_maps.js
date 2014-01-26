@@ -116,18 +116,20 @@ gmaps = {
 		//console.log(id);
 		for (i=0;i< this.markers.length;i++){
 			if(this.markers[i]._id === id){
-				console.log('found');
+				//console.log('found');
 				return this.markers[i];
 			}
 		}
-		 //console.log('not found');
-		 return null;
+		//console.log('not found');
+		return null;
 	},
 
 	setFocusToMarker: function(marker) {
+		// for m in markers:
+		// 	m.setAnimation(null);
 		tempMarker.setMap(null);
 		map.panTo(marker.getPosition());
-		//marker.setAnimation(google.maps.Animation.BOUNCE);		
+		marker.setAnimation(google.maps.Animation.BOUNCE);		
 		gmaps.setInfoWindowContent(marker);
 	},
 
