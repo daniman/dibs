@@ -140,7 +140,7 @@ gmaps = {
 		infowindow.setContent("<p class='infowindowTitle'>" + post.title + "</p>" + 
 			"<p class='infowindowAuthorAndDate'> By: <a href='mailto:" + post.senderAddress +
 			"?Subject=Re: " + post.title + "' target='_top'>" + post.author + "</a> on " + post.postDateTime +
-			"</p>" + "<p class='infowindowItemLocation'>Location: " + post.itemLocationGeneral + "-" + 
+			"</p>" + "<p class='infowindowLocation'>Location: " + post.itemLocationGeneral + "-" + 
 			post.itemLocationSpecific + "</p>" +"<p class='infowindowContent'>" + post.content + "</p>");
 		infowindow.open(map,marker);
 	},
@@ -201,7 +201,7 @@ gmaps = {
 		                '<input id="newItemLocationSpecific" type="text" name="locationSpecific" placeholder="Room/Floor/Etc.">' +
 		                '<br><textarea id="newItemDescription" name="description" placeholder="Enter a ' +
 		                	'description of your item here." form="newItemForm"></textarea>' + 
-		                '<br><input id="submitNewItem" type="submit" value="Post!" />' + 
+		                '<br><input id="submitNewItem" type="submit" value="Post!" /><button id="cancelNewItem" type="button">Cancel</button>' + 
 		                '</form>');
 
 		     tempMarker.setPosition(event.latLng);
@@ -218,6 +218,11 @@ gmaps = {
 		    google.maps.event.clearListeners(infowindow,'domready');
 
 		    var infowindowHandler = google.maps.event.addListener(infowindow, 'domready', function() {
+		    	$("#cancelNewItem").click(function() {
+		    		infowindow.close();
+		    		tempMarker.setMap(null);
+		    	});
+
 		      $("#newItemForm").submit(function(e) {
 		      	e.preventDefault();
 		        var title = $("#newItemTitle").val();
@@ -226,21 +231,6 @@ gmaps = {
 		        var locationSpecific = $("#newItemLocationSpecific").val();
 		        var d = new Date();
 
-// <<<<<<< HEAD
-// 		        var post = {
-// 		        	posterId: null,
-// 			        latitude: event.latLng.lat(),
-// 			        longitude: event.latLng.lng(),
-// 			        title: title,
-// 			        content: description,
-// 			        author: Template.accordion.displayName(),
-// 			        postTimeUnix: Date.now(),
-// 			        postDateTime: formatDate(d.toUTCString())
-// 			    };
-// 			    console.log('post insert');
-// 			    Posts.insert(post);
-// 		        tempMarker.setMap(null);
-// =======
 		        if (title !== "") {
 		        	if (locationGeneral !== "") {
 		        		if (locationSpecific !== "") {
@@ -272,7 +262,6 @@ gmaps = {
 		        	$("#newPostError").html("Please enter a title.");
 		        }
 
-// >>>>>>> 56496ab5a3f3d38461dff718e937fcb0704a8d78
 		      });
 		    });
 
