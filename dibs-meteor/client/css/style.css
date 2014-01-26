@@ -326,7 +326,7 @@ A {
 
 hr {
 	margin: 2px;
-	margin-top: 35px;
+	margin-top: 45px;
 }
 
 .title {
@@ -353,7 +353,6 @@ hr {
 	line-height: 12px;
 	font-size: 12px;
 	margin: 5px;
-	margin-top: 0px;
 	white-space: nowrap;
 	font-weight: 300;
 	font-style: italic;
@@ -366,13 +365,17 @@ hr {
     text-align: right;
     right: 10px;
     position: absolute;
-    margin-top: 2px;
+    margin-top: 0px;
+}
+
+.location {
+	background-color: orange;
 }
 
 .author {
     line-height: 15px;
 	margin: 5px;
-	margin-top: 0px;
+	margin-top: 9px;
 	white-space: nowrap;
 	font-weight: 300;
 	font-style: italic;
@@ -685,9 +688,9 @@ img {
 */
 #newLabel {
 	position: absolute;
-	font-size: 12px;
+	font-size: 13px;
 	margin: 2px;
-	font-weight: 400;
+	font-weight: 600;
 	top: 0;
 	width: 24px;
 	text-align: center;
@@ -696,9 +699,9 @@ img {
 
 #oldLabel {
 	position: absolute;
-	font-size: 12px;
-	margin: 2px;
-	font-weight: 400;
+	font-size: 13px;
+	margin: 1px;
+	font-weight: 600;
 	bottom: 0;
 	width: 24px;
 	text-align: center;

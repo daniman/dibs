@@ -20,6 +20,10 @@ Template.accordion.events({
     return false; 
   },
 
+  'click #accountSettings' : function(e, t) {
+    $("#changePasswordPopup").css({"display": "block"});
+  },
+
   'click #ac-1-label' : function(e, t) {
     document.getElementById("ac-2").checked = false;
     document.getElementById("ac-3").checked = false;
