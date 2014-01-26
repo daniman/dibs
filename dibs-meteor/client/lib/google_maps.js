@@ -21,30 +21,20 @@ gmaps = {
 			title: post.title,
 			animation: google.maps.Animation.DROP,
 			icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-			zIndex: this.markers.length
+			zIndex: google.maps.Marker.MAX_ZINDEX-this.markers.length
 			
 		});
-		//console.log(google.maps.Marker.MAX_ZINDEX);
+		console.log(this.markers.length);
 		
 		///////////////////////////////////////
 		//Change the marker color according to how old the post is 
 		var currentTime = new Date();
 		var thisTime = new Date(post.postTimeUnix*1000);  
 		var timeDifference = currentTime.getTime() - thisTime.getTime();
-		
-		// var days = Math.floor(timeDifference / 86400000);
 
 		var maxDays = 3;
 		var maxSeconds = maxDays*86400000;
 		
-		// var R = Math.round((255*days)/maxDays);
-		// var G = Math.round((255*(maxDays-days))/maxDays);
-		// var B = Math.round(0);
-		
-		// //console.log('Before: '+R+':'+G);
-		// R = clamp(R,0,255);
-		// G = clamp(G,0,255);
-		// //console.log('After: '+R+':'+G);
 
 		function clamp(value, minValue, maxValue){
 			return Math.max(Math.min(value,maxValue), minValue);
@@ -137,7 +127,7 @@ gmaps = {
 	setFocusToMarker: function(marker) {
 		tempMarker.setMap(null);
 		map.panTo(marker.getPosition());
-		marker.setAnimation(google.maps.Animation.BOUNCE);		
+		//marker.setAnimation(google.maps.Animation.BOUNCE);		
 		gmaps.setInfoWindowContent(marker);
 	},
 
@@ -301,7 +291,6 @@ gmaps = {
 
 		// A global flag to say we are done with init
 		Session.set('map', true);
-		console.log('init done');
 	}
 }
 

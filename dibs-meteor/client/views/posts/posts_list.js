@@ -1,6 +1,9 @@
 Template.postsList.helpers({
   posts: function() {
-    return Posts.find({}, {sort: {postTimeUnix: -1}});
+    return Posts.find({postTimeUnix:{$gt:Date.now()/1000-(3*86400)}}, {sort: {postTimeUnix: -1}});
+  },
+  numberOfPosts: function(){
+  	return Posts.find().count();
   }
 });
 
