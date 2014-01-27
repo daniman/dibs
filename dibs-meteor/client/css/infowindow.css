@@ -32,9 +32,9 @@
 
 .infowindowContent{
 	font-size: 13px;
-	font-weight: 200;
-	line-height: 12px;
-	color: #8c8d8c; /*grey*/
+	font-weight: 300;
+	line-height: 15px;
+	color: #717171; /*grey*/
 }
 
 img {
