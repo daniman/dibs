@@ -352,6 +352,7 @@ hr {
 	font-weight: 300;
 	font-style: italic;
     overflow: hidden;
+    text-overflow: ellipsis;
     max-height: 60px;
     color: #8c8d8c; /*grey*/
 }

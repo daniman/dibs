@@ -139,11 +139,20 @@ gmaps = {
 		post = Posts.findOne({_id: marker._id});
 		//console.log(post);
 		//console.log("post.title"+post.title);
-		infowindow.setContent("<p class='infowindowTitle'>" + post.title + "</p>" + 
+		var infoContent;
+		if (post.itemLocationSpecific === '0'){
+			infoContent = "<p class='infowindowTitle'>" + post.title + "</p>" + 
+			"<p class='infowindowAuthorAndDate'> By: <a href='mailto:" + post.senderAddress +
+			"?Subject=Re: " + post.title + "' target='_top'>" + post.author + "</a> on " + post.postDateTime +
+			"</p>" + "<p class='infowindowLocation'>Location: " + post.itemLocationGeneral + "</p>" +"<p class='infowindowContent'>" + post.content + "</p>"
+		}else{
+			infoContent = "<p class='infowindowTitle'>" + post.title + "</p>" + 
 			"<p class='infowindowAuthorAndDate'> By: <a href='mailto:" + post.senderAddress +
 			"?Subject=Re: " + post.title + "' target='_top'>" + post.author + "</a> on " + post.postDateTime +
 			"</p>" + "<p class='infowindowLocation'>Location: " + post.itemLocationGeneral + "-" + 
-			post.itemLocationSpecific + "</p>" +"<p class='infowindowContent'>" + post.content + "</p>");
+			post.itemLocationSpecific + "</p>" +"<p class='infowindowContent'>" + post.content + "</p>"
+		}
+		infowindow.setContent(infoContent);
 		infowindow.open(map,marker);
 	},
 
@@ -189,7 +198,8 @@ gmaps = {
 
 		// creates the infowindow once
 		infowindow = new google.maps.InfoWindow({
-			maxWidth: 400
+			maxWidth: 400,
+			disableAutoPan: false
 		});
 
 		//creates the temp marker once
