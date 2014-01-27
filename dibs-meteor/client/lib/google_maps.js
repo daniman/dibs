@@ -87,13 +87,6 @@ gmaps = {
 		this.markers.push(gMarker);
 		
 		google.maps.event.addListener(gMarker, 'click', function() {
-			if (post.uniqueViewersList.indexOf(Meteor.userId()) == -1) { // if the user has not already viewed the post
-				console.log("woohoo");
-				post.uniqueViewersList.push(Meteor.userId());
-				post.uniqueViewers += 1;
-			} else {
-				console.log("already viewed");
-			}
 			console.log(Meteor.userId());
 			console.log(post);
 			listmanager.setListFocus(post._id);
@@ -108,8 +101,8 @@ gmaps = {
 	//calculate the bounding box from markers
 	calcBounds: function() {
 		var bounds = new google.maps.LatLngBounds();
-		for (var i=0, latLngLength = this.latLngs.length; i<latLngLength; i++){
-			bounds.extend(this.latLngs[i]);
+		for (var i=0, latLngLength = gmaps.latLngs.length; i<latLngLength; i++){
+			bounds.extend(gmaps.latLngs[i]);
 		}
 		map.fitBounds(bounds);
 	},
@@ -138,20 +131,53 @@ gmaps = {
 		gmaps.stopAllAnimation();
 		tempMarker.setMap(null);
 		map.panTo(marker.getPosition());
-		marker.setAnimation(google.maps.Animation.BOUNCE);		
+		//marker.setAnimation(google.maps.Animation.BOUNCE);		
 		gmaps.setInfoWindowContent(marker);
 	},
 
 	setInfoWindowContent: function(marker) {
 		post = Posts.findOne({_id: marker._id});
+
+		if (post.uniqueViewersList.indexOf(Meteor.userId()) == -1) { // if the user has not already viewed the post
+			console.log("woohoo");
+			Posts.update(
+				{_id: post._id},
+				{
+					$push: {uniqueViewersList: Meteor.userId()},
+					$inc: {uniqueViewers: 1}
+				}
+			)
+			// post.uniqueViewersList.push(Meteor.userId());
+			// post.uniqueViewers += 1;
+
+		} else {
+			console.log("already viewed");
+		}
+			
+		console.log("------setInfoWindowContent------");
 		console.log(post);
+		console.log("---------------------------------")
 		//console.log("post.title"+post.title);
-		infowindow.setContent("<p class='infowindowTitle'>" + post.title + "</p>" + 
+		var infoContent;
+		if (post.itemLocationSpecific === '0'){
+			infoContent = "<p class='infowindowTitle'>" + post.title + "</p>" + 
+			"<p class='infowindowAuthorAndDate'> By: <a href='mailto:" + post.senderAddress +
+			"?Subject=Re: " + post.title + "' target='_top'>" + post.author + "</a> on " + post.postDateTime +
+			"</p>" + "<p class='infowindowLocation'>Location: " + post.itemLocationGeneral + "</p>" + "<p class='infowindowViewers'>Number of views: " + post.uniqueViewers + "</p>"
+			+ " <p class='infowindowContent'>" + post.content + "</p>";
+		}else{
+			infoContent = "<p class='infowindowTitle'>" + post.title + "</p>" + 
 			"<p class='infowindowAuthorAndDate'> By: <a href='mailto:" + post.senderAddress +
 			"?Subject=Re: " + post.title + "' target='_top'>" + post.author + "</a> on " + post.postDateTime +
 			"</p>" + "<p class='infowindowLocation'>Location: " + post.itemLocationGeneral + "-" + 
+
 			post.itemLocationSpecific + "</p> " + "<p class='infowindowViewers'>Number of views: " + post.uniqueViewers + "</p>"
-			+ " <p class='infowindowContent'>" + post.content + "</p>");
+			+ " <p class='infowindowContent'>" + post.content + "</p>";
+		}
+		infowindow.setContent(infoContent);
+
+		
+
 		infowindow.open(map,marker);
 		google.maps.event.addListener(infowindow, 'closeclick', function() {
 			listmanager.clearListFormatting();
@@ -202,7 +228,8 @@ gmaps = {
 
 		// creates the infowindow once
 		infowindow = new google.maps.InfoWindow({
-			maxWidth: 400
+			maxWidth: 400,
+			disableAutoPan: false
 		});
 
 		//creates the temp marker once
