@@ -18,8 +18,18 @@
 Template.postItem.events({
 	'click': function(event){
 		gmaps.setFocusToMarker(gmaps.findMarkerById(this._id));
-		
 		listmanager.setListFocus(this._id);
-	}
+	},
+
+	'mouseenter': function (event){
+		gmaps.findMarkerById(this._id).setAnimation(google.maps.Animation.BOUNCE);
+	},
+
+	'mouseleave': function (event){
+		gmaps.findMarkerById(this._id).setAnimation(null);
+		// gmaps.stopAllAnimation();
+	},
+
+
 });
 

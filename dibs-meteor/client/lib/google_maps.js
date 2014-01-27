@@ -87,8 +87,17 @@ gmaps = {
 		this.markers.push(gMarker);
 		
 		google.maps.event.addListener(gMarker, 'click', function() {
-			gmaps.setFocusToMarker(gMarker);
+			if (post.uniqueViewersList.indexOf(Meteor.userId()) == -1) { // if the user has not already viewed the post
+				console.log("woohoo");
+				post.uniqueViewersList.push(Meteor.userId());
+				post.uniqueViewers += 1;
+			} else {
+				console.log("already viewed");
+			}
+			console.log(Meteor.userId());
+			console.log(post);
 			listmanager.setListFocus(post._id);
+			gmaps.setFocusToMarker(gMarker);
 		});
 
 		return gMarker;
@@ -99,8 +108,8 @@ gmaps = {
 	//calculate the bounding box from markers
 	calcBounds: function() {
 		var bounds = new google.maps.LatLngBounds();
-		for (var i=0, latLngLength = this.latLngs.length; i<latLngLength; i++){
-			bounds.extend(this.latLngs[i]);
+		for (var i=0, latLngLength = gmaps.latLngs.length; i<latLngLength; i++){
+			bounds.extend(gmaps.latLngs[i]);
 		}
 		map.fitBounds(bounds);
 	},
@@ -129,31 +138,40 @@ gmaps = {
 		gmaps.stopAllAnimation();
 		tempMarker.setMap(null);
 		map.panTo(marker.getPosition());
-		marker.setAnimation(google.maps.Animation.BOUNCE);		
+		//marker.setAnimation(google.maps.Animation.BOUNCE);		
 		gmaps.setInfoWindowContent(marker);
 	},
 
 	setInfoWindowContent: function(marker) {
-		//console.log('setinfowindowcontent');
-		//console.log('marker._id:'+ marker._id);
 		post = Posts.findOne({_id: marker._id});
-		//console.log(post);
+		console.log(post);
 		//console.log("post.title"+post.title);
 		var infoContent;
 		if (post.itemLocationSpecific === '0'){
 			infoContent = "<p class='infowindowTitle'>" + post.title + "</p>" + 
 			"<p class='infowindowAuthorAndDate'> By: <a href='mailto:" + post.senderAddress +
 			"?Subject=Re: " + post.title + "' target='_top'>" + post.author + "</a> on " + post.postDateTime +
-			"</p>" + "<p class='infowindowLocation'>Location: " + post.itemLocationGeneral + "</p>" +"<p class='infowindowContent'>" + post.content + "</p>"
+			"</p>" + "<p class='infowindowLocation'>Location: " + post.itemLocationGeneral + "</p>" + "<p class='infowindowViewers'>Number of views: " + post.uniqueViewers + "</p>"
+			+ " <p class='infowindowContent'>" + post.content + "</p>";
 		}else{
 			infoContent = "<p class='infowindowTitle'>" + post.title + "</p>" + 
 			"<p class='infowindowAuthorAndDate'> By: <a href='mailto:" + post.senderAddress +
 			"?Subject=Re: " + post.title + "' target='_top'>" + post.author + "</a> on " + post.postDateTime +
 			"</p>" + "<p class='infowindowLocation'>Location: " + post.itemLocationGeneral + "-" + 
-			post.itemLocationSpecific + "</p>" +"<p class='infowindowContent'>" + post.content + "</p>"
+
+			post.itemLocationSpecific + "</p> " + "<p class='infowindowViewers'>Number of views: " + post.uniqueViewers + "</p>"
+			+ " <p class='infowindowContent'>" + post.content + "</p>";
 		}
 		infowindow.setContent(infoContent);
+
+		
+
 		infowindow.open(map,marker);
+		google.maps.event.addListener(infowindow, 'closeclick', function() {
+			listmanager.clearListFormatting();
+	    	gmaps.stopAllAnimation();
+	    	tempMarker.setMap(null);
+		});
 	},
 
 	setInfowindowForm: function (){
@@ -211,7 +229,7 @@ gmaps = {
 
 		//A click listener to create a reuse listing
 		google.maps.event.addListener(map, 'click', function(event) {
-			console.log('map clicked');
+			document.getElementById("alert").checked = true;
 			gmaps.stopAllAnimation();
 			listmanager.clearListFormatting();
 		    infowindow.setContent('<div id="newItemFormLabel">Post a new thing on Dibs!</div>' + 
@@ -224,16 +242,10 @@ gmaps = {
 		                '<br><input id="submitNewItem" type="submit" value="Post!" /><button id="cancelNewItem" type="button">Cancel</button>' + 
 		                '</form>');
 
-		     tempMarker.setPosition(event.latLng);
-		     tempMarker.setMap(map);
-
-		 
-
-		    
+		    tempMarker.setPosition(event.latLng);
+		    tempMarker.setMap(map);
 
 		    map.panTo(tempMarker.getPosition()); //centers the map on the new temp listing
-
-		    
 
 		    google.maps.event.clearListeners(infowindow,'domready');
 
@@ -289,11 +301,9 @@ gmaps = {
 
 		    google.maps.event.clearListeners(infowindow,'closeclick');
 		    google.maps.event.addListener(infowindow, 'closeclick', function() {
-		    	console.log('close click');
 		    	google.maps.event.clearListeners(infowindow,infowindowHandler);
 		    	gmaps.stopAllAnimation();
 		    	tempMarker.setMap(null);
-
 		    });
 
 		});

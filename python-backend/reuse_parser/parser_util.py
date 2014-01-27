@@ -4,7 +4,7 @@ import re
 from location_guesser import removeSignature
 
 def isReplyEmail(email):
-    #returns true if the email is a reply
+    #returns True if the email is a reply
     return email.subject.strip().lower().startswith("re:")
  
 def splitEmailSender(sender):
@@ -12,6 +12,7 @@ def splitEmailSender(sender):
     #split the sender into sender name, address
     sendrExp = sender.split("<")
     
+    #no string or no discernable name
     if (len(sender) == 0 or len(sendrExp)<2):
         print "big error!",sender
         return ("","")
@@ -61,6 +62,12 @@ def cleanUpEmail(email):
     
     #remove the "[Reuse]" stuff
     email.subject = stripSubjectBoardType(email.subject)  
+    
+def isClaimedEmail(email):
+    text = (email.subject+" "+email.body) .lower()
+
+    claim_obj = re.search(r"((claim)(ed)?)|(gone)|(taken)",text)
+    return claim_obj != None
     
 class dummyEmail(object):
     #a fake email object that stores attributes
@@ -130,6 +137,47 @@ class LocationGuess_methods_Tests(unittest.TestCase):
         self.assertEquals(d.subject, "hello!")
         self.assertEquals(d.body, "hello there, we are the ")
 
+    def test_isClaimed_basic_body(self):
+        d = dummyEmail()
+        d.subject = "[Reuse] hello!"
+        d.body = "the bag is taken"
+        
+        self.assertEquals(isClaimedEmail(d), True)        
+        
+        d.subject = "[Reuse] hello!"
+        d.body = "the bag is gone"
+        
+        self.assertEquals(isClaimedEmail(d), True)        
+        
+        d.subject = "[Reuse] hello!"
+        d.body = "the bag is claimed"
+        
+        self.assertEquals(isClaimedEmail(d), True)
+        
+    def test_isClaimed_basic_subject(self):
+        d = dummyEmail()
+        d.subject = "[Reuse] hello! the couch is gone"
+        d.body = "no word on the umbrella though"
+        
+        self.assertEquals(isClaimedEmail(d), True)             
+        
+        d.subject = "[Reuse] hello! the couch is claim"
+        d.body = "no word on the umbrella though"
+        
+        self.assertEquals(isClaimedEmail(d), True)           
+        
+        d.subject = "[Reuse] hello! the couch is"
+        d.body = "The Display has been claimed."
+        
+        self.assertEquals(isClaimedEmail(d), True)      
+
+    def test_isClaimed_basic_not_claimed(self):
+        d = dummyEmail()
+        d.subject = "[Reuse] hello! the couch is great"
+        d.body = "juicy j is coming too"
+        
+        self.assertEquals(isClaimedEmail(d), False)             
+        
 if __name__=="__main__":
     #run tests
     unittest.main()

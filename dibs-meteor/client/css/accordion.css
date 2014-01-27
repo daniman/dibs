@@ -1,0 +1,186 @@
+#logout {
+	cursor: pointer;
+	margin-top: 0px;
+}
+
+#logout:hover {
+	background-color: black;
+	color: white;
+	opacity: 0.7;
+}
+
+#accountSettings {
+	color: black;
+	cursor: pointer;
+	margin-bottom: 0px;
+}
+
+#accountSettings:hover {
+	border: none;
+	outline: none;
+	color: white;
+	background-color: black;
+	opacity: 0.7;
+	text-decoration: none;
+}
+
+.ac-container{
+	opacity: 0.9;
+    margin: 10px auto 30px auto;
+    z-index: 3;
+    left: 0px;
+    position: absolute;
+}
+
+.ac-container label{
+	background-color: black;
+	text-align: center;
+    padding: 5px 20px;
+    position: relative;
+    z-index: 20;
+    display: block;
+    height: 22px;
+    cursor: pointer;
+    color: white;
+    font-weight: 500;
+    line-height: 22px;
+    font-size: 15px;
+}
+
+.ac-container label:hover{
+    background-color: rgba(0,0,0,0.8);
+}
+
+.ac-container input:checked + label,
+.ac-container input:checked + label:hover{
+    background-color: rgba(255,255,255,1);
+    color: black;
+}
+
+.ac-container label:hover:after,
+.ac-container input:checked + label:hover:after{
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    right: 13px;
+    background: transparent url(/images/arrows/arrow-down.png) no-repeat center center;  
+    background-size: 20px 20px;
+}
+
+.ac-container input:checked + label:hover:after{
+    background-image: url(/images/arrows/arrow-up.png);
+    background-size: 20px 20px;
+}
+
+.ac-container input{
+    display: none;
+}
+
+.ac-container article form input{                                         
+    display: inline;
+}
+
+.ac-container article{
+    background: rgba(200, 200, 200, 0.9);
+    margin-top: -4px;
+    overflow: hidden;
+    height: 0px;
+    position: relative;
+    z-index: 10;
+    transition: 
+        height 0.3s ease-in-out, 
+        box-shadow 0.6s linear;
+}
+.ac-container input:checked ~ article{
+    transition: 
+        height 0.5s ease-in-out, 
+        box-shadow 0.1s linear;
+}
+
+.ac-container article p{
+    color: black;
+    line-height: 16px;
+    font-size: 13px;
+    margin: 5px;
+    padding: 2px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.ac-container article p:hover{
+    text-decoration: none;
+}
+
+.ac-container input:checked ~ article.ac-settings{
+    height: 50px;
+}
+.ac-container input:checked ~ article.ac-rewards{
+    height: 180px;
+}
+.ac-container input:checked ~ article.ac-myListings{
+    height: 150px;
+}
+.ac-container input:checked ~ article.ac-filter{
+    height: 170px;
+}
+
+.ac-medium ul li {
+	font-size: 13px;
+	color: black;
+}
+
+.accordionListElement {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#more {
+	color: #0893cf;
+}
+#more:hover {
+	text-decoration: underline;
+}
+
+.award {
+	width: 30px;
+	height: 30px;
+	padding: 5px;
+}
+
+#myListings {
+	list-style-type: none;
+	text-align: center;
+	padding: 0;
+	margin: 5px;
+	font-size: 13px;
+	color: black;
+}
+
+#myListings li:hover {
+	background-color: rgba(0,0,0,0.8);
+	cursor: pointer;
+	color: white;
+}
+
+.pointsHolder {
+	padding: 10px;
+	text-align: center;
+}
+
+#pointsNumber {
+	background-color: rgba(0,0,0,0.7);
+	color: #18DE4B;
+	font-size: 50px;
+	line-height: 50px;
+	padding-top: 5px;
+}
+
+#pointsLabel {
+	background-color: rgba(0,0,0,0.7);
+	color: white;
+	font-size: 15px;
+	line-height: 15px;
+	padding-bottom: 10px;
+}

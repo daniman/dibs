@@ -1,11 +1,14 @@
 // This function is run when the page renders on client's browser
 Template.map.rendered = function() {// Geolocation Vars for setting up map and default position.
 
-    setTimeout(function() {
-        console.log("here")
-        document.getElementById("toggle").checked = false;
-        document.getElementById("ac-2").checked = true;
-    }, 2000);
+    try {
+        setTimeout(function() {
+            document.getElementById("toggle").checked = false;
+            document.getElementById("ac-2").checked = true;
+        }, 2000);
+    } catch(err) {
+        // means the user has not logged in yet - do nothing
+    }
 
   var initialLocation;
 	var defaultLocation = new google.maps.LatLng (42.36,-71.09); // the lat/long of a default location. Set to central campus at MIT
