@@ -14,8 +14,7 @@ from location_guesser import LocationGuesser as Locator
 import send_log_email as emailer
 import parser_util as util
 
-#TODO: amazon python sdk http://aws.amazon.com/sdkforpython/
-
+#SCRAPPED: amazon python sdk http://aws.amazon.com/sdkforpython/
 #DONE: only 1 entry per thread id. only add if a location was found and the previous entry wasn't present!
 #DONE: include geopoint object per each reuse item!
 
@@ -53,8 +52,11 @@ class ReuseItem(Object):
 class BuildingData(Object):
     pass
 
+    
+
 class ReuseParser(object):
     #something profound should go here as a comment
+    #EDIT: FOUND IT!!! http://reggaehorn.com/
     
     def __init__(self):
         #DRY init
@@ -62,9 +64,17 @@ class ReuseParser(object):
         
         self.logStore = ""
         self.logNumLines=0
+        self.logSnippetLength = 32
+        self.logMaxLength = 512
         
         self.buildingLocationDict = {} 
-        self.logSnippetLength = 128
+        
+        # #the gmail object, maybe
+        # self.g = Gmail()
+        # self.g.login("radixdeveloper", "whereisstrauss")
+        
+        #the location object
+        self.loc = Locator()
         
         #WET AND NASTY init
         self.storeBuildingLocations()
@@ -99,11 +109,11 @@ class ReuseParser(object):
         ## date and time representation
         
         #append to the log
-        self.logStore += "%s<br>============ {%s}<br>" % (message, now)
+        self.logStore += "%s\n============ {%s}\n" % (message, now)
         self.logNumLines+=1
         
         #dump the log to the guy writing this... maybe
-        if (self.logNumLines > 512):
+        if (self.logNumLines > self.logMaxLength):
             sendLogEmail(self.logStore)
             
             self.logNumLines= 0
@@ -111,7 +121,7 @@ class ReuseParser(object):
         
     def createReuseItem(self,email,guess):
         #standardizes how the reuse item class should look
-            
+           
         util.cleanUpEmail(email)
         
         sent_timestamp = time.mktime(email.sent_at.timetuple())
@@ -152,6 +162,9 @@ class ReuseParser(object):
         return theReuseItem
         
     def batchSaveList(self, listOfParseObjects):
+        if len(listOfParseObjects)==0:
+            return;
+            
         print 'batch saving objects'
         self.appendToLog('batch saving %d objects' % len(listOfParseObjects))
         
@@ -164,57 +177,85 @@ class ReuseParser(object):
             
             #clear the list of those saved objects
             listOfParseObjects = listOfParseObjects[batchLimit:]
+    
+    def handleReplyEmail(self, replyList):
+        batchItemList = []
         
+        for email in replyList:
+            #find the old post and set the claimed field!
+            existingItems= ReuseItem.Query.all().filter(email_id = email.thread_id).limit(1) #get only 1 post
+            
+            for item in existingItems:
+                #update the claimed field
+                item.claimed = True
+                batchItemList.append(item)
+                logPost = "set post _%s_ to claimed based on post _%s_" % (item.email_subject[0:32], email.body[0:32])
+                self.appendToLog( logPost )
+                if self.isDebugMode: print logPost
+            
+        #batch save those objects now!
+        self.batchSaveList(batchItemList)
+            
     def yesItShould(self):
         #runs the whole shebang
         self.appendToLog(" ")
         self.appendToLog("running the whole shebang")
-        
-        #the gmail object, maybe
-        g = Gmail()
-        g.login("radixdeveloper", "whereisstrauss")
+         
+        # #the gmail object, maybe
+        # g = Gmail()
+        self.g = Gmail()
+        self.g.login("radixdeveloper", "whereisstrauss")
 
-        #the location object
-        loc = Locator()
+        # #the location object
+        # loc = Locator()
 
-        emails = g.label("reuse").mail(unread=True)
-        # emails = g.label("reuse").mail(prefetch=True)
+        emails = self.g.label("reuse").mail(unread=True)
         
-        #batcher list for parse
+        #batcher lists for parse
         parseObjectBatchList = []
-        logCounter= 0
+        # claimedEmailsBatchList = []
+        
         for email in emails:
+            if self.isDebugMode: 
+                print "="*8
+                print " "
+                
             email.fetch()
 
-            logCounter+=1
-            if (logCounter %25)==0:
-                print 'read 25 new emails'
-                self.appendToLog('read 25 new emails')
-                
+            #don't read if testing
             if not self.isDebugMode: email.read()
 
+            #if it is a reply email, ignore it
             if isReplyEmail(email):
-                if self.isDebugMode: print "skipping"
+                if self.isDebugMode: print "skipping: "+email.subject #+ " "+email.body
+                
+                # if (util.isClaimedEmail(email)):
+                    # claimedEmailsBatchList.append(email)
                 continue
 
             #print the first snippet of the email
             print(email.subject[0:self.logSnippetLength])   
+            # print(email.body)   
             self.appendToLog(email.subject[0:self.logSnippetLength])      
 
             #make the guess
-            locationGuess = loc.makeGuessByEmail(email)
+            locationGuess = self.loc.makeGuessByEmail(email)
             self.appendToLog("guess location = %s" % locationGuess.__str__())     
+            if self.isDebugMode: print("guess location = %s" % locationGuess.__str__()) 
             
+            #create the item and save for later batch saving
             theReuseItem = self.createReuseItem(email,locationGuess)
             parseObjectBatchList.append(theReuseItem)
         
-        #batch save the objects we created above
-        if len(parseObjectBatchList)>0:
-            self.batchSaveList(parseObjectBatchList)
+        #batch save the objects we created above 
+        self.batchSaveList(parseObjectBatchList)
+          
+        # #deal with the reply emails AFTER saving the existing ones above
+        # self.handleReplyEmail(claimedEmailsBatchList)
 
         print 'done'
         self.appendToLog("done with run, logging out of gmail.")
-        g.logout()
+        self.g.logout()
 
 if (__name__ == "__main__"):
     #we're running!
@@ -227,15 +268,18 @@ if (__name__ == "__main__"):
             ShouldItRun.yesItShould()
             if (ShouldItRun.isDebugMode):
                 break; #break for debug
-                
+              
+            print("waiting")
             time.sleep(util.getWaitTime()) #wait some time 
+            
     except Exception, e:
         #dump the log!
         if (len(ShouldItRun.logStore)>0):
             sendLogEmail(ShouldItRun.logStore)
             
+        #email the error itself
         ex = traceback.format_exc()
-        sendLogEmail("reuse parser has crashed. restarting. <br><br>"+e.message+"<br>"+ex)
+        sendLogEmail("reuse parser has crashed. restarting.  \n"+e.message+"\n"+ex)
         print("error!",e.message)
         restart_program()
     
@@ -256,3 +300,12 @@ else:
 
 # emails = g.inbox().mail()
 # emails = g.label("reuse").mail(unread=True,prefetch=True)
+
+#backend timestamp bug!
+# /usr/local/lib/python2.7/dist-packages/gmail
+
+# sent_at2 = email.utils.mktime_tz(email.utils.parsedate_tz(  self.message['date']) )
+# self.sent_at = datetime.datetime.fromtimestamp(sent_at2)
+
+#gmail pip install location!
+#/usr/local/lib/python2.7/dist-packages$ 

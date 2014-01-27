@@ -14,7 +14,7 @@ def sendEmail(body="no body woops",subject="hello"):
                "Subject: " + subject,
                "To: " + recipient,
                "MIME-Version: 1.0",
-               "Content-Type: text/html"]
+               "Content-Type: text/plain"]
     headers = "\r\n".join(headers)
      
     session = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
@@ -29,7 +29,7 @@ def sendEmail(body="no body woops",subject="hello"):
 
 if __name__ == "__main__":
     #this program is being run directly, run some main()
-    sendEmail("testing")
+    sendEmail("testing\nI am a test\n\nNewlines are cool")
 else:   
     #this program is being imported
     pass

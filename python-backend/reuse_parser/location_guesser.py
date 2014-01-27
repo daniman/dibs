@@ -83,14 +83,6 @@ def removeSignature(sender, body):
             newBody = re.sub(r""+firstname+"(.|\d|\r|\n)*", '', body, flags=re.MULTILINE)
 
     return newBody
-
-# def getSignatureFromParts(largerBody, smallerBody):
-    # #this whole pipeline is dumb really
-    # #gets the part of largerBody not included by smallerBody
-    # if not (smallerBody in largerBody):
-        # return ""
-     
-    # return largerBody.replace(smallerBody,"").strip()    
     
 class Guess(object):
     #stores a guess 
@@ -196,8 +188,8 @@ class LocationGuesser(object):
         subject = email.subject.lower().strip()
         
         #build the text to parse
-        newBody = removeSignature(email.fr, email.body)
-        text = email.subject +" "+newBody
+        newBody = removeSignature(fr, body)
+        text = subject +" "+newBody
         
         guessText = self.makeGuess(text)
         
