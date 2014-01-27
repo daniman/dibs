@@ -2,7 +2,7 @@
   <section class="ac-container">
     <div>
         <input id="ac-1" name="accordion-1" type="checkbox" />
-        <label for="ac-1"><i class="fa fa-cog fa-lg" style="padding-right: 10px"></i><span class="hide">{{displayName}}</span></label>
+        <label id="ac-1-label" for="ac-1"><i class="fa fa-cog fa-lg" style="padding-right: 10px"></i><span class="hide">{{displayName}}</span></label>
         <article class="ac-settings">
             <p id="accountSettings">Change Password</p>
             <p id="logout">Logout</p>
@@ -11,7 +11,7 @@
     
     <div>
         <input id="ac-2" name="accordion-1" type="checkbox" />
-        <label for="ac-2">Awards</label>
+        <label id="ac-2-label" for="ac-2">Awards</label>
         <article class="ac-rewards">
             <div class="pointsHolder">
               <div id="pointsNumber">150</div>
@@ -26,9 +26,9 @@
             </div>
         </article>
     </div>
-<!--     <div>
+    <div>
         <input id="ac-3" name="accordion-1" type="checkbox" />
-        <label id="myListingsLabel" for="ac-3">My Listings</label>
+        <label id="ac-3-label" id="myListingsLabel" for="ac-3">My Listings</label>
         <article class="ac-myListings">
             <ul id="myListings">
               <li class="accordionListElement">some item</li>
@@ -40,10 +40,10 @@
               <li class="accordionListElement"><a id="more" class="fancybox" href="/images/logo.png">more</a></li>
             </ul>
         </article>
-    </div> -->
-<!--     <div>
+    </div>
+    <div>
         <input id="ac-4" name="accordion-1" type="checkbox" />
-        <label for="ac-4">Filter</label>
+        <label id="ac-4-label" for="ac-4">Filter</label>
         <article class="ac-myListings">
             <ul id="myListings">
               <li class="accordionListElement">some item</li>
@@ -55,6 +55,6 @@
               <li class="accordionListElement"><a id="more" class="fancybox" href="/images/logo.png">more</a></li>
             </ul>
         </article>
-    </div> -->
+    </div>
   </section>
 </template>

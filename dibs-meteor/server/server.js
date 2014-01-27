@@ -1,11 +1,21 @@
 Meteor.startup(function () {
 	console.log('startup');
 	var timeOfLastRequest = 0;
+
+	Accounts.emailTemplates.siteName = "Dibs! ReUse Map Client";
+	Accounts.emailTemplates.from = "Dibs Admin <calldibs@mit.edu>";
+	// Accounts.emailTemplates.resetPassword.subject = function (user) {
+	//     return "Welcome to Awesome Town, " + user.profile.name;
+	// };
+	// Accounts.emailTemplates.resetPassword.text = function (user, url) {
+	//    return "You have been selected to participate in building a better future!"
+	//      + " To activate your account, simply click the link below:\n\n"
+	//      + url;
+	// };
 	
 
 	//Retrieve new found posts from Parse every 2.7 secs
 	Meteor.setInterval( function(){
-		console.log('request');
 		console.log("timeOfLastRequest:"+timeOfLastRequest);
 		// RESTful Parse Query with fixed params
 		result = Meteor.http.get('https://api.parse.com/1/classes/ReuseItem?', { //where={"guess_found":true}',{ //"https://api.parse.com/1/classes/SuperDildo", {//TestReuseItem_rev2
@@ -28,8 +38,10 @@ Meteor.startup(function () {
 			console.log(respJson.results.length);
 			if (respJson.results.length>0){
 				_.forEach(respJson.results, function(listing) {
-					Posts.upsert({parseId: listing.objectId}, {
+					Posts.upsert({emailId: listing.email_id}, {
 						$set: {
+							posterId: null,
+
 							parseId: listing.objectId,
 
 							title: listing.email_subject,
@@ -45,13 +57,13 @@ Meteor.startup(function () {
 							claimed: listing.claimed,
 							itemLocationSpecific: listing.item_location_specific,
 							keywords: listing.keywords,
-							uniqueViewers: listing.uniqueViewers,
 							// postDateTime: listing.email_datetime,
-							postDateTime: formatDate(listing.email_datetime),
+							postDateTime: formatDate(listing.email_datetime),//
 							senderAddress: listing.email_senderAddress,
 							author: listing.email_senderName,
-							guessLastResort: listing.guess_last_resort
-									
+							guessLastResort: listing.guess_last_resort,
+							uniqueViewersList: [],
+							uniqueViewers: listing.uniqueViewers
 						}
 					});			
 				});
@@ -63,11 +75,16 @@ Meteor.startup(function () {
 		}
 		
 		console.log('Recieved Data from Parse');
-	}, 3000);
+	}, 30000);
 });
 
 formatDate = function(utcDate) {
-	var tmpDate = new Date(utcDate);
-	tmpDate = tmpDate + "";
-	return tmpDate.slice(0, tmpDate.length-15);
+	var date = new Date(utcDate);
+	tmpDate = date + "";
+	tmpDate = tmpDate.slice(0, 21);
+	if (tmpDate.charAt(tmpDate.length-3) == ":") {
+		return tmpDate
+	} else {
+		return date.toUTCString();
+	}
 }

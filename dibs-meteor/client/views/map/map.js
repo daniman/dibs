@@ -1,7 +1,17 @@
 // This function is run when the page renders on client's browser
 Template.map.rendered = function() {// Geolocation Vars for setting up map and default position.
+
+    try {
+        setTimeout(function() {
+            document.getElementById("toggle").checked = false;
+            document.getElementById("ac-2").checked = true;
+        }, 2000);
+    } catch(err) {
+        // means the user has not logged in yet - do nothing
+    }
+
   var initialLocation;
-	var defaultLocation = new google.maps.LatLng (42.357,-71.09); // the lat/long of a default location. Set to central campus at MIT
+	var defaultLocation = new google.maps.LatLng (42.36,-71.09); // the lat/long of a default location. Set to central campus at MIT
 	var browserSupportFlag = new Boolean(); // A flag to keep track if the clients browser supports geolocation
 
 	// Map options for the Google Map
@@ -49,7 +59,8 @@ Template.map.rendered = function() {// Geolocation Vars for setting up map and d
     // });
 
   Deps.autorun(function() {
-    var posts = Posts.find().fetch();
+    var posts = Posts.find({},{sort: {postTimeUnix: -1}}).fetch();
+    var i = 0;
  
     _.each(posts, function(post) {
       if (typeof post.title !== 'undefined' &&
@@ -58,13 +69,21 @@ Template.map.rendered = function() {// Geolocation Vars for setting up map and d
         typeof post.longitude !== 'undefined') {
 
         // check if marker already exists
-        if (!gmaps.markerExists('_id', post._id)) {
-            //console.log('data used');
-            gmaps.addMarkerFromPost(post,post._id);
+        if (gmaps.findMarkerById(post._id) === null) {
+            setTimeout(function() {              
+              gmaps.addMarkerFromPost(post,post._id);
+            }, i * 200);            
         }
+        i++;
       }
     });
 
   });
 
 }
+
+$(document).ready(function() {
+    $(".fancybox").fancybox();
+    $(".draggable").draggable();
+    // $("#changePasswordPopup").hide();
+})

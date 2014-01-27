@@ -6,16 +6,10 @@ gmaps = {
 	//The google marker objects
 	markers: [],
 
-	//global associative array
-
-	//Google lat and long objects
-	//latLngs: [],
-
-	//Formatted marker data objects
-	//markerData: [],
-
 	// There is only one instance of Infowindow that get moved from marker to marker
 	infowindow: null,
+
+	tempMarker:null,
 
 	//add a marker with formatted marker data
 	addMarkerFromPost: function(post) {
@@ -25,33 +19,22 @@ gmaps = {
 			position: gLatLng,
 			map: map,
 			title: post.title,
-			icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+			animation: google.maps.Animation.DROP,
+			icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+			zIndex: google.maps.Marker.MAX_ZINDEX-this.markers.length
+			
 		});
-		
-		infowindow = new google.maps.InfoWindow({
-			maxWidth: 400
-		});
-
-		//console.log(gMarker._id);
+		//console.log(this.markers.length);
 		
 		///////////////////////////////////////
 		//Change the marker color according to how old the post is 
 		var currentTime = new Date();
 		var thisTime = new Date(post.postTimeUnix*1000);  
 		var timeDifference = currentTime.getTime() - thisTime.getTime();
-		
-		var days = Math.floor(timeDifference / 86400000);
 
 		var maxDays = 3;
+		var maxSeconds = maxDays*86400000;
 		
-		var R = Math.round((255*days)/maxDays);
-		var G = Math.round((255*(maxDays-days))/maxDays);
-		var B = Math.round(0);
-		
-		//console.log('Before: '+R+':'+G);
-		R = clamp(R,0,255);
-		G = clamp(G,0,255);
-		//console.log('After: '+R+':'+G);
 
 		function clamp(value, minValue, maxValue){
 			return Math.max(Math.min(value,maxValue), minValue);
@@ -67,63 +50,54 @@ gmaps = {
 			return componentToHex(r) + componentToHex(g) + componentToHex(b);
 		}
 
-		var hsv2rgb = function(h, s, v) {
-			var rgb, i, data = [];
-			if (s === 0) {
-			rgb = [v,v,v];
-			} else {
-			h = h / 60;
-			i = Math.floor(h);
-			data = [v*(1-s), v*(1-s*(h-i)), v*(1-s*(1-(h-i)))];
-			switch(i) {
-			  case 0:
-			    rgb = [v, data[2], data[0]];
-			    break;
-			  case 1:
-			    rgb = [data[1], v, data[0]];
-			    break;
-			  case 2:
-			    rgb = [data[0], v, data[2]];
-			    break;
-			  case 3:
-			    rgb = [data[0], data[1], v];
-			    break;
-			  case 4:
-			    rgb = [data[2], data[0], v];
-			    break;
-			  default:
-			    rgb = [v, data[0], data[1]];
-			    break;
-			}
-			}
-			return rgb.map(function(x){
-			return ("0" + Math.round(x*255).toString(16)).slice(-2);
-			}).join('');
-			};
+		//	Convert Hue Saturation Value Model to RGB Model
+		//	Takes three separate values for Hue, Saturation, and Value
+		function HSVtoRGB(h, s, v) {
+		    var r, g, b, i, f, p, q, t;
+		    if (h && s === undefined && v === undefined) {
+		        s = h.s, v = h.v, h = h.h;
+		    }
+		    i = Math.floor(h * 6);
+		    f = h * 6 - i;
+		    p = v * (1 - s);
+		    q = v * (1 - f * s);
+		    t = v * (1 - (1 - f) * s);
+		    switch (i % 6) {
+		        case 0: r = v, g = t, b = p; break;
+		        case 1: r = q, g = v, b = p; break;
+		        case 2: r = p, g = v, b = t; break;
+		        case 3: r = p, g = q, b = v; break;
+		        case 4: r = t, g = p, b = v; break;
+		        case 5: r = v, g = p, b = q; break;
+		    }
+		    return {
+		        r: Math.floor(r * 255),
+		        g: Math.floor(g * 255),
+		        b: Math.floor(b * 255)
+		    };
+		}
+	
 
-		    
-		    var h= Math.floor(Math.abs(maxDays - days) * 120 / maxDays);		    
-		    
-		    //console.log();
-		   
-			
-
+	    var h = Math.floor(clamp((maxSeconds - timeDifference),0,maxSeconds) * 120 / maxSeconds); 
+	    
+	    var rgb = HSVtoRGB(h/360, 1, 1);
 		
-		gMarker.setIcon('http://www.googlemapsmarkers.com/v1/' + rgbToHex(R,G,B));//hsv2rgb(h, 1, 1));
+		gMarker.setIcon('http://www.googlemapsmarkers.com/v1/' + rgbToHex(rgb.r,rgb.g,rgb.b));//hsv2rgb(h, 1, 1));
 		
-		//////////////////////////////
-		//this.latLngs.push(gLatLng);
 		this.markers.push(gMarker);
-		//this.markerData.push(marker);
 		
 		google.maps.event.addListener(gMarker, 'click', function() {
-			map.panTo(gMarker.getPosition());
-			// var date =  new Date(marker.postTimeUnix*1000);
-			gmaps.setInfoWindowContent(gMarker);
-			// infowindow.setContent("<p class='infowindowTitle'>" + post.title + "</p>" + 
-			// 	"<p class='infowindowAuthorAndDate'> By:" + post.author + " on " + post.postDateTime + "</p>" +
-			// 	"<p class='infowindowContent'>" + post.content + "</p>");
-			// infowindow.open(map,gMarker);
+			if (post.uniqueViewersList.indexOf(Meteor.userId()) == -1) { // if the user has not already viewed the post
+				console.log("woohoo");
+				post.uniqueViewersList.push(Meteor.userId());
+				post.uniqueViewers += 1;
+			} else {
+				console.log("already viewed");
+			}
+			console.log(Meteor.userId());
+			console.log(post);
+			listmanager.setListFocus(post._id);
+			gmaps.setFocusToMarker(gMarker);
 		});
 
 		return gMarker;
@@ -152,36 +126,52 @@ gmaps = {
 		//console.log(id);
 		for (i=0;i< this.markers.length;i++){
 			if(this.markers[i]._id === id){
-				console.log('found');
+				//console.log('found');
 				return this.markers[i];
 			}
 		}
-		 //console.log('not found');
-		 return null;
+		//console.log('not found');
+		return null;
 	},
 
 	setFocusToMarker: function(marker) {
+		gmaps.stopAllAnimation();
+		tempMarker.setMap(null);
 		map.panTo(marker.getPosition());
-		console.log(marker._id);
-				
+		marker.setAnimation(google.maps.Animation.BOUNCE);		
 		gmaps.setInfoWindowContent(marker);
 	},
 
 	setInfoWindowContent: function(marker) {
-		//console.log('setinfowindowcontent');
-		//console.log('marker._id:'+ marker._id);
 		post = Posts.findOne({_id: marker._id});
-		//console.log(post);
+		console.log(post);
 		//console.log("post.title"+post.title);
 		infowindow.setContent("<p class='infowindowTitle'>" + post.title + "</p>" + 
 			"<p class='infowindowAuthorAndDate'> By: <a href='mailto:" + post.senderAddress +
 			"?Subject=Re: " + post.title + "' target='_top'>" + post.author + "</a> on " + post.postDateTime +
-			"</p>" + "<p class='infowindowContent'>" + post.content + "</p>");
+			"</p>" + "<p class='infowindowLocation'>Location: " + post.itemLocationGeneral + "-" + 
+			post.itemLocationSpecific + "</p> " + "<p class='infowindowViewers'>Number of views: " + post.uniqueViewers + "</p>"
+			+ " <p class='infowindowContent'>" + post.content + "</p>");
 		infowindow.open(map,marker);
+		google.maps.event.addListener(infowindow, 'closeclick', function() {
+			listmanager.clearListFormatting();
+	    	gmaps.stopAllAnimation();
+	    	tempMarker.setMap(null);
+		});
 	},
 
 	setInfowindowForm: function (){
 
+	},
+
+	setCenterToUser: function() {
+
+	},
+
+	stopAllAnimation: function(){
+		for(i=0;i<gmaps.markers.length;i++){
+			gmaps.markers[i].setAnimation(null);
+		}
 	},
 
 
@@ -210,56 +200,94 @@ gmaps = {
 			mapOptions
 		);
 
+		// creates the infowindow once
+		infowindow = new google.maps.InfoWindow({
+			maxWidth: 400
+		});
+
+		//creates the temp marker once
+		tempMarker = new google.maps.Marker({
+		      map: null,
+		      icon: 'http://maps.google.com/mapfiles/ms/icons/blue.png',
+		      title: "New Post!"
+		    });
+
 		//A click listener to create a reuse listing
 		google.maps.event.addListener(map, 'click', function(event) {
-			//console.log(Meteor.user());
+			document.getElementById("alert").checked = true;
+			gmaps.stopAllAnimation();
+			listmanager.clearListFormatting();
 		    infowindow.setContent('<div id="newItemFormLabel">Post a new thing on Dibs!</div>' + 
+		    			'<div id="newPostError"></div>' +
 		                '<form id="newItemForm"><input id="newItemTitle" type="text" name="title" placeholder="Title">' + 
+		                '<br><span id="locationLabel">Location:</span><input id="newItemLocationGeneral" type="text" name="locationGeneral" placeholder="Building">' +
+		                '<input id="newItemLocationSpecific" type="text" name="locationSpecific" placeholder="Room/Floor/Etc.">' +
 		                '<br><textarea id="newItemDescription" name="description" placeholder="Enter a ' +
 		                	'description of your item here." form="newItemForm"></textarea>' + 
-		                '<br><input id="submitNewItem" type="submit" value="Post!" />' + 
+		                '<br><input id="submitNewItem" type="submit" value="Post!" /><button id="cancelNewItem" type="button">Cancel</button>' + 
 		                '</form>');
 
-		    var tempMarker = new google.maps.Marker({
-		      position: event.latLng,
-		      map: map,
-		      icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-		      title: "New Item!"
-		    });
+		    tempMarker.setPosition(event.latLng);
+		    tempMarker.setMap(map);
 
 		    map.panTo(tempMarker.getPosition()); //centers the map on the new temp listing
 
-		    google.maps.event.addListener(tempMarker, 'click', function() {
-		    	infowindow.open(map, tempMarker);
+		    google.maps.event.clearListeners(infowindow,'domready');
 
-		    });
+		    var infowindowHandler = google.maps.event.addListener(infowindow, 'domready', function() {
+		    	$("#cancelNewItem").click(function() {
+		    		infowindow.close();
+		    		tempMarker.setMap(null);
+		    	});
 
-		    google.maps.event.addListener(infowindow, 'domready', function() {
 		      $("#newItemForm").submit(function(e) {
 		      	e.preventDefault();
 		        var title = $("#newItemTitle").val();
 		        var description = $("#newItemDescription").val();
+		        var locationGeneral = $("#newItemLocationGeneral").val();
+		        var locationSpecific = $("#newItemLocationSpecific").val();
 		        var d = new Date();
 
-		        var post = {
-			        latitude: event.latLng.lat(),
-			        longitude: event.latLng.lng(),
-			        title: title,
-			        content: description,
-			        author: Template.accordion.displayName(),
-			        postTimeUnix: Date.now(),
-			        postDateTime: formatDate(d.toUTCString())
-			    };
-			      
-			    Posts.insert(post);
+		        if (title !== "") {
+		        	if (locationGeneral !== "") {
+		        		if (locationSpecific !== "") {
+			        		if (description !== "") {
+			        			var post = {
+						        	posterId: null,
+							        latitude: event.latLng.lat(),
+							        longitude: event.latLng.lng(),
+							        title: title,
+							        content: description,
+							        author: Template.accordion.displayName(),
+							        postTimeUnix: Date.now()/1000,
+							        postDateTime: formatDate(d.toUTCString()),
+							        itemLocationGeneral: locationGeneral,
+							        itemLocationSpecific: locationSpecific
+							    };
+							    Posts.insert(post);
+						        tempMarker.setMap(null);
+			        		} else {
+			        			$("#newPostError").html("Please enter a description.");
+			        		}
+		        		} else {
+		        			$("#newPostError").html("Please enter a more specic location (room, floor, etc).");
+		        		}
+		        	} else {
+		        		$("#newPostError").html("Please enter a general location (building, field, etc).");
+		        	}
+		        } else {
+		        	$("#newPostError").html("Please enter a title.");
+		        }
 
-		        tempMarker.setMap(null);
 		      });
 		    });
 
 		    infowindow.open(map, tempMarker);
 
+		    google.maps.event.clearListeners(infowindow,'closeclick');
 		    google.maps.event.addListener(infowindow, 'closeclick', function() {
+		    	google.maps.event.clearListeners(infowindow,infowindowHandler);
+		    	gmaps.stopAllAnimation();
 		    	tempMarker.setMap(null);
 		    });
 
@@ -268,12 +296,17 @@ gmaps = {
 
 		// A global flag to say we are done with init
 		Session.set('map', true);
-		//console.log('init done');
 	}
 }
 
 formatDate = function(utcDate) {
-	var tmpDate = new Date(utcDate);
-	tmpDate = tmpDate + "";
-	return tmpDate.slice(0, tmpDate.length-15);
+	var date = new Date(utcDate);
+	tmpDate = date + "";
+	tmpDate = tmpDate.slice(0, 21);
+	console.log(tmpDate.charAt(tmpDate.length-3));
+	if (tmpDate.charAt(tmpDate.length-3) == ":") {
+		return tmpDate
+	} else {
+		return date.toUTCString();
+	}
 }

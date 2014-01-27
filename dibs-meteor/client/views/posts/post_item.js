@@ -6,11 +6,20 @@
 // 	}
 // });
 
+// Template.postItem.rendered = function(){
+//     var element = $(".post");
+//     console.log(this);
+//     $(this.firstNode).addId()
+//     // if(!element.hasClass("app")){
+//     //     element.addClass("app"); 
+//     // }
+// }
+
 Template.postItem.events({
 	'click': function(event){
-		
 		gmaps.setFocusToMarker(gmaps.findMarkerById(this._id));
 		
+		listmanager.setListFocus(this._id);
 	}
 });
 

@@ -2,8 +2,6 @@
 <head>
   <title>Dibs! Reuse Map Client</title>
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-  <link rel="icon" type ="image/png" href="public/images/favicon.png">
-
   <!--- Loads the Google Maps API-->
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwl6CTVUcaPluz69RuPkccQu9YXieyP9k&sensor=false"></script>
     
@@ -16,8 +14,8 @@
   <link rel="stylesheet" href="./docs/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
   <script type="text/javascript" src="./docs/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
-  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
-  <link rel="icon" href="images/favicon.ico" type="image/icon">
+  <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.ico" type="image/icon">
 
   <!-- <link rel="stylesheet" href="../docs/font-awesome/css/font-awesome.min.css"> already included in Meteor-->
 
@@ -37,13 +35,19 @@
 
   {{#isolate}}
     {{#with currentUser}}
+
       {{> accordion}}
-        {{> postsList}}
-          <input id="alert" name="alertPopup" type="checkbox" />
-          <div id="newItemAlert" class="draggable">
-            <strong>click</strong> the <strong>map</strong> to <strong>post</strong> an <strong>item</strong>!
-            <label for="alert" id="closeAlert"><i class="fa fa-times fa-lg" style="padding-left: 10px"></i></label>
-          </div>
+
+      {{> postsList}}
+      
+      <input id="alert" name="alertPopup" type="checkbox" />
+      <div id="newItemAlert" class="draggable">
+        <strong>click</strong> the <strong>map</strong> to <strong>post</strong> an <strong>item</strong>!
+        <label for="alert" id="closeAlert"><i class="fa fa-times fa-lg" style="padding-left: 10px"></i></label>
+      </div>
+
+      {{> changePassword}}
+
     {{else}}
       <div id="tint"></div>
       <div id="welcomeBanner">

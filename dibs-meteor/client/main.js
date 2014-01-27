@@ -1,1 +1,1 @@
-Meteor.subscribe('posts');
+Meteor.subscribe('posts', {postTimeUnix:{$gt:Date.now()/1000-(3*86400)}});
