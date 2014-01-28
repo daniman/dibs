@@ -1,10 +1,11 @@
 
 gmaps = {
 	//The map object
-	map:null,
+	map: null,
+	oms: null,
 
 	//The google marker objects
-	markers: [],
+	markers: {},
 
 	// There is only one instance of Infowindow that get moved from marker to marker
 	infowindow: null,
@@ -13,6 +14,7 @@ gmaps = {
 
 	//add a marker with formatted marker data
 	addMarkerFromPost: function(post) {
+		console.log('add mark');
 		var gLatLng = new google.maps.LatLng(post.latitude, post.longitude);
 		var gMarker = new google.maps.Marker({
 			_id: post._id,
@@ -21,10 +23,11 @@ gmaps = {
 			title: post.title,
 			animation: google.maps.Animation.DROP,
 			icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-			zIndex: google.maps.Marker.MAX_ZINDEX-this.markers.length
+			zIndex: google.maps.Marker.MAX_ZINDEX-gmaps.getNumberOfMarkers()
 			
 		});
-		//console.log(this.markers.length);
+
+		oms.addMarker(gMarker);
 		
 		///////////////////////////////////////
 		//Change the marker color according to how old the post is 
@@ -84,13 +87,23 @@ gmaps = {
 		
 		gMarker.setIcon('http://www.googlemapsmarkers.com/v1/' + rgbToHex(rgb.r,rgb.g,rgb.b));//hsv2rgb(h, 1, 1));
 		
-		this.markers.push(gMarker);
+		this.markers[post._id] = gMarker;
 		
 		google.maps.event.addListener(gMarker, 'click', function() {
-			console.log(Meteor.userId());
-			console.log(post);
+			console.log('click listener');
+			if (post.uniqueViewersList.indexOf(Meteor.userId()) == -1) { // if the user has not already viewed the post
+				post.uniqueViewersList.push(Meteor.userId());
+				post.uniqueViewers += 1;
+			}
+
 			listmanager.setListFocus(post._id);
 			gmaps.setFocusToMarker(gMarker);
+		});
+
+		oms.addListener('spiderfy', function(markers) {
+			listmanager.clearListFormatting();
+	    	gmaps.stopAllAnimation();
+	    	infowindow.close();
 		});
 
 		return gMarker;
@@ -108,22 +121,23 @@ gmaps = {
 	},
 
 	// check if a marker previously exists
-	markerExists: function(key, val) {
-		_.each(this.markers, function(storedMarker) {
-			if (storedMarker[key] == val)
-				return true;
-		});
-	},
+	// markerExists: function(key, val) {
+	// 	_.each(this.markers, function(storedMarker) {
+	// 		if (storedMarker[key] == val)
+	// 			return true;
+	// 	});
+	// },
 
 	findMarkerById: function(id){
-		//console.log(id);
+		// console.log('looking for'+id);
 		for (i=0;i< this.markers.length;i++){
+			// console.log('trying'+this.markers[i]._id);
 			if(this.markers[i]._id === id){
-				//console.log('found');
+				// console.log('found');
 				return this.markers[i];
 			}
 		}
-		//console.log('not found');
+		// console.log('not found');
 		return null;
 	},
 
@@ -139,7 +153,6 @@ gmaps = {
 		post = Posts.findOne({_id: marker._id});
 
 		if (post.uniqueViewersList.indexOf(Meteor.userId()) == -1) { // if the user has not already viewed the post
-			console.log("woohoo");
 			Posts.update(
 				{_id: post._id},
 				{
@@ -147,17 +160,8 @@ gmaps = {
 					$inc: {uniqueViewers: 1}
 				}
 			)
-			// post.uniqueViewersList.push(Meteor.userId());
-			// post.uniqueViewers += 1;
-
-		} else {
-			console.log("already viewed");
 		}
-			
-		console.log("------setInfoWindowContent------");
-		console.log(post);
-		console.log("---------------------------------")
-		//console.log("post.title"+post.title);
+
 		var infoContent;
 		if (post.itemLocationSpecific === '0'){
 			infoContent = "<p class='infowindowTitle'>" + post.title + "</p>" + 
@@ -184,6 +188,7 @@ gmaps = {
 	    	gmaps.stopAllAnimation();
 	    	tempMarker.setMap(null);
 		});
+		$('#newItemTitle').focus();
 	},
 
 	setInfowindowForm: function (){
@@ -192,6 +197,10 @@ gmaps = {
 
 	setCenterToUser: function() {
 
+	},
+
+	getNumberOfMarkers: function(){
+		return Object.keys(this.markers).length;
 	},
 
 	stopAllAnimation: function(){
@@ -226,6 +235,8 @@ gmaps = {
 			mapOptions
 		);
 
+		oms = new OverlappingMarkerSpiderfier(map, {keepSpiderfied: true});
+
 		// creates the infowindow once
 		infowindow = new google.maps.InfoWindow({
 			maxWidth: 400,
@@ -240,6 +251,7 @@ gmaps = {
 		    });
 
 		//A click listener to create a reuse listing
+		google.maps.event.clearListeners(map,'click');
 		google.maps.event.addListener(map, 'click', function(event) {
 			document.getElementById("alert").checked = true;
 			gmaps.stopAllAnimation();
@@ -280,18 +292,22 @@ gmaps = {
 		        		if (locationSpecific !== "") {
 			        		if (description !== "") {
 			        			var post = {
-						        	posterId: null,
+						        	//posterId: Meteor.userId,
 							        latitude: event.latLng.lat(),
 							        longitude: event.latLng.lng(),
 							        title: title,
 							        content: description,
-							        author: Template.accordion.displayName(),
-							        postTimeUnix: Date.now()/1000,
-							        postDateTime: formatDate(d.toUTCString()),
+							        //author: Template.accordion.displayName(),
+							        //postTimeUnix: Date.now()/1000,
+							        //postDateTime: formatDate(d.toUTCString()),
 							        itemLocationGeneral: locationGeneral,
 							        itemLocationSpecific: locationSpecific
 							    };
-							    Posts.insert(post);
+
+							    Meteor.call('post', post, function(error, id) {
+							      if (error)
+							        return alert(error.reason);
+							    });
 						        tempMarker.setMap(null);
 			        		} else {
 			        			$("#newPostError").html("Please enter a description.");
@@ -326,14 +342,3 @@ gmaps = {
 	}
 }
 
-formatDate = function(utcDate) {
-	var date = new Date(utcDate);
-	tmpDate = date + "";
-	tmpDate = tmpDate.slice(0, 21);
-	console.log(tmpDate.charAt(tmpDate.length-3));
-	if (tmpDate.charAt(tmpDate.length-3) == ":") {
-		return tmpDate
-	} else {
-		return date.toUTCString();
-	}
-}

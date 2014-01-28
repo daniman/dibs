@@ -36,51 +36,52 @@ Template.map.rendered = function() {// Geolocation Vars for setting up map and d
         styles: myStyles
     };
 
-  gmaps.initialize(mapOptions);
+    gmaps.initialize(mapOptions);
 
-    // var cursorMarker = Posts.find();
-    // cursorMarker.observeChanges({
-    //   added: function(id, fields){
-    //     var post = {
-    //       lat: fields.latitude,
-    //       lng: fields.longitude,
-    //       title: fields.title,
-    //       content:fields.content,
-    //       author: fields.author,
-    //       postTime: fields.postTime
-    //     };
-        
-    //     gmaps.addMarker(post);
 
-    //   },
-    //   removed: function(id) {
-    //     //marker.setMap(null);
-    //   }
-    // });
-
-  Deps.autorun(function() {
-    var posts = Posts.find({},{sort: {postTimeUnix: -1}}).fetch();
     var i = 0;
- 
-    _.each(posts, function(post) {
-      if (typeof post.title !== 'undefined' &&
-        typeof post.content !== 'undefined' &&
-        typeof post.latitude !== 'undefined' &&
-        typeof post.longitude !== 'undefined') {
-
-        // check if marker already exists
+    Posts.find().observe({
+      added: function(post){
         if (gmaps.findMarkerById(post._id) === null) {
             setTimeout(function() {              
-              gmaps.addMarkerFromPost(post,post._id);
+              gmaps.addMarkerFromPost(post);
             }, i * 200);            
         }
-        i++;
+      },
+
+      removed: function(post) {
+        var marker = gmaps.findMarkerById(post._id);
+        if (marker !== null){
+            marker.setMap(null);
+            delete gmaps.markers[post._id];
+        }
+        
       }
     });
 
-  });
 
-}
+  // Deps.autorun(function() {
+  //   console.log('autorun');
+  //   var posts = Posts.find({},{sort: {postTimeUnix: -1}}).fetch();
+  //   var i = 0;
+ 
+  //   _.each(posts, function(post) {
+  //     if (typeof post.title !== 'undefined' &&
+  //       typeof post.content !== 'undefined' &&
+  //       typeof post.latitude !== 'undefined' &&
+  //       typeof post.longitude !== 'undefined') {
+
+  //       // check if marker already exists
+  //       if (gmaps.findMarkerById(post._id) === null) {
+  //           //setTimeout(function() {              
+  //             gmaps.addMarkerFromPost(post,post._id);
+  //           //}, i * 200);            
+  //       }
+  //       i++;
+  //     }
+  //   });
+
+  };
 
 $(document).ready(function() {
     $(".fancybox").fancybox();
