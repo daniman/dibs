@@ -88,6 +88,7 @@ gmaps = {
 		this.markers.push(gMarker);
 		
 		google.maps.event.addListener(gMarker, 'click', function() {
+
 			console.log(post.uniqueViewersList);
 			if (post.uniqueViewersList.indexOf(Meteor.userId()) == -1) { // if the user has not already viewed the post
 				console.log("woohoo");
@@ -96,6 +97,7 @@ gmaps = {
 			} else {
 				console.log("already viewed");
 			}
+
 			console.log(Meteor.userId());
 			//console.log(post);
 			listmanager.setListFocus(post._id);
@@ -147,7 +149,30 @@ gmaps = {
 
 	setInfoWindowContent: function(marker) {
 		post = Posts.findOne({_id: marker._id});
+<<<<<<< HEAD
 		//console.log(post);
+=======
+
+		if (post.uniqueViewersList.indexOf(Meteor.userId()) == -1) { // if the user has not already viewed the post
+			console.log("woohoo");
+			Posts.update(
+				{_id: post._id},
+				{
+					$push: {uniqueViewersList: Meteor.userId()},
+					$inc: {uniqueViewers: 1}
+				}
+			)
+			// post.uniqueViewersList.push(Meteor.userId());
+			// post.uniqueViewers += 1;
+
+		} else {
+			console.log("already viewed");
+		}
+			
+		console.log("------setInfoWindowContent------");
+		console.log(post);
+		console.log("---------------------------------")
+>>>>>>> 641bbb665ec5a7bc7629e38285417b51042e82c5
 		//console.log("post.title"+post.title);
 		var infoContent;
 		if (post.itemLocationSpecific === '0'){

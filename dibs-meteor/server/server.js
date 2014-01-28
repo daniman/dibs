@@ -12,7 +12,18 @@ Meteor.startup(function () {
 	//      + " To activate your account, simply click the link below:\n\n"
 	//      + url;
 	// };
-	
+
+	Posts.allow({
+	    'update': function(userId, docs, fields, modifier) {
+	        return _.all(docs, function(doc) {
+	            // // Can only change your own documents
+	            // if (userId !== doc._id) {
+	            //     return false
+	            // }
+	            return true
+	        })
+	    }
+	})
 
 	//Retrieve new found posts from Parse every 2.7 secs
 	Meteor.setInterval( function(){
