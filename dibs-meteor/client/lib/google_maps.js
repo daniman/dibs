@@ -1,7 +1,8 @@
 
 gmaps = {
 	//The map object
-	map:null,
+	map: null,
+	oms: null,
 
 	//The google marker objects
 	markers: {},
@@ -25,7 +26,8 @@ gmaps = {
 			zIndex: google.maps.Marker.MAX_ZINDEX-gmaps.getNumberOfMarkers()
 			
 		});
-		
+
+		oms.addMarker(gMarker);
 		
 		///////////////////////////////////////
 		//Change the marker color according to how old the post is 
@@ -89,20 +91,22 @@ gmaps = {
 		
 		google.maps.event.addListener(gMarker, 'click', function() {
 			console.log('click listener');
-			//console.log(post.uniqueViewersList);
-			// if (post.uniqueViewersList.indexOf(Meteor.userId()) == -1) { // if the user has not already viewed the post
-			// 	//console.log("woohoo");
-			// 	post.uniqueViewersList.push(Meteor.userId());
-			// 	post.uniqueViewers += 1;
-			// }
-			//  else {
-			// 	//console.log("already viewed");
-			// }
 
-			//console.log(Meteor.userId());
-			//console.log(post);
+			if (post.uniqueViewersList.indexOf(Meteor.userId()) == -1) { // if the user has not already viewed the post
+				post.uniqueViewersList.push(Meteor.userId());
+				post.uniqueViewers += 1;
+			}
+
+
 			listmanager.setListFocus(post._id);
+			listmanager.setListFocus(post._id); // to make sure the class is added
 			gmaps.setFocusToMarker(gMarker);
+		});
+
+		oms.addListener('spiderfy', function(markers) {
+			listmanager.clearListFormatting();
+	    	gmaps.stopAllAnimation();
+	    	infowindow.close();
 		});
 
 		return gMarker;
@@ -138,16 +142,17 @@ gmaps = {
 	setInfoWindowContent: function(marker) {
 		post = Posts.findOne({_id: marker._id});
 
-		// if (post.uniqueViewersList.indexOf(Meteor.userId()) == -1) { // if the user has not already viewed the post
-		// 	//console.log("woohoo");
-		// 	Posts.update(
-		// 		{_id: post._id},
-		// 		{
-		// 			$push: {uniqueViewersList: Meteor.userId()},
-		// 			$inc: {uniqueViewers: 1}
-		// 		}
-		// 	)
-		// }
+		if (post.uniqueViewersList.indexOf(Meteor.userId()) == -1) { // if the user has not already viewed the post
+
+			Posts.update(
+				{_id: post._id},
+				{
+					$push: {uniqueViewersList: Meteor.userId()},
+					$inc: {uniqueViewers: 1}
+				}
+			)
+		}
+
 
 		var infoContent;
 		if (post.itemLocationSpecific === '0'){
@@ -231,6 +236,8 @@ gmaps = {
 			document.getElementById('map-canvas'),
 			mapOptions
 		);
+
+		oms = new OverlappingMarkerSpiderfier(map, {keepSpiderfied: true});
 
 		// creates the infowindow once
 		infowindow = new google.maps.InfoWindow({

@@ -35,10 +35,8 @@ Template.login.events({ // code to be run when an event occurs in the 'login' te
         $("#login-errorMessage").html("email/password incorrect");
         $("#login-password").val("");
       } else {
+        console.log("logged in! =========================================================");
         // The user has been logged in.
-        // setTimeout(function() {
-        //     $("#changePasswordPopup").hide();
-        // }, 100);
         setTimeout(function() {
             document.getElementById("toggle").checked = false;
             document.getElementById("ac-2").checked = true;
@@ -84,20 +82,19 @@ Template.login.events({ // code to be run when an event occurs in the 'login' te
   'submit #register-2-form' : function(e, t) { // when the user submits request to create a new account
     e.preventDefault();
 
-    console.log($("#mit-student").val());
-    if ($("#mit-affiliate").checked == true) {
-      $("#register-2-errorMessage").html("you must be an mit-affiliate to join Dibs");
-    } else {
+    // console.log($("#mit-affiliate").checked);
+    // if ($("#mit-affiliate").is(":checked")) {
+    //   $("#register-2-errorMessage").html("you must be an mit-affiliate to join");
+    // } else {
       if ($("#terms-of-service").is(":checked")) {
         Accounts.createUser({email: email, password : password}, function(err){
           if (err) {
             $("#register-2-errorMessage").html("account already exists"); // inform the user that account creation failed
           } else {
             // success - account has been created and the user has logged in successfully
-            console.log("account successfully made");
-            // setTimeout(function() {
-            //     $("#changePasswordPopup").hide();
-            // }, 100);
+            setTimeout(function() {
+                document.getElementById("helpLink").click();
+            }, 1000);
             setTimeout(function() {
                 document.getElementById("toggle").checked = false;
                 document.getElementById("ac-2").checked = true;
@@ -107,7 +104,7 @@ Template.login.events({ // code to be run when an event occurs in the 'login' te
       } else {
         $("#register-2-errorMessage").html("please read and accept the TOS");
       }
-    }
+    // }
 
     return false;
   },
