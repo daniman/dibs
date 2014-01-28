@@ -88,8 +88,8 @@ gmaps = {
 		this.markers[post._id] = gMarker;
 		
 		google.maps.event.addListener(gMarker, 'click', function() {
-
-			console.log(post.uniqueViewersList);
+			console.log('click listener');
+			//console.log(post.uniqueViewersList);
 			if (post.uniqueViewersList.indexOf(Meteor.userId()) == -1) { // if the user has not already viewed the post
 				//console.log("woohoo");
 				post.uniqueViewersList.push(Meteor.userId());
@@ -158,7 +158,7 @@ gmaps = {
 		post = Posts.findOne({_id: marker._id});
 
 		if (post.uniqueViewersList.indexOf(Meteor.userId()) == -1) { // if the user has not already viewed the post
-			console.log("woohoo");
+			//console.log("woohoo");
 			Posts.update(
 				{_id: post._id},
 				{
@@ -255,6 +255,7 @@ gmaps = {
 		    });
 
 		//A click listener to create a reuse listing
+		google.maps.event.clearListeners(map,'click');
 		google.maps.event.addListener(map, 'click', function(event) {
 			document.getElementById("alert").checked = true;
 			gmaps.stopAllAnimation();
