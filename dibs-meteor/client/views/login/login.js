@@ -87,7 +87,7 @@ Template.login.events({ // code to be run when an event occurs in the 'login' te
     //   $("#register-2-errorMessage").html("you must be an mit-affiliate to join");
     // } else {
       if ($("#terms-of-service").is(":checked")) {
-        Accounts.createUser({email: email, password : password}, function(err){
+        Accounts.createUser({email: email, password: password, profile: {points: 0}}, function(err){
           if (err) {
             $("#register-2-errorMessage").html("account already exists"); // inform the user that account creation failed
           } else {

@@ -37,8 +37,6 @@ Meteor.methods({
     });
     console.log(post);
 
-    // var postId = ;
-    // console.log('postId'+postId);
     return Posts.insert(post);
   },
 
@@ -46,7 +44,11 @@ Meteor.methods({
   	var post = Posts.find({_id:post_id});
   	//console.log(post.uniqueViewersList);
   	//console.log(Meteor.user()._id in post.uniqueViewersList);
-  }
+  },
+
+
+  remove: function(){
+  },
 
 });
 
@@ -54,7 +56,6 @@ formatDate = function(utcDate) {
 	var date = new Date(utcDate);
 	tmpDate = date + "";
 	tmpDate = tmpDate.slice(0, 21);
-	//console.log(tmpDate.charAt(tmpDate.length-3));
 	if (tmpDate.charAt(tmpDate.length-3) == ":") {
 		return tmpDate
 	} else {

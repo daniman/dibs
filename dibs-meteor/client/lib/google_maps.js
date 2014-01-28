@@ -95,6 +95,13 @@ gmaps = {
 			if (post.uniqueViewersList.indexOf(Meteor.userId()) == -1) { // if the user has not already viewed the post
 				post.uniqueViewersList.push(Meteor.userId());
 				post.uniqueViewers += 1;
+				// user gets a new point for each unique item they view
+				Meteor.users.update(
+					{_id: Meteor.user()._id},
+					{
+						$inc: {"profile.points": 1}
+					}
+				)
 			}
 
 
@@ -256,6 +263,7 @@ gmaps = {
 		google.maps.event.clearListeners(map,'click');
 		google.maps.event.addListener(map, 'click', function(event) {
 			document.getElementById("alert").checked = true;
+
 			gmaps.stopAllAnimation();
 			listmanager.clearListFormatting();
 		    infowindow.setContent('<div id="newItemFormLabel">Post a new thing on Dibs!</div>' + 
@@ -288,6 +296,14 @@ gmaps = {
 		        var locationGeneral = $("#newItemLocationGeneral").val();
 		        var locationSpecific = $("#newItemLocationSpecific").val();
 		        var d = new Date();
+
+		        // user gets 10 points for making a new post
+				Meteor.users.update(
+					{_id: Meteor.user()._id},
+					{
+						$inc: {"profile.points": 1}
+					}
+				)
 
 		        if (title !== "") {
 		        	if (locationGeneral !== "") {
