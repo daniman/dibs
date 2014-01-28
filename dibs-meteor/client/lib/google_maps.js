@@ -1,7 +1,8 @@
 
 gmaps = {
 	//The map object
-	map:null,
+	map: null,
+	oms: null,
 
 	//The google marker objects
 	markers: [],
@@ -25,7 +26,8 @@ gmaps = {
 			zIndex: google.maps.Marker.MAX_ZINDEX-this.markers.length
 			
 		});
-		//console.log(this.markers.length);
+
+		oms.addMarker(gMarker);
 		
 		///////////////////////////////////////
 		//Change the marker color according to how old the post is 
@@ -88,20 +90,15 @@ gmaps = {
 		this.markers.push(gMarker);
 		
 		google.maps.event.addListener(gMarker, 'click', function() {
-
-			console.log(post.uniqueViewersList);
-			if (post.uniqueViewersList.indexOf(Meteor.userId()) == -1) { // if the user has not already viewed the post
-				console.log("woohoo");
-				post.uniqueViewersList.push(Meteor.userId());
-				post.uniqueViewers += 1;
-			} else {
-				console.log("already viewed");
-			}
-
 			console.log(Meteor.userId());
-			//console.log(post);
 			listmanager.setListFocus(post._id);
 			gmaps.setFocusToMarker(gMarker);
+		});
+
+		oms.addListener('spiderfy', function(markers) {
+			listmanager.clearListFormatting();
+	    	gmaps.stopAllAnimation();
+	    	infowindow.close();
 		});
 
 		return gMarker;
@@ -127,15 +124,15 @@ gmaps = {
 	// },
 
 	findMarkerById: function(id){
-		console.log('looking for'+id);
+		// console.log('looking for'+id);
 		for (i=0;i< this.markers.length;i++){
-			console.log('trying'+this.markers[i]._id);
+			// console.log('trying'+this.markers[i]._id);
 			if(this.markers[i]._id === id){
-				console.log('found');
+				// console.log('found');
 				return this.markers[i];
 			}
 		}
-		console.log('not found');
+		// console.log('not found');
 		return null;
 	},
 
@@ -150,7 +147,6 @@ gmaps = {
 	setInfoWindowContent: function(marker) {
 		post = Posts.findOne({_id: marker._id});
 		if (post.uniqueViewersList.indexOf(Meteor.userId()) == -1) { // if the user has not already viewed the post
-			console.log("woohoo");
 			Posts.update(
 				{_id: post._id},
 				{
@@ -227,6 +223,8 @@ gmaps = {
 			document.getElementById('map-canvas'),
 			mapOptions
 		);
+
+		oms = new OverlappingMarkerSpiderfier(map, {keepSpiderfied: true});
 
 		// creates the infowindow once
 		infowindow = new google.maps.InfoWindow({
