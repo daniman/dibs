@@ -50,7 +50,12 @@ Template.map.rendered = function() {// Geolocation Vars for setting up map and d
       },
 
       removed: function(post) {
-        gmaps.findMarkerById(post._id).setMap(null);
+        var marker = gmaps.findMarkerById(post._id);
+        if (marker !== null){
+            marker.setMap(null);
+            delete gmaps.markers[post._id];
+        }
+        
       }
     });
 

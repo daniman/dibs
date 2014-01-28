@@ -18,6 +18,7 @@
 Template.postItem.events({
 	'click': function(event){
 		gmaps.setFocusToMarker(gmaps.findMarkerById(this._id));
+		console.log(this._id);
 		listmanager.setListFocus(this._id);
 	},
 

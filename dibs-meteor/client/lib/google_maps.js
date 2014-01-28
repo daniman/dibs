@@ -91,14 +91,15 @@ gmaps = {
 
 			console.log(post.uniqueViewersList);
 			if (post.uniqueViewersList.indexOf(Meteor.userId()) == -1) { // if the user has not already viewed the post
-				console.log("woohoo");
+				//console.log("woohoo");
 				post.uniqueViewersList.push(Meteor.userId());
 				post.uniqueViewers += 1;
-			} else {
-				console.log("already viewed");
 			}
+			//  else {
+			// 	//console.log("already viewed");
+			// }
 
-			console.log(Meteor.userId());
+			//console.log(Meteor.userId());
 			//console.log(post);
 			listmanager.setListFocus(post._id);
 			gmaps.setFocusToMarker(gMarker);
@@ -193,6 +194,7 @@ gmaps = {
 	    	gmaps.stopAllAnimation();
 	    	tempMarker.setMap(null);
 		});
+		$('#newItemTitle').focus();
 	},
 
 	setInfowindowForm: function (){
