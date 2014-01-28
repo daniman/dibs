@@ -3,7 +3,6 @@ Posts = new Meteor.Collection('posts');
 
 Meteor.methods({
   post: function(postAttributes) {
-    console.log('method post');
     var user = Meteor.user();
     
 
@@ -35,7 +34,6 @@ Meteor.methods({
       uniqueViewersList: [],
       uniqueViewers: 0
     });
-    console.log(post);
 
     return Posts.insert(post);
   },

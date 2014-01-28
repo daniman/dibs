@@ -90,21 +90,6 @@ gmaps = {
 		this.markers[post._id] = gMarker;
 		
 		google.maps.event.addListener(gMarker, 'click', function() {
-			console.log('click listener');
-
-			if (post.uniqueViewersList.indexOf(Meteor.userId()) == -1) { // if the user has not already viewed the post
-				post.uniqueViewersList.push(Meteor.userId());
-				post.uniqueViewers += 1;
-				// user gets a new point for each unique item they view
-				Meteor.users.update(
-					{_id: Meteor.user()._id},
-					{
-						$inc: {"profile.points": 1}
-					}
-				)
-			}
-
-
 			listmanager.setListFocus(post._id);
 			listmanager.setListFocus(post._id); // to make sure the class is added
 			gmaps.setFocusToMarker(gMarker);
@@ -150,13 +135,18 @@ gmaps = {
 		post = Posts.findOne({_id: marker._id});
 
 		if (post.uniqueViewersList.indexOf(Meteor.userId()) == -1) { // if the user has not already viewed the post
-
-			Posts.update(
-				{_id: post._id},
-				{
-					$push: {uniqueViewersList: Meteor.userId()},
-					$inc: {uniqueViewers: 1}
-				}
+			// Posts.update(
+			// 	{_id: post._id},
+			// 	{
+			// 		$push: {uniqueViewersList: Meteor.userId()},
+			// 		$inc: {uniqueViewers: 1}
+			// 	}
+			// )
+			Meteor.users.update(
+					{_id: Meteor.user()._id},
+					{
+						$inc: {"profile.points": 1}
+					}
 			)
 		}
 
@@ -200,7 +190,7 @@ gmaps = {
 		    navigator.geolocation.getCurrentPosition(function(position) {
 		      var pos = new google.maps.LatLng(position.coords.latitude,
 		                                       position.coords.longitude);
-		      map.setCenter(pos);
+		      map.panTo(pos);
 		    }, function() {
 		      handleNoGeolocation(true);
 		    });
@@ -228,8 +218,8 @@ gmaps = {
 	},
 
 	stopAllAnimation: function(){
-		for(i=0;i<gmaps.markers.length;i++){
-			gmaps.markers[i].setAnimation(null);
+		for(i=0;i<gmaps.markers.values().length;i++){
+			gmaps.markers.values()[i].setAnimation(null);
 		}
 	},
 
@@ -301,7 +291,7 @@ gmaps = {
 				Meteor.users.update(
 					{_id: Meteor.user()._id},
 					{
-						$inc: {"profile.points": 1}
+						$inc: {"profile.points": 10}
 					}
 				)
 
@@ -310,14 +300,14 @@ gmaps = {
 		        		if (locationSpecific !== "") {
 			        		if (description !== "") {
 			        			var post = {
-						        	//posterId: Meteor.userId,
+						        	posterId: Meteor.userId,
 							        latitude: event.latLng.lat(),
 							        longitude: event.latLng.lng(),
 							        title: title,
 							        content: description,
-							        //author: Template.accordion.displayName(),
-							        //postTimeUnix: Date.now()/1000,
-							        //postDateTime: formatDate(d.toUTCString()),
+							        author: Template.accordion.displayName(),
+							        postTimeUnix: Date.now()/1000,
+							        postDateTime: formatDate(d.toUTCString()),
 							        itemLocationGeneral: locationGeneral,
 							        itemLocationSpecific: locationSpecific
 							    };
