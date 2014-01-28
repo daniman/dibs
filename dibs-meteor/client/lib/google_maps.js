@@ -156,7 +156,17 @@ gmaps = {
 	setInfoWindowContent: function(marker) {
 		post = Posts.findOne({_id: marker._id});
 
-		//console.log("post.title"+post.title);
+		if (post.uniqueViewersList.indexOf(Meteor.userId()) == -1) { // if the user has not already viewed the post
+			console.log("woohoo");
+			Posts.update(
+				{_id: post._id},
+				{
+					$push: {uniqueViewersList: Meteor.userId()},
+					$inc: {uniqueViewers: 1}
+				}
+			)
+		}
+
 		var infoContent;
 		if (post.itemLocationSpecific === '0'){
 			infoContent = "<p class='infowindowTitle'>" + post.title + "</p>" + 
