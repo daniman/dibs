@@ -1,0 +1,17 @@
+award desc- title - desc
+Emailed your first dibs user! (mailed_user) - courier 
+
+Read help screen (read_help_screen) - inquisitive
+
+posted your first item (posted_items_first)- green friendly 
+posted your 5th item (posted_items_5) - dibs novice
+posted your 10th item - al gore
+posted your 15th item - captain planet
+
+viewed your 5th item (viewed_items_5)- explorer 
+viewed your 15th item (viewed_items_15)- magellan 
+viewed your 30th item (viewed_items_30)- voyager
+
+spent 5 min on dibs (time_spent_5) - lightbulb
+spent 15 min on dibs (time_spent_15) - spark
+spent 30 min on dibs (time_spent_30) - searchlight
