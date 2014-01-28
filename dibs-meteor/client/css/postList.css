@@ -290,7 +290,7 @@ hr {
 	z-index: 5;
 	position: absolute;
 	top: 110px;
-	bottom: 140px;
+	bottom: 110px;
 	opacity: .8;
 	transition: 1s;
 }
