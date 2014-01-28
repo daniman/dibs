@@ -38,27 +38,21 @@ Template.map.rendered = function() {// Geolocation Vars for setting up map and d
 
   gmaps.initialize(mapOptions);
 
-    // var cursorMarker = Posts.find();
-    // cursorMarker.observeChanges({
-    //   added: function(id, fields){
-    //     var post = {
-    //       lat: fields.latitude,
-    //       lng: fields.longitude,
-    //       title: fields.title,
-    //       content:fields.content,
-    //       author: fields.author,
-    //       postTime: fields.postTime
-    //     };
-        
-    //     gmaps.addMarker(post);
-
-    //   },
-    //   removed: function(id) {
-    //     //marker.setMap(null);
-    //   }
-    // });
+// Posts.find().observeChanges({
+//   added: function(post){
+//     if (gmaps.findMarkerById(post._id) === null) {
+//         setTimeout(function() {              
+//           gmaps.addMarkerFromPost(post,post._id);
+//         }, i * 200);            
+//     }
+//   },
+//   removed: function(id) {
+//     //marker.setMap(null);
+//   }
+// });
 
   Deps.autorun(function() {
+    console.log('autorun');
     var posts = Posts.find({},{sort: {postTimeUnix: -1}}).fetch();
     var i = 0;
  
@@ -70,9 +64,9 @@ Template.map.rendered = function() {// Geolocation Vars for setting up map and d
 
         // check if marker already exists
         if (gmaps.findMarkerById(post._id) === null) {
-            setTimeout(function() {              
+            //setTimeout(function() {              
               gmaps.addMarkerFromPost(post,post._id);
-            }, i * 200);            
+            //}, i * 200);            
         }
         i++;
       }

@@ -1,7 +1,7 @@
 listmanager = {
 	clearListFormatting: function() {
 		$('.post').removeClass('post-active');
-		console.log('cleared post list formatting');
+		// console.log('cleared post list formatting');
 	},
 
 	setListFocus: function(_id) {

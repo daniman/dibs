@@ -13,6 +13,7 @@ gmaps = {
 
 	//add a marker with formatted marker data
 	addMarkerFromPost: function(post) {
+		console.log('add mark');
 		var gLatLng = new google.maps.LatLng(post.latitude, post.longitude);
 		var gMarker = new google.maps.Marker({
 			_id: post._id,
@@ -87,6 +88,7 @@ gmaps = {
 		this.markers.push(gMarker);
 		
 		google.maps.event.addListener(gMarker, 'click', function() {
+			console.log(post.uniqueViewersList);
 			if (post.uniqueViewersList.indexOf(Meteor.userId()) == -1) { // if the user has not already viewed the post
 				console.log("woohoo");
 				post.uniqueViewersList.push(Meteor.userId());
@@ -95,7 +97,7 @@ gmaps = {
 				console.log("already viewed");
 			}
 			console.log(Meteor.userId());
-			console.log(post);
+			//console.log(post);
 			listmanager.setListFocus(post._id);
 			gmaps.setFocusToMarker(gMarker);
 		});
@@ -115,22 +117,23 @@ gmaps = {
 	},
 
 	// check if a marker previously exists
-	markerExists: function(key, val) {
-		_.each(this.markers, function(storedMarker) {
-			if (storedMarker[key] == val)
-				return true;
-		});
-	},
+	// markerExists: function(key, val) {
+	// 	_.each(this.markers, function(storedMarker) {
+	// 		if (storedMarker[key] == val)
+	// 			return true;
+	// 	});
+	// },
 
 	findMarkerById: function(id){
-		//console.log(id);
+		console.log('looking for'+id);
 		for (i=0;i< this.markers.length;i++){
+			console.log('trying'+this.markers[i]._id);
 			if(this.markers[i]._id === id){
-				//console.log('found');
+				console.log('found');
 				return this.markers[i];
 			}
 		}
-		//console.log('not found');
+		console.log('not found');
 		return null;
 	},
 
@@ -144,7 +147,7 @@ gmaps = {
 
 	setInfoWindowContent: function(marker) {
 		post = Posts.findOne({_id: marker._id});
-		console.log(post);
+		//console.log(post);
 		//console.log("post.title"+post.title);
 		var infoContent;
 		if (post.itemLocationSpecific === '0'){
@@ -268,18 +271,22 @@ gmaps = {
 		        		if (locationSpecific !== "") {
 			        		if (description !== "") {
 			        			var post = {
-						        	posterId: null,
+						        	//posterId: Meteor.userId,
 							        latitude: event.latLng.lat(),
 							        longitude: event.latLng.lng(),
 							        title: title,
 							        content: description,
-							        author: Template.accordion.displayName(),
-							        postTimeUnix: Date.now()/1000,
-							        postDateTime: formatDate(d.toUTCString()),
+							        //author: Template.accordion.displayName(),
+							        //postTimeUnix: Date.now()/1000,
+							        //postDateTime: formatDate(d.toUTCString()),
 							        itemLocationGeneral: locationGeneral,
 							        itemLocationSpecific: locationSpecific
 							    };
-							    Posts.insert(post);
+
+							    Meteor.call('post', post, function(error, id) {
+							      if (error)
+							        return alert(error.reason);
+							    });
 						        tempMarker.setMap(null);
 			        		} else {
 			        			$("#newPostError").html("Please enter a description.");
@@ -314,14 +321,3 @@ gmaps = {
 	}
 }
 
-formatDate = function(utcDate) {
-	var date = new Date(utcDate);
-	tmpDate = date + "";
-	tmpDate = tmpDate.slice(0, 21);
-	console.log(tmpDate.charAt(tmpDate.length-3));
-	if (tmpDate.charAt(tmpDate.length-3) == ":") {
-		return tmpDate
-	} else {
-		return date.toUTCString();
-	}
-}
