@@ -97,6 +97,7 @@ gmaps = {
 			}
 
 			listmanager.setListFocus(post._id);
+			listmanager.setListFocus(post._id); // to make sure the class is added
 			gmaps.setFocusToMarker(gMarker);
 		});
 
@@ -129,16 +130,22 @@ gmaps = {
 	// },
 
 	findMarkerById: function(id){
-		// console.log('looking for'+id);
-		for (i=0;i< this.markers.length;i++){
-			// console.log('trying'+this.markers[i]._id);
-			if(this.markers[i]._id === id){
-				// console.log('found');
-				return this.markers[i];
-			}
+		if(id in this.markers){
+			return this.markers[id];
+		}else{
+			return null;
 		}
+
+		// console.log('looking for'+id);
+		// for (i=0;i< this.markers.length;i++){
+		// 	console.log('trying'+this.markers[i]._id);
+		// 	if(this.markers[i]._id === id){
+		// 		console.log('found');
+		// 		return this.markers[i];
+		// 	}
+		// }
 		// console.log('not found');
-		return null;
+		// return null;
 	},
 
 	setFocusToMarker: function(marker) {
@@ -153,6 +160,7 @@ gmaps = {
 		post = Posts.findOne({_id: marker._id});
 
 		if (post.uniqueViewersList.indexOf(Meteor.userId()) == -1) { // if the user has not already viewed the post
+
 			Posts.update(
 				{_id: post._id},
 				{
