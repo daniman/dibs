@@ -42,6 +42,8 @@ Template.map.rendered = function() {// Geolocation Vars for setting up map and d
     var i = 0;
     Posts.find().observe({
       added: function(post){
+        console.log('');
+        console.log(gmaps.findMarkerById(post._id));
         if (gmaps.findMarkerById(post._id) === null) {
             setTimeout(function() {              
               gmaps.addMarkerFromPost(post);

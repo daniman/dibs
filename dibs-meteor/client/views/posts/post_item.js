@@ -17,8 +17,10 @@
 
 Template.postItem.events({
 	'click': function(event){
+		// gmaps.findMarkerById(this._id).setMap(null);
+		//console.log(gmaps.findMarkerById(this._id));
 		gmaps.setFocusToMarker(gmaps.findMarkerById(this._id));
-		console.log(this._id);
+		//console.log(this._id);
 		listmanager.setListFocus(this._id);
 	},
 

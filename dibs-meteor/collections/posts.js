@@ -5,7 +5,7 @@ Meteor.methods({
   post: function(postAttributes) {
     console.log('method post');
     var user = Meteor.user();
-    console.log(user.emails.address);
+    
 
     // ensure the user is logged in
     if (!user)
@@ -42,10 +42,12 @@ Meteor.methods({
     return Posts.insert(post);
   },
 
+  viewedPost: function(post_id){
+  	var post = Posts.find({_id:post_id});
+  	//console.log(post.uniqueViewersList);
+  	//console.log(Meteor.user()._id in post.uniqueViewersList);
+  }
 
-  remove: function(){
-
-  },
 });
 
 formatDate = function(utcDate) {

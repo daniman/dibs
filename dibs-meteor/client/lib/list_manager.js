@@ -6,8 +6,8 @@ listmanager = {
 
 	setListFocus: function(_id) {
 		listmanager.clearListFormatting();
-		console.log(_id);
-		$("#category_"+_id+".post").addClass('post-active');
-		$('#postListContainer').animate({scrollTop: $("#category_"+_id).position().top});
+		console.log('ID:'+_id);
+		$("#category_"+_id).addClass('post-active');
+		$('#postListContainer').stop().animate({scrollTop: $("#category_"+_id).offset().top});
 	}
 }

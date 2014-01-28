@@ -90,11 +90,11 @@ gmaps = {
 		google.maps.event.addListener(gMarker, 'click', function() {
 			console.log('click listener');
 			//console.log(post.uniqueViewersList);
-			if (post.uniqueViewersList.indexOf(Meteor.userId()) == -1) { // if the user has not already viewed the post
-				//console.log("woohoo");
-				post.uniqueViewersList.push(Meteor.userId());
-				post.uniqueViewers += 1;
-			}
+			// if (post.uniqueViewersList.indexOf(Meteor.userId()) == -1) { // if the user has not already viewed the post
+			// 	//console.log("woohoo");
+			// 	post.uniqueViewersList.push(Meteor.userId());
+			// 	post.uniqueViewers += 1;
+			// }
 			//  else {
 			// 	//console.log("already viewed");
 			// }
@@ -119,31 +119,12 @@ gmaps = {
 		map.fitBounds(bounds);
 	},
 
-	// check if a marker previously exists
-	// markerExists: function(key, val) {
-	// 	_.each(this.markers, function(storedMarker) {
-	// 		if (storedMarker[key] == val)
-	// 			return true;
-	// 	});
-	// },
-
 	findMarkerById: function(id){
 		if(id in this.markers){
 			return this.markers[id];
 		}else{
 			return null;
 		}
-
-		// console.log('looking for'+id);
-		// for (i=0;i< this.markers.length;i++){
-		// 	console.log('trying'+this.markers[i]._id);
-		// 	if(this.markers[i]._id === id){
-		// 		console.log('found');
-		// 		return this.markers[i];
-		// 	}
-		// }
-		// console.log('not found');
-		// return null;
 	},
 
 	setFocusToMarker: function(marker) {
@@ -157,16 +138,16 @@ gmaps = {
 	setInfoWindowContent: function(marker) {
 		post = Posts.findOne({_id: marker._id});
 
-		if (post.uniqueViewersList.indexOf(Meteor.userId()) == -1) { // if the user has not already viewed the post
-			//console.log("woohoo");
-			Posts.update(
-				{_id: post._id},
-				{
-					$push: {uniqueViewersList: Meteor.userId()},
-					$inc: {uniqueViewers: 1}
-				}
-			)
-		}
+		// if (post.uniqueViewersList.indexOf(Meteor.userId()) == -1) { // if the user has not already viewed the post
+		// 	//console.log("woohoo");
+		// 	Posts.update(
+		// 		{_id: post._id},
+		// 		{
+		// 			$push: {uniqueViewersList: Meteor.userId()},
+		// 			$inc: {uniqueViewers: 1}
+		// 		}
+		// 	)
+		// }
 
 		var infoContent;
 		if (post.itemLocationSpecific === '0'){
@@ -202,6 +183,31 @@ gmaps = {
 	},
 
 	setCenterToUser: function() {
+		// Try HTML5 geolocation
+		  if(navigator.geolocation) {
+		    navigator.geolocation.getCurrentPosition(function(position) {
+		      var pos = new google.maps.LatLng(position.coords.latitude,
+		                                       position.coords.longitude);
+		      map.setCenter(pos);
+		    }, function() {
+		      handleNoGeolocation(true);
+		    });
+		  } else {
+		    // Browser doesn't support Geolocation
+		    handleNoGeolocation(false);
+		  }
+
+		  function handleNoGeolocation(errorFlag) {
+			  if (errorFlag) {
+			    alert('Error: The Geolocation service failed.');
+			  } else {
+			    alert('Error: Your browser doesn\'t support geolocation.');
+			  }
+	    	}
+
+		
+
+
 
 	},
 
@@ -220,22 +226,7 @@ gmaps = {
 	//init map
 	initialize: function(mapOptions, mapStyles) {
 		console.log('[+] Initializing Google Maps...');
-		var clientLat = null;
-		var clientLng = null;
-		function getLocation()
-		  {
-		  if (navigator.geolocation)
-		    {
-		    navigator.geolocation.getCurrentPosition(showPosition);
-		    }
-		  else{clientLocation.innerHTML="Geolocation is not supported by this browser.";}
-		  }
-		function showPosition(position)
-		  {
-		  clientLat = position.coords.latitude;
-		  clientLng = position.coords.longitude; 
-		  }
-
+		
 		map = new google.maps.Map(
 			document.getElementById('map-canvas'),
 			mapOptions
