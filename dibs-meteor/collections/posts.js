@@ -5,7 +5,7 @@ Meteor.methods({
   post: function(postAttributes) {
     console.log('method post');
     var user = Meteor.user();
-    console.log('user'+user);
+    console.log(user.emails.address);
 
     // ensure the user is logged in
     if (!user)
@@ -29,13 +29,13 @@ Meteor.methods({
     var d = new Date();
     var post = _.extend(postAttributes, {
       userId: user._id, 
-      author: user.username, 
+      author: Meteor.user().emails[0].address, 
       postTimeUnix: Date.now()/1000,
       postDateTime: formatDate(d.toUTCString()),
       uniqueViewersList: [],
       uniqueViewers: 0
     });
-    console.log('post'+post);
+    console.log(post);
 
     // var postId = ;
     // console.log('postId'+postId);

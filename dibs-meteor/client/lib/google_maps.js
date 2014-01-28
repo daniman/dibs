@@ -5,7 +5,7 @@ gmaps = {
 	oms: null,
 
 	//The google marker objects
-	markers: [],
+	markers: {},
 
 	// There is only one instance of Infowindow that get moved from marker to marker
 	infowindow: null,
@@ -23,7 +23,7 @@ gmaps = {
 			title: post.title,
 			animation: google.maps.Animation.DROP,
 			icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-			zIndex: google.maps.Marker.MAX_ZINDEX-this.markers.length
+			zIndex: google.maps.Marker.MAX_ZINDEX-gmaps.getNumberOfMarkers()
 			
 		});
 
@@ -87,10 +87,15 @@ gmaps = {
 		
 		gMarker.setIcon('http://www.googlemapsmarkers.com/v1/' + rgbToHex(rgb.r,rgb.g,rgb.b));//hsv2rgb(h, 1, 1));
 		
-		this.markers.push(gMarker);
+		this.markers[post._id] = gMarker;
 		
 		google.maps.event.addListener(gMarker, 'click', function() {
-			console.log(Meteor.userId());
+			console.log('click listener');
+			if (post.uniqueViewersList.indexOf(Meteor.userId()) == -1) { // if the user has not already viewed the post
+				post.uniqueViewersList.push(Meteor.userId());
+				post.uniqueViewers += 1;
+			}
+
 			listmanager.setListFocus(post._id);
 			gmaps.setFocusToMarker(gMarker);
 		});
@@ -146,6 +151,7 @@ gmaps = {
 
 	setInfoWindowContent: function(marker) {
 		post = Posts.findOne({_id: marker._id});
+
 		if (post.uniqueViewersList.indexOf(Meteor.userId()) == -1) { // if the user has not already viewed the post
 			Posts.update(
 				{_id: post._id},
@@ -155,7 +161,7 @@ gmaps = {
 				}
 			)
 		}
-			
+
 		var infoContent;
 		if (post.itemLocationSpecific === '0'){
 			infoContent = "<p class='infowindowTitle'>" + post.title + "</p>" + 
@@ -182,6 +188,7 @@ gmaps = {
 	    	gmaps.stopAllAnimation();
 	    	tempMarker.setMap(null);
 		});
+		$('#newItemTitle').focus();
 	},
 
 	setInfowindowForm: function (){
@@ -190,6 +197,10 @@ gmaps = {
 
 	setCenterToUser: function() {
 
+	},
+
+	getNumberOfMarkers: function(){
+		return Object.keys(this.markers).length;
 	},
 
 	stopAllAnimation: function(){
@@ -240,6 +251,7 @@ gmaps = {
 		    });
 
 		//A click listener to create a reuse listing
+		google.maps.event.clearListeners(map,'click');
 		google.maps.event.addListener(map, 'click', function(event) {
 			document.getElementById("alert").checked = true;
 			gmaps.stopAllAnimation();

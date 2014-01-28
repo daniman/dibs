@@ -15,7 +15,7 @@ Meteor.startup(function () {
 	            return true
 	        })
 	    }
-	})
+	});
 
 	//Retrieve new found posts from Parse every 2.7 secs
 	Meteor.setInterval( function(){
